@@ -38,4 +38,4 @@ do
 done <"$samplelist"
 
 cat SelectedConsensus/*_consensus.fas > "$clade"_allSamples.fas
-rm -r SelectedConsensus
+#rm -r SelectedConsensus

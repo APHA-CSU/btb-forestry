@@ -12,6 +12,7 @@ Channel
     .set {inputCsv}
 
 process stripcomments {
+    publishDir "$PWD/Test/", mode: 'symlink', pattern: '*.csv'
     input:
     path ('concat.csv')
     output:
@@ -33,7 +34,7 @@ process splitclades{
 
 process gatherconsensus{
     tag "$clade"
-    publishDir "$PWD/Test/SampleLists/", mode: 'symlink', pattern: '*.lst'
+    publishDir "$PWD/Forestry/SampleLists/", mode: 'symlink', pattern: '*.lst'
     input:
     tuple val(clade), path('*_Pass.csv')
     output:
@@ -43,7 +44,33 @@ process gatherconsensus{
     """
 }
 
+process cladesnps {
+    tag "$clade"
+    publishDir "$PWD/Forestry/snp-fasta/", mode: 'symlink', pattern: '*_snp-only.fas'
+    input:
+    tuple val(clade), path('clade.lst')
 
+//Also need to input maxN and appropriate (pre-selected) root for each clade 
+//TODO: Make input table Clade,maxN,pathtoRoot
+
+    output:
+    tuple val(clade), path("${clade}_*.fas")
+    """
+    concatConsensus.sh clade.lst $clade
+    """
+}
+
+process cladematrix{
+    tag "$clade"
+    publishDir "$PWD/Forestry/snp-matrix/", mode: 'symlink', pattern: '*.csv'
+    input:
+    tuple val(clade), path("${clade}_*.fas")
+    output:
+    tuple val(clade), path("${clade}_matrix.csv")
+    """
+    buildmatrix.sh ${clade}_*.fas $clade
+    """
+}
 
 workflow {
     stripcomments(inputCsv)
@@ -55,4 +82,6 @@ workflow {
         }
         .set{ cladelists }
     gatherconsensus(cladelists)
+    cladesnps(gatherconsensus.out)
+    cladematrix(cladesnps.out)
 }
