@@ -7,6 +7,11 @@ clade=$2
 today=$3
 #maxN=$3
 
+# Collects and concatenates all consensus fasts files in the given input list
+# (from s3).  snp-sites (https://github.com/sanger-pathogens/snp-sites) is then
+# run to generate snp-only fasta files.  Intermediary files are removed to save 
+# disk space 
+
 while IFS=, read -r Sample Ncount Path;
 do
     #if "$Ncount" > "$maxN"
