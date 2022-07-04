@@ -92,7 +92,7 @@ process growtrees {
 
 workflow {
     cleandata(inputCsv)
-    splitclades(stripcomments.out)
+    splitclades(cleandata.out)
     splitclades.out
         .flatMap()
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
