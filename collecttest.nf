@@ -78,7 +78,7 @@ process cladematrix{
 process growtrees {
     errorStrategy 'ignore'
     tag "$clade"
-    publishDir "${outdir}/trees/", mode: 'copy', pattern: '*.csv'
+    publishDir "${outdir}/trees/", mode: 'copy', pattern: '*.nwk'
     input:
         tuple val(clade), path("${clade}_${today}_snp-only.fas")
     output:
