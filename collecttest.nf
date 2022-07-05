@@ -42,7 +42,7 @@ process gatherconsensus{
     output:
         tuple val(clade), path('*.lst')
     """
-    awk -F, '{print \$1","\$15","\$16}' *_Pass.csv > "$clade"_${today}_samples.lst
+    awk -F, '{print \$1","\$2","\$15","\$16}' *_Pass.csv > "$clade"_${today}_samples.lst
     """
 }
 
