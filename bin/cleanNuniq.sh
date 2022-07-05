@@ -3,6 +3,7 @@
 set -eo pipefail
 
 concat=$1 # concatenated csv input
+today=$2 # datestamp
 
 # Bash pipe which removes the comment lines from the csv, then sorts on sample 
 # name and 'Ncount', and where there are duplicate sample names only the entry 
@@ -11,4 +12,4 @@ concat=$1 # concatenated csv input
 sed '/^#/d' $concat |
     (head -n 1 && tail -n +2 | # retain the header
     sort -t ',' -k1,1 -k15,15 |
-    sort -u -t ',' -k1,1) > clean.csv
+    sort -u -t ',' -k1,1) > bTB_Allclean_${today}.csv
