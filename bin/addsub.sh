@@ -6,8 +6,6 @@ set -eo pipefail
 # (*-nn-(n)nnnn-nn). The submission number is then added as the first column of
 # the csv file.
 
-today=$2 # datestamp
-
 file=$1
 while IFS= read -r line;
 do
@@ -23,6 +21,6 @@ do
                     subno=$(echo AF-${array[0]}-${fivedig}-${array[2]});
             fi
         fi
-    echo -e "$subno,$line" >> bTB_Allclean_${today}.csv
+    echo -e "$subno,$line" >> withsub.csv
     
 done <"$file"

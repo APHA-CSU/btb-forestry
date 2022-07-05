@@ -10,5 +10,5 @@ concat=$1 # concatenated csv input
 
 sed '/^#/d' $concat |
     (head -n 1 && tail -n +2 | # retain the header
-    sort -t ',' -k1,1 -k14,14 |
+    sort -t ',' -k1,1 -k15,15 |
     sort -u -t ',' -k1,1) > clean.csv
