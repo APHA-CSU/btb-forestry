@@ -30,7 +30,7 @@ process splitclades{
     output:
         path('B*_Pass.csv')
     """
-    awk -F, '{print >> (\$8"_"\$6".csv")}' clean.csv
+    awk -F, '{print >> (\$9"_"\$7".csv")}' clean.csv
     """
 }
 
@@ -42,7 +42,7 @@ process gatherconsensus{
     output:
         tuple val(clade), path('*.lst')
     """
-    awk -F, '{print \$1","\$14","\$15}' *_Pass.csv > "$clade"_${today}_samples.lst
+    awk -F, '{print \$1","\$15","\$16}' *_Pass.csv > "$clade"_${today}_samples.lst
     """
 }
 
