@@ -19,7 +19,8 @@ process cleandata {
     output:
         path ('bTB_Allclean_*.csv')
     """
-    cleanNuniq.sh concat.csv ${today}
+    cleanNuniq.sh concat.csv
+    addsub.sh clean.csv ${today}
     """
 }
 
