@@ -24,7 +24,7 @@ process cleandata {
     """
 }
 
-process splitclades{
+process splitclades {
     input:
         path ('clean.csv')
     output:
@@ -34,15 +34,15 @@ process splitclades{
     """
 }
 
-process gatherconsensus{
+process sampleLists{
     tag "$clade"
-    publishDir "${outdir}/SampleLists/", mode: 'copy', pattern: '*.lst'
+    publishDir "${outdir}/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
     input:
         tuple val(clade), path('*_Pass.csv')
     output:
-        tuple val(clade), path('*.lst')
+        tuple val(clade), path('*.csv')
     """
-    awk -F, '{print \$1","\$2","\$15","\$16}' *_Pass.csv > "$clade"_${today}_samples.lst
+    awk -F, '{print \$1","\$2","\$15","\$16}' *_Pass.csv > "$clade"_${today}_samplelist.csv
     """
 }
 
@@ -63,7 +63,7 @@ process cladesnps {
     """
 }
 
-process cladematrix{
+process cladematrix {
     errorStrategy 'ignore'
     tag "$clade"
     publishDir "${outdir}/snp-matrix/", mode: 'copy', pattern: '*.csv'
@@ -99,8 +99,8 @@ workflow {
         return tuple (key, file) 
         }
         .set{ cladelists }
-    gatherconsensus(cladelists)
-    cladesnps(gatherconsensus.out)
+    sampleLists(cladelists)
+    cladesnps(sampleLists.out)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
 }
