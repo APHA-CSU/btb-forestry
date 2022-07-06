@@ -42,7 +42,8 @@ process sampleLists{
     output:
         tuple val(clade), path('*.csv')
     """
-    awk -F, '{print \$1","\$2","\$15","\$16}' *_Pass.csv > "$clade"_${today}_samplelist.csv
+    echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc"
+    awk -F, '{print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' *_Pass.csv >> "$clade"_${today}_samplelist.csv
     """
 }
 
