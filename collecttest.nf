@@ -79,15 +79,14 @@ process cladematrix{
 process growtrees {
     errorStrategy 'ignore'
     tag "$clade"
-    publishDir "${outdir}/trees/", mode: 'copy', pattern: '*.nwk'
+    publishDir "${outdir}/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
         tuple val(clade), path("${clade}_${today}_snp-only.fas")
     output:
-        tuple val(clade), path("${clade}_*.nwk")
+        tuple val(clade), path("*_MP.nwk")
     script:
         """
-        megacc -a $baseDir/accessory/infer_MP_nucleotide_200x.mao -d ${clade}_${today}_snp-only.fas \
-            -o ${clade}_${today}
+        megatree.sh ${clade}_${today}_snp-only.fas $clade $today
         """
 }
 
