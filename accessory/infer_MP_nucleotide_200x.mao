@@ -30,6 +30,6 @@ No. of Initial Trees (random addition)      = 10
 MP Search level                             = 1                                          
 Max No. of Trees to Retain                  = 100                                        
 System Resource Usage                       = ====================                       
-Number of Threads                           = 6                                          
+Number of Threads                           = 4                                          
 Has Time Limit                              = False                                      
 Maximum Execution Time                      = -1                                         
