@@ -4,7 +4,7 @@ nextflow.enable.dsl=2
 
 //Define variables
 today = params.today
-outdir = file(params.outdir)
+publishDir = "$params.outdir/btb-forest_$today/"
 
 //Concatenate all FinalOut csv files
 Channel
@@ -13,7 +13,7 @@ Channel
     .set {inputCsv}
 
 process cleandata {
-    publishDir "${outdir}", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
+    publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     input:
         path ('concat.csv')
     output:
@@ -36,7 +36,7 @@ process splitclades {
 
 process sampleLists{
     tag "$clade"
-    publishDir "${outdir}/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
+    publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
     input:
         tuple val(clade), path('*_Pass.csv')
     output:
@@ -50,7 +50,7 @@ process sampleLists{
 process cladesnps {
     errorStrategy 'ignore'
     tag "$clade"
-    publishDir "${outdir}/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
+    publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
         tuple val(clade), path('clade.lst')
 
@@ -67,7 +67,7 @@ process cladesnps {
 process cladematrix {
     errorStrategy 'ignore'
     tag "$clade"
-    publishDir "${outdir}/snp-matrix/", mode: 'copy', pattern: '*.csv'
+    publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
     input:
         tuple val(clade), path('snp-only.fas')
     output:
@@ -80,7 +80,7 @@ process cladematrix {
 process growtrees {
     errorStrategy 'ignore'
     tag "$clade"
-    publishDir "${outdir}/trees/", mode: 'copy', pattern: '*_MP.nwk'
+    publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
         tuple val(clade), path("${clade}_${today}_snp-only.fas")
     output:
