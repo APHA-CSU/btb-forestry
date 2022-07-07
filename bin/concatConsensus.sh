@@ -12,7 +12,7 @@ today=$3
 # run to generate snp-only fasta files.  Intermediary files are removed to save 
 # disk space 
 
-while IFS=, read -r Submission Sample Ncount Path;
+while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
 do
     #if "$Ncount" > "$maxN"
     echo "Path is: $Path"
