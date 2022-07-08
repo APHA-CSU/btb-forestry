@@ -5,7 +5,9 @@ set -eo pipefail
 cladelist=$1
 clade=$2
 today=$3
-#maxN=$3
+maxN=$4
+outGroup=$5
+outGroupLoc=$6
 
 # Collects and concatenates all consensus fasts files in the given input list
 # (from s3).  snp-sites (https://github.com/sanger-pathogens/snp-sites) is then
@@ -14,11 +16,16 @@ today=$3
 
 while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
 do
-    #if "$Ncount" > "$maxN"
-    echo "Path is: $Path"
-    aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas"
-    #fi
+    if "$Ncount" <= "$maxN"
+        echo "Path is: $Path"
+        aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas"
+    else
+        echo "${Sample} skipped: $Ncount greater than permissible for clade"
+    fi
 done <$cladelist
+
+# Add outgroup fasta
+aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
 
 cat *_consensus.fas > ${clade}_AllConsensus.fas
 rm *_consensus.fas

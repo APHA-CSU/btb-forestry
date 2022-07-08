@@ -45,15 +45,11 @@ process cladesnps {
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
-        tuple val(clade), path('clade.lst')
-
-//Also need to input maxN and appropriate (pre-selected) root for each clade 
-//TODO: Make input table Clade,maxN,pathtoRoot
-
+        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), path('outGroupLoc')
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
-    concatConsensus.sh clade.lst $clade ${params.today}
+    concatConsensus.sh clade.lst $clade ${params.today} $maxN $outGroup $outGroupLoc
     """
 }
 
@@ -90,16 +86,29 @@ workflow {
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
         .set {inputCsv}
+
+    Channel.fromPath(params.cladeinfo) \
+        .splitCsv(header:true) \
+        .map { row-> tuple(row.clade, row.maxN, row.outGroup, file(row.outGroupLoc)) }
+        .set {cladeInfo}
+
     cleandata(inputCsv)
     splitclades(cleandata.out)
+
     splitclades.out
         .flatMap()
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
         return tuple (key, file) 
         }
         .set{ cladelists }
+    
     sampleLists(cladelists)
-    cladesnps(sampleLists.out)
+    
+    sampleLists.out
+        .join(cladeInfo)
+        .set { cladeSamples }
+
+    cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
 }
