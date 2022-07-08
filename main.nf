@@ -31,12 +31,12 @@ process sampleLists{
     tag "$clade"
     publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
     input:
-        tuple val(clade), path('*_Pass.csv')
+        tuple val(clade), path('Pass.csv')
     output:
         tuple val(clade), path('*.csv')
     """
     echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${params.today}_samplelist.csv
-    awk -F, '{print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' *_Pass.csv >> ${clade}_${params.today}_samplelist.csv
+    awk -F, '{print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' Pass.csv >> ${clade}_${params.today}_samplelist.csv
     """
 }
 
@@ -71,12 +71,12 @@ process growtrees {
     tag "$clade"
     publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
-        tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
+        tuple val(clade), path('snp-only.fas')
     output:
         tuple val(clade), path("*_MP.nwk")
     script:
         """
-        megatree.sh ${clade}_${params.today}_snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
+        megatree.sh snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
         """
 }
 
