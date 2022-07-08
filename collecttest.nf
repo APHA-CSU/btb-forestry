@@ -87,9 +87,9 @@ workflow {
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
         .set {inputCsv}
 
-    Channel.fromPath(params.cladeinfo) \
-        .splitCsv(header:true) \
-        .map { row-> tuple(row.clade, row.maxN, row.outGroup, file(row.outGroupLoc)) }
+    Channel.fromPath( params.cladeinfo )
+        .splitCsv(header:true)
+        .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
 
     cleandata(inputCsv)

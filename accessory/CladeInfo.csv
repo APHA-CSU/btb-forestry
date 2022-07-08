@@ -1,4 +1,4 @@
-Clade,maxN,Outgroup,OutgroupLoc
+clade,maxN,outgroup,outgroupLoc
 B1-11,56000,AFT-21-06837-21,s3://s3-csu-003/v3-2/Results_NB501786_0361_24Jun22/
 B2-11,55500,AF-12-01357-20,s3://s3-csu-003/v3-2/Results_10287_27Jun22/
 B3-11,52500,AFT-21-06837-21,s3://s3-csu-003/v3-2/Results_NB501786_0361_24Jun22/
