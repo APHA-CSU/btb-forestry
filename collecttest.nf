@@ -5,12 +5,6 @@ nextflow.enable.dsl=2
 //Define variables
 publishDir = "$params.outdir/btb-forest_${params.today}/"
 
-//Concatenate all FinalOut csv files
-Channel
-    .fromPath( params.pathTocsv )
-    .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
-    .set {inputCsv}
-
 process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     input:
@@ -91,6 +85,11 @@ process growtrees {
 }
 
 workflow {
+    //Concatenate all FinalOut csv files
+    Channel
+        .fromPath( params.pathTocsv )
+        .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
+        .set {inputCsv}
     cleandata(inputCsv)
     splitclades(cleandata.out)
     splitclades.out
