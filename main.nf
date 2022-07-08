@@ -76,7 +76,7 @@ process growtrees {
         tuple val(clade), path("*_MP.nwk")
     script:
         """
-        megatree.sh ${clade}_${today}_snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
+        megatree.sh ${clade}_${params.today}_snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
         """
 }
 
