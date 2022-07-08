@@ -3,8 +3,7 @@
 nextflow.enable.dsl=2
 
 //Define variables
-today = params.today
-publishDir = "$params.outdir/btb-forest_$today/"
+publishDir = "$params.outdir/btb-forest_${params.today}/"
 
 //Concatenate all FinalOut csv files
 Channel
@@ -20,7 +19,7 @@ process cleandata {
         path ('bTB_Allclean_*.csv')
     """
     addsub.sh concat.csv
-    cleanNuniq.sh withsub.csv ${today}
+    cleanNuniq.sh withsub.csv ${params.today}
     """
 }
 
@@ -42,8 +41,8 @@ process sampleLists{
     output:
         tuple val(clade), path('*.csv')
     """
-    echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${today}_samplelist.csv
-    awk -F, '{print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' *_Pass.csv >> ${clade}_${today}_samplelist.csv
+    echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${params.today}_samplelist.csv
+    awk -F, '{print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' *_Pass.csv >> ${clade}_${params.today}_samplelist.csv
     """
 }
 
@@ -58,9 +57,9 @@ process cladesnps {
 //TODO: Make input table Clade,maxN,pathtoRoot
 
     output:
-        tuple val(clade), path("${clade}_${today}_snp-only.fas")
+        tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
-    concatConsensus.sh clade.lst $clade $today
+    concatConsensus.sh clade.lst $clade ${params.today}
     """
 }
 
@@ -71,9 +70,9 @@ process cladematrix {
     input:
         tuple val(clade), path('snp-only.fas')
     output:
-        tuple val(clade), path("${clade}_${today}_matrix.csv")
+        tuple val(clade), path("${clade}_${params.today}_matrix.csv")
     """
-    buildmatrix.sh snp-only.fas $clade $today
+    buildmatrix.sh snp-only.fas $clade ${params.today}
     """
 }
 
@@ -82,12 +81,12 @@ process growtrees {
     tag "$clade"
     publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
-        tuple val(clade), path("${clade}_${today}_snp-only.fas")
+        tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     output:
         tuple val(clade), path("*_MP.nwk")
     script:
         """
-        megatree.sh ${clade}_${today}_snp-only.fas $clade $today $params.maxP200x $params.userMP
+        megatree.sh ${clade}_${today}_snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
         """
 }
 
