@@ -16,11 +16,12 @@ outGroupLoc=$6
 
 while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
 do
-    if "$Ncount" <= "$maxN"
+    if "$Ncount" <= "$maxN";
+    then
         echo "Path is: $Path"
-        aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas"
+        aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas";
     else
-        echo "${Sample} skipped: $Ncount greater than permissible for clade"
+        echo "${Sample} skipped: $Ncount greater than permissible for $clade";
     fi
 done <$cladelist
 
