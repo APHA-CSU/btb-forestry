@@ -6,6 +6,8 @@ set -eo pipefail
 # (*-nn-(n)nnnn-nn). The submission number is then added as the first column of
 # the csv file.
 
+#TODO Add code to strip additional characters after year identifier
+
 file=$1
 while IFS= read -r line;
 do
