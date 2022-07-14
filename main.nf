@@ -17,6 +17,7 @@ process cleandata {
     """
 }
 
+//Splits the main csv based on 'group (clade)' and 'outcome' columns
 process splitclades {
     input:
         path ('clean.csv')
@@ -27,6 +28,7 @@ process splitclades {
     """
 }
 
+//Tidy up list of samples for each clade
 process sampleLists{
     tag "$clade"
     publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
@@ -74,10 +76,9 @@ process growtrees {
         tuple val(clade), path('snp-only.fas')
     output:
         tuple val(clade), path("*_MP.nwk")
-    script:
-        """
-        megatree.sh snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
-        """
+    """
+    megatree.sh snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
+    """
 }
 
 workflow {
