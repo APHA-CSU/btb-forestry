@@ -25,7 +25,7 @@ do
     fi
 done <$cladelist
 
-# Add outgroup fasta
+# Add outgroup fasta (outgroup is predetermined for each clade)
 aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
 
 cat *_consensus.fas > ${clade}_AllConsensus.fas
