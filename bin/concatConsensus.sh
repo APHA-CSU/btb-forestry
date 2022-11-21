@@ -8,11 +8,20 @@ today=$3
 maxN=$4
 outGroup=$5
 outGroupLoc=$6
+outlierList=$7
+
+# Removes samples that have been listed as outliers
+
+while IFS= read -r Sample Location
+do
+    sed -i "/$Sample/d" $cladelist
+done <$outlierList
 
 # Collects and concatenates all consensus fasts files in the given input list
-# (from s3).  snp-sites (https://github.com/sanger-pathogens/snp-sites) is then
-# run to generate snp-only fasta files.  Intermediary files are removed to save 
-# disk space 
+# (from s3).  Also filters on the basis of a clade-spcific Ncount threshold.
+# snp-sites (https://github.com/sanger-pathogens/snp-sites) is thenrun to 
+# generate snp-only fasta files.  Intermediary files are removed to save disk
+# space 
 
 while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
 do
