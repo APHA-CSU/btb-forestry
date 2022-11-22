@@ -19,5 +19,5 @@ sed '/^#/d' $concat |
 
 while IFS= read -r Sample Location
 do
-    sed -i "/$Sample/d" bTB_Allclean_${today}.csv
+    sed -i "/^$Sample/d" bTB_Allclean_${today}.csv
 done <$outlierList
