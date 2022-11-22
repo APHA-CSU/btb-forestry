@@ -9,11 +9,12 @@ process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     input:
         path ('concat.csv')
+        path ('outliers.txt')
     output:
         path ('bTB_Allclean_*.csv')
     """
     addsub.sh concat.csv
-    cleanNuniq.sh withsub.csv ${params.today}
+    cleanNuniq.sh withsub.csv ${params.today} outliers.txt
     """
 }
 
