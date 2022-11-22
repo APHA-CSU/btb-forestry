@@ -88,12 +88,16 @@ workflow {
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
         .set {inputCsv}
 
+    Channel
+        .fromPath( params.outliers )
+        .set {outlierList}
+
     Channel.fromPath( params.cladeinfo )
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
 
-    cleandata(inputCsv)
+    cleandata(inputCsv,outlierList)
     splitclades(cleandata.out)
 
     splitclades.out

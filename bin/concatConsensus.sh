@@ -8,14 +8,6 @@ today=$3
 maxN=$4
 outGroup=$5
 outGroupLoc=$6
-outlierList=$7
-
-# Removes samples that have been listed as outliers
-
-while IFS= read -r Sample Location
-do
-    sed -i "/$Sample/d" $cladelist
-done <$outlierList
 
 # Collects and concatenates all consensus fasts files in the given input list
 # (from s3).  Also filters on the basis of a clade-spcific Ncount threshold.
