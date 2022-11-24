@@ -11,5 +11,5 @@ today=$2 # datestamp
 
 sed '/^#/d' $concat |
     (head -n 1 && tail -n +2 | # retain the header
-    sort -t ',' -k1,1 -k15,15 |
-    sort -u -t ',' -k1,1) > bTB_Allclean_${today}.csv
+    sort -t ',' -k1,1 -n -k15,15 | # simple sort on colums containing submission and Ncount
+    sort -u -t ',' -k1,1) > bTB_Allclean_${today}.csv # Remove duplicate submisions
