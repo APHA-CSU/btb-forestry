@@ -9,7 +9,6 @@ process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     input:
         path ('concat.csv')
-        path ('outliers.txt')
     output:
         path ('bTB_Allclean_*.csv')
     """
@@ -49,6 +48,7 @@ process cladesnps {
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
         tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc)
+        path ('outliers.txt')
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
@@ -98,7 +98,7 @@ workflow {
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
 
-    cleandata(inputCsv,outlierList)
+    cleandata(inputCsv)
     splitclades(cleandata.out)
 
     splitclades.out
@@ -114,7 +114,7 @@ workflow {
         .join(cladeInfo)
         .set { cladeSamples }
 
-    cladesnps(cladeSamples)
+    cladesnps(cladeSamples,outlierList)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
 }
