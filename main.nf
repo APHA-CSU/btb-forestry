@@ -47,8 +47,7 @@ process cladesnps {
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
-        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc)
-        path ('outliers.txt')
+        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
@@ -112,9 +111,10 @@ workflow {
     
     sampleLists.out
         .join(cladeInfo)
+        .combine(outlierList)
         .set { cladeSamples }
 
-    cladesnps(cladeSamples,outlierList)
+    cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
 }
