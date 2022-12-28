@@ -11,8 +11,8 @@ outGroupLoc=$6
 outlierList=$7
 
 # Collects and concatenates all consensus fasts files in the given input list
-# (from s3).  Also filters on the basis of a clade-spcific Ncount threshold and
-# removes pre-detemined outliers.
+# (from s3).  Also filters on the basis of a clade-specific Ncount threshold
+# and removes pre-detemined outliers.
 # snp-sites (https://github.com/sanger-pathogens/snp-sites) is then run to 
 # generate snp-only fasta files.  Intermediary files are removed to save disk
 # space 
@@ -21,7 +21,7 @@ outlierList=$7
 
 while IFS= read -r Sample Location
 do
-    sed -i "/^$Sample/d" $cladelist
+    sed "/^$Sample/d" $cladelist > outliersremoved.csv
 done <$outlierList
 
 # Filters on Ncount
@@ -35,7 +35,7 @@ do
     else
         echo "${Sample} skipped: $Ncount greater than permissible for $clade";
     fi
-done <$cladelist
+done <outliersremoved.csv
 
 # Add outgroup fasta (outgroup is predetermined for each clade)
 aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
