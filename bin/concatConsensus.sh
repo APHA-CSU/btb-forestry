@@ -21,8 +21,8 @@ outlierList=$7
 
 while IFS= read Sample
 do
-    sed "/^$Sample/d" "$cladelist" > outliersremoved.csv
-done <"$outlierList"
+    sed -i "/^$Sample/d" $cladelist
+done <$outlierList
 
 # Filters on Ncount
 
@@ -35,7 +35,7 @@ do
     else
         echo "${Sample} skipped: $Ncount greater than permissible for $clade";
     fi
-done <outliersremoved.csv
+done <$cladelist
 
 # Add outgroup fasta (outgroup is predetermined for each clade)
 aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
