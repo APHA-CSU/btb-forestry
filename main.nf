@@ -51,7 +51,7 @@ process cladesnps {
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
-    concatConsensus.sh clade.lst $clade ${params.today} $maxN $outGroup $outGroupLoc
+    concatConsensus.sh clade.lst $clade ${params.today} $maxN $outGroup $outGroupLoc outliers.txt
     """
 }
 
