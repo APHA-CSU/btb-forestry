@@ -19,10 +19,10 @@ outlierList=$7
 
 # Removes samples from each clade list that have been listed as outliers
 
-while IFS= read -r Sample Location
+while IFS= read Sample
 do
-    sed "/^$Sample/d" $cladelist > outliersremoved.csv
-done <$outlierList
+    sed "/^$Sample/d" "$cladelist" > outliersremoved.csv
+done <"$outlierList"
 
 # Filters on Ncount
 
