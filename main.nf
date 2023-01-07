@@ -13,7 +13,7 @@ process cleandata {
         path ('bTB_Allclean_*.csv')
     """
     addsub.sh concat.csv
-    cleanNuniq.sh withsub.csv ${params.today} outliers.txt
+    cleanNuniq.sh withsub.csv ${params.today}
     """
 }
 
@@ -28,17 +28,16 @@ process splitclades {
     """
 }
 
-//Tidy up list of samples for each clade
-process sampleLists{
+//Tidy up and filter list of samples for each clade
+process filterSamples{
     tag "$clade"
     publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
     input:
-        tuple val(clade), path('Pass.csv')
+        tuple val(clade), path('Pass.csv'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
     output:
         tuple val(clade), path('*.csv')
     """
-    echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${params.today}_samplelist.csv
-    awk -F, '{print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' Pass.csv >> ${clade}_${params.today}_samplelist.csv
+    filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
     """
 }
 
@@ -47,11 +46,11 @@ process cladesnps {
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
-        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
+        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc)
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
-    concatConsensus.sh clade.lst $clade ${params.today} $maxN $outGroup $outGroupLoc outliers.txt
+    concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc
     """
 }
 
@@ -105,13 +104,14 @@ workflow {
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
         return tuple (key, file) 
         }
-        .set{ cladelists }
-    
-    sampleLists(cladelists)
-    
-    sampleLists.out
         .join(cladeInfo)
         .combine(outlierList)
+        .set{ cladelists }
+    
+    filterSamples(cladelists)
+    
+    filterSamples.out
+        .join(cladeInfo)
         .set { cladeSamples }
 
     cladesnps(cladeSamples)
