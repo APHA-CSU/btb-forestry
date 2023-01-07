@@ -5,36 +5,19 @@ set -eo pipefail
 cladelist=$1
 clade=$2
 today=$3
-maxN=$4
-outGroup=$5
-outGroupLoc=$6
-outlierList=$7
+outGroup=$4
+outGroupLoc=$5
+
 
 # Collects and concatenates all consensus fasts files in the given input list
-# (from s3).  Also filters on the basis of a clade-specific Ncount threshold
-# and removes pre-detemined outliers.
+# (from s3).
 # snp-sites (https://github.com/sanger-pathogens/snp-sites) is then run to 
 # generate snp-only fasta files.  Intermediary files are removed to save disk
 # space 
 
-# Removes samples from each clade list that have been listed as outliers
-
-while IFS= read Sample
-do
-    sed -i "/^$Sample/d" $cladelist
-done <$outlierList
-
-# Filters on Ncount
-
 while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
 do
-    if [ "$Ncount" -le "$maxN" ];
-    then
-        echo "Path is: $Path"
-        aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas";
-    else
-        echo "${Sample} skipped: $Ncount greater than permissible for $clade";
-    fi
+    aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas";
 done <$cladelist
 
 # Add outgroup fasta (outgroup is predetermined for each clade)
