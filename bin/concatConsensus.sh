@@ -18,7 +18,7 @@ outGroupLoc=$5
 while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
 do
     aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas";
-done <$cladelist
+done < <(tail -n +2 $cladelist)
 
 # Add outgroup fasta (outgroup is predetermined for each clade)
 aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
