@@ -28,17 +28,16 @@ process splitclades {
     """
 }
 
-//Tidy up list of samples for each clade
-process sampleLists{
+//Tidy up and filter list of samples for each clade
+process filterSamples{
     tag "$clade"
     publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
     input:
-        tuple val(clade), path('Pass.csv')
+        tuple val(clade), path('Pass.csv'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
     output:
         tuple val(clade), path('*.csv')
     """
-    echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${params.today}_samplelist.csv
-    awk -F, '{print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' Pass.csv >> ${clade}_${params.today}_samplelist.csv
+    filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
     """
 }
 
@@ -51,7 +50,7 @@ process cladesnps {
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
-    concatConsensus.sh clade.lst $clade ${params.today} $maxN $outGroup $outGroupLoc
+    concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc
     """
 }
 
@@ -88,6 +87,10 @@ workflow {
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
         .set {inputCsv}
 
+    Channel
+        .fromPath( params.outliers )
+        .set {outlierList}
+
     Channel.fromPath( params.cladeinfo )
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
@@ -101,11 +104,13 @@ workflow {
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
         return tuple (key, file) 
         }
+        .join(cladeInfo)
+        .combine(outlierList)
         .set{ cladelists }
     
-    sampleLists(cladelists)
+    filterSamples(cladelists)
     
-    sampleLists.out
+    filterSamples.out
         .join(cladeInfo)
         .set { cladeSamples }
 
