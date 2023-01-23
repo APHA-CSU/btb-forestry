@@ -80,6 +80,20 @@ process growtrees {
     """
 }
 
+process refinetrees {
+    errorStrategy 'ignore'
+    tag "$clade"
+    publishDir "$publishDir/augurTrees/", mode: 'copy', pattern: '*_MP-rooted.nwk', '*_phylo.json'
+    input:
+        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), path("*_MP.nwk"), path("*_snp-only.fas")
+    output:
+        tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
+    conda '/home/richardellis/miniconda3/envs/nextstrain/'
+    """
+    augurRefine.sh $clade ${params.today} $outGroup
+    """
+}
+
 workflow {
     //Concatenate all FinalOut csv files
     Channel
@@ -117,4 +131,11 @@ workflow {
     cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
+
+    growtrees.out
+        .join(cladeInfo)
+        .join(cladesnps.out)
+        .set { augurInput }
+
+    refinetrees(augurInput)
 }
