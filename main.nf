@@ -88,7 +88,7 @@ process refinetrees {
         tuple val(clade), path("*_MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("*_snp-only.fas")
     output:
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
-    conda "$homeDir/miniconda3/envs/nextstrain/"
+    conda "/home/richardellis/miniconda3/envs/nextstrain/"
     """
     augurRefine.sh $clade ${params.today} $outGroup
     """
