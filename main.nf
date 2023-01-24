@@ -85,12 +85,12 @@ process refinetrees {
     tag "$clade"
     publishDir "$publishDir/augurTrees/", mode: 'copy', pattern: '*_MP-rooted.nwk', '*_phylo.json'
     input:
-        tuple val(clade), path("*_MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("*_snp-only.fas")
+        tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
     output:
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
     conda "/home/richardellis/miniconda3/envs/nextstrain/"
     """
-    augurRefine.sh $clade ${params.today} $outGroup
+    augurRefine.sh $clade ${params.today} $outGroup MP.nwk snp-only.fas
     """
 }
 
