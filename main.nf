@@ -83,7 +83,7 @@ process growtrees {
 process refinetrees {
     errorStrategy 'ignore'
     tag "$clade"
-    publishDir "$publishDir/augurTrees/", mode: 'copy', pattern: '*_MP-rooted.nwk', '*_phylo.json'
+    publishDir "$publishDir/augurTrees/", mode: 'copy'
     input:
         tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
     output:
