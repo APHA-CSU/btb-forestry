@@ -90,7 +90,7 @@ process refinetrees {
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
     conda "/home/richardellis/miniconda3/envs/nextstrain/"
     """
-    augurRefine.sh $clade ${params.today} $outGroup MP.nwk snp-only.fas
+    augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
     """
 }
 
