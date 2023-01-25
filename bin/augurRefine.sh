@@ -8,6 +8,9 @@ outGroup=$3
 inputfasta=$4
 inputtree=$5
 
+# This process roots the tree using the outgroup and exports branch lengths in json format.
+# https://docs.nextstrain.org/projects/augur/en/stable/usage/cli/refine.html
+
 augur refine -a $inputfasta \
             -t $inputtree \
             --root $outGroup \
