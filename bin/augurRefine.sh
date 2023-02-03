@@ -17,3 +17,5 @@ augur refine -a $inputfasta \
             --output-tree ${clade}_${today}_MP-rooted.nwk \
             --output-node-data ${clade}_${today}_phylo.json \
             --divergence-units mutations
+
+sed -i 's/"branch_length": 0//g' ${clade}_${today}_phylo.json
