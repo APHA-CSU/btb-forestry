@@ -59,7 +59,7 @@ process cladeMetadata{
     output:
         tuple val(clade), path('clademetadata.csv')
     """
-    cladeMetadata.py sortedMetadata.csv cladelist.csv clade
+    cladeMetadata.py sortedmetadata.csv cladelist.csv clade
     """
 }
 
@@ -144,7 +144,7 @@ workflow {
         .set { cladeSamples }
 
     filterSamples.out
-        .join(metadata.out)
+        .combine(metadata.out)
         .set { cladeMeta }
 
     cladeMetadata(cladeMeta)
