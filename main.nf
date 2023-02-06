@@ -59,7 +59,7 @@ process cladeMetadata{
     output:
         tuple val(clade), path('*_metadata_*.csv')
     """
-    cladeMetadata.py sortedmetadata.csv cladelist.csv clade
+    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade
     """
 }
 
