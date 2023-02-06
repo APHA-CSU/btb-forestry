@@ -28,7 +28,7 @@ def filter(metadata_csv):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('metadata_csv', help='path to AssignedWGSClade.csv')
+    parser.add_argument('metadata_csv', help='path to metadata.csv')
     
     args = parser.parse_args()
 
