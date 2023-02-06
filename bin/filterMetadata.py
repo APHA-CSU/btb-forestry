@@ -17,7 +17,8 @@ def filter(metadata_csv):
     metadata_df.sort_values('SampleName', kind='mergesort', inplace = True)
     metadata_df.sort_values('MovementId', kind='mergesort', inplace = True)
     metadata_df.drop_duplicates('SampleName', inplace = True)
-    metadata_df.set_index('SampleName', inplace = True)
+    metadata_df.rename(columns = {'SampleName': 'Submission'}, inplace = True)
+    metadata_df.set_index('Submission', inplace = True)
 
     # remove surplus columns
     metadata_df.drop(metadata_df.iloc[:, 13:30], inplace = True, axis = 1)
