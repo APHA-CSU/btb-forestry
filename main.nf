@@ -51,6 +51,18 @@ process filterSamples{
     """
 }
 
+process cladeMetadata{
+    tag "$clade"
+    publishDir "$publishDir/Metadata/", mode: 'copy', pattern: '*_metadata_*.csv'
+    input:
+        tuple val(clade), path('cladelist.csv'), path('sortedmetadata.csv')
+    output:
+        tuple val(clade), path('clademetadata.csv')
+    """
+    cladeMetadata.py sortedMetadata.csv cladelist.csv clade
+    """
+}
+
 process cladesnps {
     errorStrategy 'ignore'
     tag "$clade"
@@ -130,7 +142,13 @@ workflow {
     filterSamples.out
         .join(cladeInfo)
         .set { cladeSamples }
-    
+
+    filterSamples.out
+        .join(filterMetadata.out)
+        .set { cladeMeta }
+
+    cladeMetadata(cladeMeta)
+
     cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
