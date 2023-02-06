@@ -17,6 +17,16 @@ process cleandata {
     """
 }
 
+process metadata {
+    input:
+        path ('metadata.csv')
+    output:
+        path ('sortedMetadata_*.csv')
+    """
+    filterMetadata.py metadata.csv
+    """
+}
+
 //Splits the main csv based on 'group (clade)' and 'outcome' columns
 process splitclades {
     input:
@@ -88,6 +98,10 @@ workflow {
         .set {inputCsv}
 
     Channel
+        .fromPath( params.metadata)
+        .set {metadata}
+    
+    Channel
         .fromPath( params.outliers )
         .set {outlierList}
 
@@ -97,6 +111,9 @@ workflow {
         .set {cladeInfo}
 
     cleandata(inputCsv)
+
+    filterMetadata(metadata)
+
     splitclades(cleandata.out)
 
     splitclades.out
@@ -113,7 +130,7 @@ workflow {
     filterSamples.out
         .join(cladeInfo)
         .set { cladeSamples }
-
+    
     cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
