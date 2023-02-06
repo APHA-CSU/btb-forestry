@@ -124,7 +124,7 @@ workflow {
 
     cleandata(inputCsv)
 
-    filterMetadata(metadata)
+    metadata(metadata)
 
     splitclades(cleandata.out)
 
@@ -144,7 +144,7 @@ workflow {
         .set { cladeSamples }
 
     filterSamples.out
-        .join(filterMetadata.out)
+        .join(metadata.out)
         .set { cladeMeta }
 
     cladeMetadata(cladeMeta)
