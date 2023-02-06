@@ -57,7 +57,7 @@ process cladeMetadata{
     input:
         tuple val(clade), path('cladelist.csv'), path('sortedmetadata.csv')
     output:
-        tuple val(clade), path('clademetadata.csv')
+        tuple val(clade), path('*_metadata_*.csv')
     """
     cladeMetadata.py sortedmetadata.csv cladelist.csv clade
     """
