@@ -7,18 +7,21 @@ import subprocess
 #from bin import cladeMetadata
 
 #Tests
-#addsub
 
+#addsub
 def test_addsub():
     subprocess.run(["bin/addsub.sh", "tests/data/subtest.csv"], check=True)
     withsub_df = pd.read_csv('withsub.csv')
     addsubexp_df = pd.read_csv('tests/data/subtest_exp.csv')
     assert all(withsub_df == addsubexp_df)
-    #expected results from subtest.csv:
-    #AF-23-01234-56,99.9,100,100000,95
-    #AF-78-09012-34,99.9,100,100000,95
 
 #cleanNuniq
+def test_cleanNuniq():
+    subprocess.run(["bin/cleanNuniq.sh", "tests/data/subtest_exp.csv", "test"], check=True)
+    cleanNuniq_df = pd.read_csv('bTB_Allclean_test.csv')
+    cleanNuniqexp_df = pd.read_csv('tests/data/Allclean_exp.csv')
+    assert all(cleanNuniq_df == cleanNuniqexp_df)
+
 #metadata
 """
 def test_metadata():
