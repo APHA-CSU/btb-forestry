@@ -10,7 +10,10 @@ import subprocess
 #addsub
 
 def test_addsub():
-    subprocess.run(['bin/addsub.sh', "data/subtest.csv"])
+    subprocess.run(["bin/addsub.sh", "tests/data/subtest.csv"], check=True)
+    withsub_df = pd.read_csv('withsub.csv')
+    addsubexp_df = pd.read_csv('tests/data/subtest_exp.csv')
+    assert all(withsub_df == addsubexp_df)
     #expected results from subtest.csv:
     #AF-23-01234-56,99.9,100,100000,95
     #AF-78-09012-34,99.9,100,100000,95
