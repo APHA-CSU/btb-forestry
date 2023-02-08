@@ -14,7 +14,7 @@ def filter(metadata_csv):
     metadata_df['SampleName'] = metadata_df['SampleName'].astype(object)
     # sort and deduplicate the metadata
     metadata_df.sort_values('MovementId', kind='mergesort', inplace=True)
-    metadata_df.drop_duplicates('SampleName', inplace=True)
+    metadata_df.drop_duplicates('SampleName', inplace=True, keep='first')
     metadata_df.rename(columns = {'SampleName': 'Submission'}, inplace=True)
     metadata_df.set_index('Submission', inplace=True)
 
