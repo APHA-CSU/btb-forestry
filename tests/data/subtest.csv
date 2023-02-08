@@ -1,3 +1,5 @@
-Sample,GenomeCov,MeanDepth,NumRawReads,pcMapped
-AFT1-23-01234-56,99.9,100,100000,95
-AF-78-9012-34,99.9,100,100000,95
+Sample,GenomeCov,MeanDepth,NumRawReads,pcMapped,Outcome,flag,group,CSSTested,matches,mismatches,noCoverage,anomalous,Ncount,ResultLoc,ID,TotalReads,Abundance
+AFT1-23-01234-56,99.9,100,100000,95,Pass,BritishbTB,B6-16,3018.0,97,1,1,0,52533,s3://bucket/Results/,Mycobacterium bovis,NA,NA
+AF-78-9012-34,99.9,100,100000,95,Pass,BritishbTB,B6-16,3018.0,97,1,1,0,52533,s3://bucket/Results/,Mycobacterium bovis,NA,NA
+AF-78-09012-34-a,99.9,100,100000,95,Pass,BritishbTB,B6-16,3018.0,97,1,1,0,52532,s3://bucket/Results/,Mycobacterium bovis,NA,NA
+# comment
