@@ -17,6 +17,7 @@ process cleandata {
     """
 }
 
+//Sort metedata csv and retain single line for each submission
 process metadata {
     input:
         path ('metadata.csv')
@@ -51,6 +52,7 @@ process filterSamples{
     """
 }
 
+//Split metadata into separate files for each clade
 process cladeMetadata{
     tag "$clade"
     publishDir "$publishDir/Metadata/", mode: 'copy', pattern: '*_metadata_*.csv'
