@@ -5,9 +5,10 @@ import argparse
 from datetime import date
 
 """
-This splits the filtered metadata file into separate files for each clade. It
-also combines the sequencing metrics for the sample with the additional 
-metadata. The file is then suitable for Augur.
+This extracts information from the filtered metadata file (sortedMetadata_csv)
+by merging with the list of samples in a given clade (cladelist_csv) into 
+separate files for each clade. It therefore combines the sequencing metrics for
+each sample with the additional metadata. The file is then suitable for Augur.
 """
 
 def combine(sortedMetadata_csv, cladelist_csv, clade):
@@ -17,7 +18,7 @@ def combine(sortedMetadata_csv, cladelist_csv, clade):
     sortedMetadata_df = pd.read_csv(sortedMetadata_csv)
     cladelist_df = pd.read_csv(cladelist_csv)
 
-    clademetadata_df = pd.merge(cladelist_df, sortedMetadata_df, on = 'Submission', how='left')
+    clademetadata_df = pd.merge(cladelist_df, sortedMetadata_df, on='Submission', how='left')
     clademetadata_df.rename(columns = {'Sample': 'name'}, inplace=True)
     clademetadata_df.set_index('Submission', inplace=True)
 
