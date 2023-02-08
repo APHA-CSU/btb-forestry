@@ -13,7 +13,7 @@ each sample with the additional metadata. The file is then suitable for Augur.
 
 def combine(sortedMetadata_csv, cladelist_csv, clade):
 
-    date_out=date.today().strftime('%d%b%y')
+    date_out = date.today().strftime('%d%b%y')
 
     sortedMetadata_df = pd.read_csv(sortedMetadata_csv)
     cladelist_df = pd.read_csv(cladelist_csv)
