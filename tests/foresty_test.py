@@ -7,7 +7,13 @@ import subprocess
 from bin import filterMetadata
 from bin import cladeMetadata
 
-#Tests
+## Tests ##
+"""
+This uses the pytest framework to ensure that the various data filtering parts 
+of this pipeline function as expected.  Generally this is done by processing 
+small dummy data files and asserting that the outcomes match expectations. 
+Similar approaches can be used for bash and python scripts.
+"""
 
 #addsub
 def test_addsub():
@@ -26,7 +32,7 @@ def test_cleanNuniq():
 #metadata
 def test_metadata():
     filterMetadata.filter('tests/data/metatest.csv')
-    csv_files = glob.glob('sortedMetadata_*.csv')
+    csv_files = glob.glob('sortedMetadata_*.csv') #required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
     output_df=pd.read_csv(csv_file_path)
     expected_df=pd.read_csv('tests/data/sortedMeta_exp.csv')
