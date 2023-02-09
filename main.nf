@@ -17,6 +17,17 @@ process cleandata {
     """
 }
 
+//Sort metedata csv and retain single line for each submission
+process metadata {
+    input:
+        path ('metadata.csv')
+    output:
+        path ('sortedMetadata_*.csv')
+    """
+    filterMetadata.py metadata.csv
+    """
+}
+
 //Splits the main csv based on 'group (clade)' and 'outcome' columns
 process splitclades {
     input:
@@ -38,6 +49,19 @@ process filterSamples{
         tuple val(clade), path('*.csv')
     """
     filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
+    """
+}
+
+//Split metadata into separate files for each clade
+process cladeMetadata{
+    tag "$clade"
+    publishDir "$publishDir/Metadata/", mode: 'copy', pattern: '*_metadata_*.csv'
+    input:
+        tuple val(clade), path('cladelist.csv'), path('sortedmetadata.csv')
+    output:
+        tuple val(clade), path('*_metadata_*.csv')
+    """
+    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade
     """
 }
 
@@ -116,6 +140,10 @@ workflow {
         .set {inputCsv}
 
     Channel
+        .fromPath( params.metadata)
+        .set {metadata}
+    
+    Channel
         .fromPath( params.outliers )
         .set {outlierList}
 
@@ -125,6 +153,9 @@ workflow {
         .set {cladeInfo}
 
     cleandata(inputCsv)
+
+    metadata(metadata)
+
     splitclades(cleandata.out)
 
     splitclades.out
@@ -141,6 +172,12 @@ workflow {
     filterSamples.out
         .join(cladeInfo)
         .set { cladeSamples }
+
+    filterSamples.out
+        .combine(metadata.out)
+        .set { cladeMeta }
+
+    cladeMetadata(cladeMeta)
 
     cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
