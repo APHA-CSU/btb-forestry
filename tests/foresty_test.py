@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
+import glob
 import pandas as pd
 import subprocess
 
-#from bin import filterMetadata
-#from bin import cladeMetadata
+from bin import filterMetadata
+from bin import cladeMetadata
 
 #Tests
 
@@ -23,13 +24,15 @@ def test_cleanNuniq():
     assert all(cleanNuniq_df == cleanNuniqexp_df)
 
 #metadata
-"""
 def test_metadata():
-    filterMetadata.filter('data/metatest.csv')
-    output_df=pd.read_csv('tmp/*.csv')
-    expected_df=pd.read_csv('data/expectedmeta.csv')
-    assert output_df == expected_df
+    filterMetadata.filter('tests/data/metatest.csv')
+    csv_files = glob.glob('sortedMetadata_*.csv')
+    csv_file_path = ''.join(csv_files)
+    output_df=pd.read_csv(csv_file_path)
+    expected_df=pd.read_csv('tests/data/sortedMeta_exp.csv')
+    assert all(output_df == expected_df)
 
+"""
 #clademeta
 def test_clademeta():
     cladeMetadata.combine('data/filtermeta.csv')
