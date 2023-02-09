@@ -30,8 +30,12 @@ def test_metadata():
     expected_df=pd.read_csv('data/expectedmeta.csv')
     assert output_df == expected_df
 
+#clademeta
 def test_clademeta():
     cladeMetadata.combine('data/filtermeta.csv')
 
-#clademeta
+#filtersamples
+def test_filtersamples():
+    subprocess.run(["bin/filterSamples.sh", "fulllist", "clade", "today", "maxN", "outlierList"], check=True)
+
 """
