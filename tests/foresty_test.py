@@ -20,14 +20,14 @@ def test_addsub():
     subprocess.run(["bin/addsub.sh", "tests/data/subtest.csv"], check=True)
     withsub_df = pd.read_csv('withsub.csv')
     addsubexp_df = pd.read_csv('tests/data/subtest_exp.csv')
-    assert all(withsub_df == addsubexp_df)
+    pd.testing.assert_frame_equal(withsub_df, addsubexp_df)
 
 #cleanNuniq
 def test_cleanNuniq():
     subprocess.run(["bin/cleanNuniq.sh", "tests/data/subtest_exp.csv", "test"], check=True)
     cleanNuniq_df = pd.read_csv('bTB_Allclean_test.csv')
     cleanNuniqexp_df = pd.read_csv('tests/data/Allclean_exp.csv')
-    assert all(cleanNuniq_df == cleanNuniqexp_df)
+    pd.testing.assert_frame_equal(cleanNuniq_df, cleanNuniqexp_df)
 
 #metadata
 def test_metadata():
@@ -36,7 +36,7 @@ def test_metadata():
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
     expected_df = pd.read_csv('tests/data/sortedMeta_exp.csv')
-    assert all(output_df == expected_df)
+    pd.testing.assert_frame_equal(output_df, expected_df)
 
 
 #clademeta
@@ -46,7 +46,7 @@ def test_clademeta():
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
     expected_df = pd.read_csv('tests/data/clademeta_exp.csv')
-    assert all(output_df == expected_df)
+    pd.testing.assert_frame_equal(output_df, expected_df)
 
 """
 #filtersamples
