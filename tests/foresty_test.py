@@ -45,7 +45,7 @@ def test_clademeta():
     csv_files = glob.glob('test_metadata_*.csv') #required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
-    expected_df = pd.read_csv('tests/data/sortedMeta_exp.csv')
+    expected_df = pd.read_csv('tests/data/clademeta_exp.csv')
     assert all(output_df == expected_df)
 
 """
