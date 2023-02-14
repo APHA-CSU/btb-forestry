@@ -34,15 +34,21 @@ def test_metadata():
     filterMetadata.filter('tests/data/metatest.csv')
     csv_files = glob.glob('sortedMetadata_*.csv') #required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
-    output_df=pd.read_csv(csv_file_path)
-    expected_df=pd.read_csv('tests/data/sortedMeta_exp.csv')
+    output_df = pd.read_csv(csv_file_path)
+    expected_df = pd.read_csv('tests/data/sortedMeta_exp.csv')
+    assert all(output_df == expected_df)
+
+
+#clademeta
+def test_clademeta():
+    cladeMetadata.combine('tests/data/sortedMeta_exp.csv', 'tests/data/samplelist.csv', 'test')
+    csv_files = glob.glob('test_metadata_*.csv') #required as file is generated with date stamp
+    csv_file_path = ''.join(csv_files)
+    output_df = pd.read_csv(csv_file_path)
+    expected_df = pd.read_csv('tests/data/sortedMeta_exp.csv')
     assert all(output_df == expected_df)
 
 """
-#clademeta
-def test_clademeta():
-    cladeMetadata.combine('data/filtermeta.csv')
-
 #filtersamples
 def test_filtersamples():
     subprocess.run(["bin/filterSamples.sh", "fulllist", "clade", "today", "maxN", "outlierList"], check=True)
