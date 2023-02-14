@@ -1,0 +1,4 @@
+Submission,name,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc,AnimalId,BirthCPH,StandardEartag,ImportDate,DeathDate,Cphh,Cult,BreakId,CPH,TestDate,Birth,Death,MovementDate
+AF-23-01234-56,AFT1-23-01234-56,99.9,100,95,B6-16,52533,s3://bucket/Results/,,,,,,,,,,,,,
+AF-78-09012-34,AF-78-09012-34-a,99.9,100,95,B6-16,52532,s3://bucket/Results/,,,,,,,,,,,,,
+AF-16-01234-13,AF-16-01234-13-a,99.9,100,95,B6-16,52532,s3://bucket/Results/,4012081.0,550370004.0,UKJ078900084,,2013-04-16,52142019601.0,MB,52142019601-02/04/2013,521420196.0,2019-05-30,1.0,0.0,1996-08-14
