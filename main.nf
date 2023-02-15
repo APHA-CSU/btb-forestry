@@ -104,6 +104,34 @@ process growtrees {
     """
 }
 
+process refinetrees {
+    errorStrategy 'ignore'
+    tag "$clade"
+    publishDir "$publishDir/augurTrees/", mode: 'copy'
+    input:
+        tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
+    output:
+        tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
+    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    """
+    augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
+    """
+}
+
+process ancestor {
+    errorStrategy 'ignore'
+    tag "$clade"
+    publishDir "$publishDir/augurMuts/", mode: 'copy'
+    input:
+        tuple val(clade), path("MP-rooted.nwk"), path("*_phylo.json"), path("snp-only.fas")
+    output:
+        tuple val(clade), path("*_nt-muts.json")
+    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    """
+    augurAncestral.sh $clade ${params.today} snp-only.fas MP-rooted.nwk
+    """
+}
+
 workflow {
     //Concatenate all FinalOut csv files
     Channel
@@ -154,4 +182,17 @@ workflow {
     cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
+
+    growtrees.out
+        .join(cladeInfo)
+        .join(cladesnps.out)
+        .set { treedata }
+
+    refinetrees(treedata)
+
+    refinetrees.out
+        .join(cladesnps.out)
+        .set { treesnps }
+    
+    ancestor(treesnps)
 }
