@@ -14,7 +14,7 @@ def filter(metadata_csv):
     metadata_df.set_index('Submission', inplace=True)
 
     # remove surplus columns
-    metadata_df.drop(metadata_df.iloc[:, 11:-1], inplace=True, axis=1)
+    metadata_df = metadata_df.iloc[:, 1:11]
         
     # write revised metadata file
     metadata_df.to_csv('sortedMetadata_{}.csv'.format(date_out))
