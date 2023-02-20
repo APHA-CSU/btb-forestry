@@ -132,6 +132,17 @@ process ancestor {
     """
 }
 
+process metadata2sqlite{
+    publishDir "$publishDir/Metadata/", mode: 'copy'
+    input:
+        tuple path('metadata.csv'), path('latlon.csv')
+    output:
+        path('viewbovis.db')
+    """
+    metadata2sqlite.py metadata.csv latlon.csv
+    """
+}
+
 workflow {
     //Concatenate all FinalOut csv files
     Channel
@@ -195,4 +206,6 @@ workflow {
         .set { treesnps }
     
     ancestor(treesnps)
+
+    metadata2sqlite(metadata)
 }
