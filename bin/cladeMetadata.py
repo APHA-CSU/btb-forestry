@@ -15,7 +15,7 @@ def combine(sortedMetadata_csv, cladelist_csv, clade):
 
     date_out = date.today().strftime('%d%b%y')
 
-    sortedMetadata_df = pd.read_csv(sortedMetadata_csv)
+    sortedMetadata_df = pd.read_csv(sortedMetadata_csv, dtype='object')
     cladelist_df = pd.read_csv(cladelist_csv)
 
     clademetadata_df = pd.merge(cladelist_df, sortedMetadata_df, on='Submission', how='left')
