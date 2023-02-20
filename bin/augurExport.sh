@@ -23,6 +23,6 @@ augur export v2 -t $nwktree \
             --auspice-config $configjson \
             --color-by-metadata Identifier Host wsdSlaughterDate CPH CPH_Type CPHH County RiskArea
             --lat-longs $locations \
-#            --colors custom_colours.tsv \
             --panels tree map \
             --output $clade_$today.json
+#            --colors custom_colours.tsv \
