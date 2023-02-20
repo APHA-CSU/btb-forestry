@@ -31,21 +31,21 @@ def test_cleanNuniq():
 
 #metadata
 def test_metadata():
-    filterMetadata.filter('tests/data/metatest.csv')
+    filterMetadata.filter('tests/data/metaTest.csv')
     csv_files = glob.glob('sortedMetadata_*.csv') #required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
-    expected_df = pd.read_csv('tests/data/sortedMeta_exp.csv')
+    expected_df = pd.read_csv('tests/data/filterMeta_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
 
 #clademeta
 def test_clademeta():
-    cladeMetadata.combine('tests/data/sortedMeta_exp.csv', 'tests/data/samplelist.csv', 'test')
+    cladeMetadata.combine('tests/data/filterMeta_exp.csv', 'tests/data/samplelist.csv', 'test')
     csv_files = glob.glob('test_metadata_*.csv') #required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
-    expected_df = pd.read_csv('tests/data/clademeta_exp.csv')
+    expected_df = pd.read_csv('tests/data/cladeMeta_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
 """
