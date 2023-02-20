@@ -21,7 +21,7 @@ augur export v2 -t $nwktree \
             --metadata $metadata \
             --node-data $phylojson $ntmutsjson \
             --auspice-config $configjson \
-            --color-by-metadata Identifier Host wsdSlaughterDate CPH CPH_Type CPHH County RiskArea
+            --color-by-metadata Identifier Host wsdSlaughterDate CPH CPH_Type CPHH County RiskArea \
             --lat-longs $locations \
             --panels tree map \
             --output $clade_$today.json
