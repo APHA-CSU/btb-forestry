@@ -26,3 +26,5 @@ augur export v2 -t $nwktree \
             --panels tree map \
             --output $clade_$today.json
 #            --colors custom_colours.tsv \
+
+sed -i 's/"branch_length": 0//g' $clade_$today.json
