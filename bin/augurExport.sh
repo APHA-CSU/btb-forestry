@@ -24,7 +24,7 @@ augur export v2 -t $nwktree \
             --color-by-metadata Identifier Host wsdSlaughterDate CPH CPH_Type CPHH County RiskArea \
             --lat-longs $locations \
             --panels tree map \
-            --output $clade_$today.json
+            --output ${clade}_${today}_exv2.json
 #            --colors custom_colours.tsv \
 
-sed -i 's/"branch_length": 0//g' $clade_$today.json
+sed -i 's/"branch_length": 0//g' ${clade}_${today}_exv2.json
