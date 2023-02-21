@@ -28,6 +28,18 @@ process metadata {
     """
 }
 
+//Combines warehouse export of locations with exisiting county locations and 
+//format correctly for Nextstrain
+process locations {
+    input:
+        path ('locations.csv'), path ('counties.csv')
+    output:
+        path ('allLocations.csv')
+    """
+    formatLocations.py locations.csv counties.csv
+    """
+}
+
 //Splits the main csv based on 'group (clade)' and 'outcome' columns
 process splitclades {
     input:
@@ -142,7 +154,11 @@ workflow {
     Channel
         .fromPath( params.metadata)
         .set {metadata}
-    
+
+    Channel
+        .fromPath( params.counties)
+        .set {counties}
+
     Channel
         .fromPath( params.outliers )
         .set {outlierList}
@@ -155,6 +171,8 @@ workflow {
     cleandata(inputCsv)
 
     metadata(metadata)
+
+    locations(cphCounty)
 
     splitclades(cleandata.out)
 
