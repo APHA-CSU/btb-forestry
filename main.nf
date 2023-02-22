@@ -132,10 +132,25 @@ process ancestor {
     """
 }
 
+process jsonExport {
+    errorStrategy 'ignore'
+    tag "$clade"
+    publishDir "$publishDir/jsonExport/", mode: 'copy'
+    input:
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.csv'), path('config.json')
+    output:
+        tuple val(clade), path("*_exv2.json")
+    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    """
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.csv config.json
+    """
+}
+
 process metadata2sqlite{
     publishDir "$publishDir/Metadata/", mode: 'copy'
     input:
-        tuple path('metadata.csv'), path('latlon.csv')
+        path('metadata.csv')
+        path('latlon.csv')
     output:
         path('viewbovis.db')
     """
@@ -151,8 +166,16 @@ workflow {
         .set {inputCsv}
 
     Channel
-        .fromPath( params.metadata)
+        .fromPath( params.metadata )
         .set {metadata}
+
+    Channel
+        .fromPath( params.auspiceconfig )
+        .set {auspiceconfig}
+
+    Channel
+        .fromPath( params.locations )
+        .set {locations}
     
     Channel
         .fromPath( params.outliers )
@@ -163,49 +186,59 @@ workflow {
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
 
-    cleandata(inputCsv)
+    //cleandata(inputCsv)
 
-    metadata(metadata)
+    //metadata(metadata)
 
-    splitclades(cleandata.out)
+    //splitclades(cleandata.out)
 
-    splitclades.out
-        .flatMap()
-        .map { file -> def key = file.name.toString().tokenize('_').get(0) 
-        return tuple (key, file) 
-        }
-        .join(cladeInfo)
-        .combine(outlierList)
-        .set{ cladelists }
+    //splitclades.out
+        //.flatMap()
+        //.map { file -> def key = file.name.toString().tokenize('_').get(0) 
+        //return tuple (key, file) 
+        //}
+        //.join(cladeInfo)
+        //.combine(outlierList)
+        //.set{ cladelists }
     
-    filterSamples(cladelists)
+    //filterSamples(cladelists)
     
-    filterSamples.out
-        .join(cladeInfo)
-        .set { cladeSamples }
+    //filterSamples.out
+        //.join(cladeInfo)
+        //.set { cladeSamples }
 
-    filterSamples.out
-        .combine(metadata.out)
-        .set { cladeMeta }
+    //filterSamples.out
+        //.combine(metadata.out)
+        //.set { cladeMeta }
 
-    cladeMetadata(cladeMeta)
+    //cladeMetadata(cladeMeta)
 
-    cladesnps(cladeSamples)
-    cladematrix(cladesnps.out)
-    growtrees(cladesnps.out)
+    //cladesnps(cladeSamples)
+    //cladematrix(cladesnps.out)
+    //growtrees(cladesnps.out)
 
-    growtrees.out
-        .join(cladeInfo)
-        .join(cladesnps.out)
-        .set { treedata }
+    //growtrees.out
+        //.join(cladeInfo)
+        //.join(cladesnps.out)
+        //.set { treedata }
 
-    refinetrees(treedata)
+    //refinetrees(treedata)
 
-    refinetrees.out
-        .join(cladesnps.out)
-        .set { treesnps }
+    //refinetrees.out
+        //.join(cladesnps.out)
+        //.set { treesnps }
     
-    ancestor(treesnps)
+    //ancestor(treesnps)
 
-    metadata2sqlite(metadata)
+    //refinetrees.out
+        //.join(ancestor.out)
+        //.join(cladeMetadata.out)
+        //.combine(locations)
+        //.combine(auspiceconfig)
+        //.set { exportData }
+
+    //jsonExport(exportData)
+
+    metadata2sqlite(metadata, locations)
+
 }
