@@ -240,7 +240,7 @@ workflow {
     refinetrees.out
         .join(ancestor.out)
         .join(cladeMetadata.out)
-        .combine(locations)
+        .combine(locations.out)
         .combine(auspiceconfig)
         .set { exportData }
 
