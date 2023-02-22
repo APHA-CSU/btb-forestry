@@ -34,7 +34,7 @@ process locations {
     input:
         path ('locations.csv'), path ('counties.csv')
     output:
-        path ('allLocations.csv')
+        path ('allLocations_*.csv')
     """
     formatLocations.py locations.csv counties.csv
     """

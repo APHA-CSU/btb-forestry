@@ -18,7 +18,7 @@ def locationfix(location_csv, counties_csv):
     AllLocations_df.set_index('LocationType', inplace=True)
     
     # write updated locations file
-    AllLocations_df.to_csv('AllLocations_{}.tsv'.format(date_out), sep='\t', header=None)
+    AllLocations_df.to_csv('allLocations_{}.tsv'.format(date_out), sep='\t', header=None)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
