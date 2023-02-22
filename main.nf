@@ -17,6 +17,17 @@ process cleandata {
     """
 }
 
+//Sort metedata csv and retain single line for each submission
+process metadata {
+    input:
+        path ('metadata.csv')
+    output:
+        path ('sortedMetadata_*.csv')
+    """
+    filterMetadata.py metadata.csv
+    """
+}
+
 //Splits the main csv based on 'group (clade)' and 'outcome' columns
 process splitclades {
     input:
@@ -38,6 +49,19 @@ process filterSamples{
         tuple val(clade), path('*.csv')
     """
     filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
+    """
+}
+
+//Split metadata into separate files for each clade
+process cladeMetadata{
+    tag "$clade"
+    publishDir "$publishDir/Metadata/", mode: 'copy', pattern: '*_metadata_*.csv'
+    input:
+        tuple val(clade), path('cladelist.csv'), path('sortedmetadata.csv')
+    output:
+        tuple val(clade), path('*_metadata_*.csv')
+    """
+    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade
     """
 }
 
@@ -88,7 +112,7 @@ process refinetrees {
         tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
     output:
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
-    conda "/home/richardellis/miniconda3/envs/nextstrain/"
+    conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
     """
@@ -102,9 +126,23 @@ process ancestor {
         tuple val(clade), path("MP-rooted.nwk"), path("*_phylo.json"), path("snp-only.fas")
     output:
         tuple val(clade), path("*_nt-muts.json")
-    conda "/home/richardellis/miniconda3/envs/nextstrain/"
+    conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurAncestral.sh $clade ${params.today} snp-only.fas MP-rooted.nwk
+    """
+}
+
+process jsonExport {
+    errorStrategy 'ignore'
+    tag "$clade"
+    publishDir "$publishDir/jsonExport/", mode: 'copy'
+    input:
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.csv'), path('config.json')
+    output:
+        tuple val(clade), path("*_exv2.json")
+    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    """
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.csv config.json
     """
 }
 
@@ -116,6 +154,18 @@ workflow {
         .set {inputCsv}
 
     Channel
+        .fromPath( params.metadata )
+        .set {metadata}
+
+    Channel
+        .fromPath( params.auspiceconfig )
+        .set {auspiceconfig}
+
+    Channel
+        .fromPath( params.locations )
+        .set {locations}
+    
+    Channel
         .fromPath( params.outliers )
         .set {outlierList}
 
@@ -125,6 +175,9 @@ workflow {
         .set {cladeInfo}
 
     cleandata(inputCsv)
+
+    metadata(metadata)
+
     splitclades(cleandata.out)
 
     splitclades.out
@@ -142,6 +195,12 @@ workflow {
         .join(cladeInfo)
         .set { cladeSamples }
 
+    filterSamples.out
+        .combine(metadata.out)
+        .set { cladeMeta }
+
+    cladeMetadata(cladeMeta)
+
     cladesnps(cladeSamples)
     cladematrix(cladesnps.out)
     growtrees(cladesnps.out)
@@ -158,4 +217,14 @@ workflow {
         .set { treesnps }
     
     ancestor(treesnps)
+
+    refinetrees.out
+        .join(ancestor.out)
+        .join(cladeMetadata.out)
+        .combine(locations)
+        .combine(auspiceconfig)
+        .set { exportData }
+
+    jsonExport(exportData)
+
 }
