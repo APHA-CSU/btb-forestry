@@ -144,6 +144,20 @@ process ancestor {
     """
 }
 
+process jsonExport {
+    errorStrategy 'ignore'
+    tag "$clade"
+    publishDir "$publishDir/jsonExport/", mode: 'copy'
+    input:
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.csv'), path('config.json')
+    output:
+        tuple val(clade), path("*_exv2.json")
+    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    """
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.csv config.json
+    """
+}
+
 workflow {
     //Concatenate all FinalOut csv files
     Channel
@@ -152,8 +166,17 @@ workflow {
         .set {inputCsv}
 
     Channel
-        .fromPath( params.metadata)
+        .fromPath( params.metadata )
         .set {metadata}
+
+    Channel
+        .fromPath( params.auspiceconfig )
+        .set {auspiceconfig}
+
+    Channel
+        .fromPath( params.locations )
+        .set {locations}
+    
 
     Channel
         .fromPath( params.counties)
@@ -213,4 +236,14 @@ workflow {
         .set { treesnps }
     
     ancestor(treesnps)
+
+    refinetrees.out
+        .join(ancestor.out)
+        .join(cladeMetadata.out)
+        .combine(locations)
+        .combine(auspiceconfig)
+        .set { exportData }
+
+    jsonExport(exportData)
+
 }
