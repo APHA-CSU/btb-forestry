@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+import sqlite3
+import argparse
+
+import pandas as pd
+
+"""
+    Builds a sqlite database from 'metadata' and 'locations' csv files. 
+    Writes one database file, 'viewbovis.db', to the working directory.
+"""
+
+def convert_to_sqlite(metadata_csv_path, locations_csv_path):
+    conn = sqlite3.connect("viewbovis.db")
+    # write metadata to sqlite db
+    df_metadata = pd.read_csv(metadata_csv_path, index_col="Submission", 
+                              dtype=str)
+    df_metadata.to_sql("metadata", con=conn, if_exists="replace")
+    # write lat-lon data to sqlite db
+    df_locations = pd.read_csv(locations_csv_path, index_col="CPH", 
+                            dtype={"CPH": str, 
+                                   "Lat": float,
+                                   "Long": float})
+    df_locations.to_sql("latlon", con=conn, if_exists="replace")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('metadata_csv_path', help='path to metadata.csv')
+    parser.add_argument('latlon_csv_path', help='path to latlon.csv')
+    args = parser.parse_args()
+    convert_to_sqlite(**vars(args))

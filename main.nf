@@ -159,6 +159,18 @@ process jsonExport {
     """
 }
 
+process metadata2sqlite{
+    publishDir "$publishDir/Metadata/", mode: 'copy'
+    input:
+        path('metadata.csv')
+        path('locations.csv')
+    output:
+        path('viewbovis.db')
+    """
+    metadata2sqlite.py metadata.csv locations.csv
+    """
+}
+
 workflow {
     //Concatenate all FinalOut csv files
     Channel
@@ -245,5 +257,7 @@ workflow {
         .set { exportData }
 
     jsonExport(exportData)
+
+    metadata2sqlite(metadata, locations)
 
 }
