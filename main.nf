@@ -28,6 +28,19 @@ process metadata {
     """
 }
 
+//Combines warehouse export of locations with exisiting county locations and 
+//format correctly for Nextstrain
+process locations {
+    input:
+        path ('locations.csv')
+        path ('counties.tsv')
+    output:
+        path ('allLocations_*.tsv')
+    """
+    formatLocations.py locations.csv counties.tsv
+    """
+}
+
 //Splits the main csv based on 'group (clade)' and 'outcome' columns
 process splitclades {
     input:
@@ -137,12 +150,12 @@ process jsonExport {
     tag "$clade"
     publishDir "$publishDir/jsonExport/", mode: 'copy'
     input:
-        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.csv'), path('config.json')
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json')
     output:
         tuple val(clade), path("*_exv2.json")
     conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
-    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.csv config.json
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json
     """
 }
 
@@ -175,8 +188,12 @@ workflow {
 
     Channel
         .fromPath( params.locations )
-        .set {locations}
-    
+        .set {cphlocs}
+
+    Channel
+        .fromPath( params.counties )
+        .set {counties}
+
     Channel
         .fromPath( params.outliers )
         .set {outlierList}
@@ -189,6 +206,8 @@ workflow {
     cleandata(inputCsv)
 
     metadata(metadata)
+
+    locations(cphlocs, counties)
 
     splitclades(cleandata.out)
 
@@ -233,7 +252,7 @@ workflow {
     refinetrees.out
         .join(ancestor.out)
         .join(cladeMetadata.out)
-        .combine(locations)
+        .combine(locations.out)
         .combine(auspiceconfig)
         .set { exportData }
 
