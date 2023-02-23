@@ -150,11 +150,11 @@ process metadata2sqlite{
     publishDir "$publishDir/Metadata/", mode: 'copy'
     input:
         path('metadata.csv')
-        path('latlon.csv')
+        path('locations.csv')
     output:
         path('viewbovis.db')
     """
-    metadata2sqlite.py metadata.csv latlon.csv
+    metadata2sqlite.py metadata.csv locations.csv
     """
 }
 
