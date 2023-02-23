@@ -11,6 +11,8 @@ metadata=$6
 locations=$7
 configjson=$8
 
+export AUGUR_RECURSION_LIMIT=10000
+
 # This process collects the relavant information and exports in json format for
 # direct visualization using Auspice: 
 # https://docs.nextstrain.org/projects/augur/en/stable/usage/cli/export.html
