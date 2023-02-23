@@ -186,58 +186,58 @@ workflow {
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
 
-    //cleandata(inputCsv)
+    cleandata(inputCsv)
 
-    //metadata(metadata)
+    metadata(metadata)
 
-    //splitclades(cleandata.out)
+    splitclades(cleandata.out)
 
-    //splitclades.out
-        //.flatMap()
-        //.map { file -> def key = file.name.toString().tokenize('_').get(0) 
-        //return tuple (key, file) 
-        //}
-        //.join(cladeInfo)
-        //.combine(outlierList)
-        //.set{ cladelists }
+    splitclades.out
+        .flatMap()
+        .map { file -> def key = file.name.toString().tokenize('_').get(0) 
+        return tuple (key, file) 
+        }
+        .join(cladeInfo)
+        .combine(outlierList)
+        .set{ cladelists }
     
-    //filterSamples(cladelists)
+    filterSamples(cladelists)
     
-    //filterSamples.out
-        //.join(cladeInfo)
-        //.set { cladeSamples }
+    filterSamples.out
+        .join(cladeInfo)
+        .set { cladeSamples }
 
-    //filterSamples.out
-        //.combine(metadata.out)
-        //.set { cladeMeta }
+    filterSamples.out
+        .combine(metadata.out)
+        .set { cladeMeta }
 
-    //cladeMetadata(cladeMeta)
+    cladeMetadata(cladeMeta)
 
-    //cladesnps(cladeSamples)
-    //cladematrix(cladesnps.out)
-    //growtrees(cladesnps.out)
+    cladesnps(cladeSamples)
+    cladematrix(cladesnps.out)
+    growtrees(cladesnps.out)
 
-    //growtrees.out
-        //.join(cladeInfo)
-        //.join(cladesnps.out)
-        //.set { treedata }
+    growtrees.out
+        .join(cladeInfo)
+        .join(cladesnps.out)
+        .set { treedata }
 
-    //refinetrees(treedata)
+    refinetrees(treedata)
 
-    //refinetrees.out
-        //.join(cladesnps.out)
-        //.set { treesnps }
+    refinetrees.out
+        .join(cladesnps.out)
+        .set { treesnps }
     
-    //ancestor(treesnps)
+    ancestor(treesnps)
 
-    //refinetrees.out
-        //.join(ancestor.out)
-        //.join(cladeMetadata.out)
-        //.combine(locations)
-        //.combine(auspiceconfig)
-        //.set { exportData }
+    refinetrees.out
+        .join(ancestor.out)
+        .join(cladeMetadata.out)
+        .combine(locations)
+        .combine(auspiceconfig)
+        .set { exportData }
 
-    //jsonExport(exportData)
+    jsonExport(exportData)
 
     metadata2sqlite(metadata, locations)
 
