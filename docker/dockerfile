@@ -35,7 +35,8 @@ RUN git clone https://github.com/APHA-CSU/augur.git && \
 # aws-cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
-    ./aws/install
+    ./aws/install && \
+    rm awscliv2.zip
 
 # snp-dists
 RUN git clone https://github.com/tseemann/snp-dists.git && \
