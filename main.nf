@@ -18,7 +18,7 @@ process cleandata {
 }
 
 //Sort metedata csv and retain single line for each submission
-process metadata {
+process sortmetadata {
     input:
         path ('metadata.csv')
     output:
@@ -205,7 +205,7 @@ workflow {
 
     cleandata(inputCsv)
 
-    metadata(metadata)
+    sortmetadata(metadata)
 
     locations(cphlocs, counties)
 
@@ -227,7 +227,7 @@ workflow {
         .set { cladeSamples }
 
     filterSamples.out
-        .combine(metadata.out)
+        .combine(sortmetadata.out)
         .set { cladeMeta }
 
     cladeMetadata(cladeMeta)
@@ -258,6 +258,5 @@ workflow {
 
     jsonExport(exportData)
 
-    metadata2sqlite(metadata, locations)
-
+    metadata2sqlite(metadata, cphlocs)
 }
