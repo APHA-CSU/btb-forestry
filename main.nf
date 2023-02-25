@@ -109,11 +109,11 @@ process growtrees {
     tag "$clade"
     publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
-        tuple val(clade), path('snp-only.fas')
+        tuple val(clade), path('snp-only.fas'), path('maxP200x.mao'), path('userMP.mao')
     output:
         tuple val(clade), path("*_MP.nwk")
     """
-    megatree.sh snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
+    megatree.sh snp-only.fas $clade ${params.today} maxP200x.mao userMP.mao
     """
 }
 
@@ -202,6 +202,14 @@ workflow {
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
+    
+    Channel
+        .fromPath( params.maxP200x )
+        .set {maxP200x}
+
+    Channel
+        .fromPath( params.userMP )
+        .set {userMP}
 
     cleandata(inputCsv)
 
@@ -233,8 +241,15 @@ workflow {
     cladeMetadata(cladeMeta)
 
     cladesnps(cladeSamples)
+
     cladematrix(cladesnps.out)
-    growtrees(cladesnps.out)
+
+    cladesnps.out
+        .combine(userMP)
+        .combine(maxP200x)
+        .set { megainput }
+
+    growtrees(megainput)
 
     growtrees.out
         .join(cladeInfo)
