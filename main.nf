@@ -245,8 +245,8 @@ workflow {
     cladematrix(cladesnps.out)
 
     cladesnps.out
-        .combine(userMP)
         .combine(maxP200x)
+        .combine(userMP)
         .set { megainput }
 
     growtrees(megainput)
