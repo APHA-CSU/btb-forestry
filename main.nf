@@ -79,7 +79,9 @@ process cladeMetadata{
 }
 
 process cladesnps {
-    errorStrategy 'ignore'
+    errorStrategy 'retry'
+    maxRetries 2
+    maxForks 3
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
@@ -93,6 +95,7 @@ process cladesnps {
 
 process cladematrix {
     errorStrategy 'ignore'
+    maxForks 3
     tag "$clade"
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
     input:
