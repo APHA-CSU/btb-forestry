@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     unzip \
     gcc \
     git \
-    build-essential \
+    make \
     python3-dev \
     zlib1g-dev \
     libsqlite3-dev \
