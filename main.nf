@@ -106,6 +106,7 @@ process cladematrix {
 
 process growtrees {
     errorStrategy 'ignore'
+    cpus 4
     tag "$clade"
     publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
