@@ -110,11 +110,11 @@ process growtrees {
     tag "$clade"
     publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
-        tuple val(clade), path('snp-only.fas')
+        tuple val(clade), path('snp-only.fas'), path('maxP200x.mao'), path('userMP.mao')
     output:
         tuple val(clade), path("*_MP.nwk")
     """
-    megatree.sh snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
+    megatree.sh snp-only.fas $clade ${params.today} maxP200x.mao userMP.mao
     """
 }
 
@@ -126,7 +126,7 @@ process refinetrees {
         tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
     output:
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
-    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
     """
@@ -140,7 +140,7 @@ process ancestor {
         tuple val(clade), path("MP-rooted.nwk"), path("*_phylo.json"), path("snp-only.fas")
     output:
         tuple val(clade), path("*_nt-muts.json")
-    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurAncestral.sh $clade ${params.today} snp-only.fas MP-rooted.nwk
     """
@@ -154,7 +154,7 @@ process jsonExport {
         tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json')
     output:
         tuple val(clade), path("*_exv2.json")
-    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json
     """
@@ -203,6 +203,14 @@ workflow {
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
+    
+    Channel
+        .fromPath( params.maxP200x )
+        .set {maxP200x}
+
+    Channel
+        .fromPath( params.userMP )
+        .set {userMP}
 
     cleandata(inputCsv)
 
@@ -234,8 +242,15 @@ workflow {
     cladeMetadata(cladeMeta)
 
     cladesnps(cladeSamples)
+
     cladematrix(cladesnps.out)
-    growtrees(cladesnps.out)
+
+    cladesnps.out
+        .combine(maxP200x)
+        .combine(userMP)
+        .set { megainput }
+
+    growtrees(megainput)
 
     growtrees.out
         .join(cladeInfo)
