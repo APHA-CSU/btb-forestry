@@ -81,7 +81,8 @@ process cladeMetadata{
 process cladesnps {
     errorStrategy 'retry'
     maxRetries 2
-    maxForks 3
+    maxForks 5
+    cpus 2
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
