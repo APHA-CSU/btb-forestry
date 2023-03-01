@@ -18,7 +18,6 @@ for sample in "${samples[@]}"
     done
 headers=${subno_array[*]}
 echo "$headers" >> post_process_matrix.csv
-cat post_process_matrix.csv
 i=0
 sed 1d $snp_matrix | while IFS= read -r line;
 do
