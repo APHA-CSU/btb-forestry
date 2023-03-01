@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Bash cript to add the submission number the first column of the csv file.
+# Bash script to add the submission number the first column of the csv file.
 
 set -eo pipefail
 
