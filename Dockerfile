@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     wget \
     curl \
     unzip \
+    gawk \
     gcc \
     git \
     make \
