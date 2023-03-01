@@ -103,7 +103,8 @@ process cladematrix {
     output:
         tuple val(clade), path("${clade}_${params.today}_matrix.csv")
     """
-    buildmatrix.sh snp-only.fas $clade ${params.today}
+    buildmatrix.sh snp-only.fas 
+    postProcessMatrix.sh snp_matrix.csv $clade ${params.today}
     """
 }
 
