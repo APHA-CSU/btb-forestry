@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Extracts submission number from a sample number using regex (*-nn-(n)nnnn-nn). 
+
 set -eo pipefail
 
 sample=$(echo "$1" | awk -F, '/[A-Z]*-*[0-9]{2,2}-[0-9]{4,5}-[0-9]{2,2}*/ {print $1}');
