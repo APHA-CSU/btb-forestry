@@ -156,7 +156,7 @@ process jsonExport {
     input:
         tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
     output:
-        tuple val(clade), path("*_exv2.json")
+        tuple val(clade), path("*.json")
     //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json custom-colours.tsv

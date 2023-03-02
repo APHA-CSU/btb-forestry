@@ -28,6 +28,6 @@ augur export v2 -t $nwktree \
             --lat-longs $locations \
             --panels tree map \
             --colours custom_colours.tsv \
-            --output ${clade}_${today}_exv2.json
+            --output ${clade}.json
 
-sed -i 's/"branch_length": 0//g' ${clade}_${today}_exv2.json
+sed -i 's/"branch_length": 0//g' ${clade}.json
