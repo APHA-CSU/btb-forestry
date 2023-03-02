@@ -154,12 +154,12 @@ process jsonExport {
     tag "$clade"
     publishDir "$publishDir/jsonExport/", mode: 'copy'
     input:
-        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json')
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
     output:
         tuple val(clade), path("*_exv2.json")
     //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
-    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json custom-colours.tsv
     """
 }
 
@@ -193,6 +193,10 @@ workflow {
     Channel
         .fromPath( params.locations )
         .set {cphlocs}
+
+    Channel
+        .fromPath( params.colours )
+        .set {colours}
 
     Channel
         .fromPath( params.counties )
@@ -273,6 +277,7 @@ workflow {
         .join(cladeMetadata.out)
         .combine(locations.out)
         .combine(auspiceconfig)
+        .combine(colours)
         .set { exportData }
 
     jsonExport(exportData)
