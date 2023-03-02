@@ -30,4 +30,4 @@ augur export v2 -t $nwktree \
             --colours custom_colours.tsv \
             --output ${clade}.json
 
-sed -i 's/"branch_length": 0//g' ${clade}.json
+sed -i 's/"#snps": 0//g' ${clade}.json
