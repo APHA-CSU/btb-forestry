@@ -1,0 +1,51 @@
+{
+  "title": "APHA ViewBovis",
+  "maintainers": [
+    {"name": "CUSP Team, Surveillance and Laboratory Services Department"}
+  ],
+  "colorings": [
+    {
+      "key": "CPH",
+      "title": "CPH",
+      "type": "categorical"
+    },
+    {
+      "key": "County",
+      "title": "County",
+      "type": "categorical"
+    },
+    {
+      "key": "Host",
+      "title": "Host",
+      "type": "categorical"
+    },
+    {
+      "key": "Identifier",
+      "title": "Eartag",
+      "type": "categorical"
+    },
+    {
+      "key": "RiskArea",
+      "title": "RiskArea",
+      "type": "categorical"
+    }
+  ],
+  "geo_resolutions": [
+    "CPH",
+    "County"
+  ],
+  "display_defaults": {
+    "map_triplicate": true,
+    "color_by": "Host",
+    "geo_resolution": "CPH",
+    "branch_label": "snps"
+  },
+  "filters": [
+    "County",
+    "Host",
+    "Identifier",
+    "CPH",
+    "Submission",
+    "RiskArea"
+  ]
+}
