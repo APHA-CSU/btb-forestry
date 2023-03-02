@@ -17,10 +17,12 @@ for sample in "${samples[@]}"
         subno_array+=( "$subno" )
     done
 headers=${subno_array[*]}
-echo "$headers" >> post_process_matrix.csv
-i=0
-sed 1d $snp_matrix | while IFS= read -r line;
+echo "$headers"
+echo "$headers" >> ${clade}_${today}_matrix.csv
+i=1
+IFS= 
+sed 1d $snp_matrix | while read -r line;
 do
-    i=$i+1
     echo -e "${subno_array[$i]},$( echo $line | cut -d ',' -f1 --complement )" >> ${clade}_${today}_matrix.csv
+    i=$i+1
 done
