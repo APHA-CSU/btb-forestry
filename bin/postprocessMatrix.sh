@@ -17,7 +17,6 @@ for sample in "${samples[@]}"
         subno_array+=( "$subno" )
     done
 headers=${subno_array[*]}
-echo "$headers"
 echo "$headers" >> ${clade}_${today}_matrix.csv
 i=1
 IFS= 
