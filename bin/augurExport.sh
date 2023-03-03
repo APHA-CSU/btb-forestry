@@ -27,7 +27,7 @@ augur export v2 -t $nwktree \
             --color-by-metadata Identifier Submission Host CPH CPH_Type County RiskArea \
             --lat-longs $locations \
             --panels tree map \
-            --colors custom_colours.tsv \
+            --colors custom-colours.tsv \
             --output ${clade}.json
 
 sed -i 's/"#snps": 0//g' ${clade}.json
