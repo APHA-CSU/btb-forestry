@@ -167,17 +167,18 @@ process jsonExport {
 process metadata2sqlite{
     publishDir "$publishDir/Metadata/", mode: 'copy'
     input:
+        path('filteredWgsMeta.csv')
         path('metadata.csv')
         path('locations.csv')
     output:
         path('viewbovis.db')
     """
-    metadata2sqlite.py metadata.csv locations.csv
+    metadata2sqlite.py filteredWgsMeta.csv metadata.csv locations.csv
     """
 }
 
 workflow {
-    //Concatenate all FinalOut csv files
+    Concatenate all FinalOut csv files
     Channel
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
@@ -242,6 +243,10 @@ workflow {
     filterSamples.out
         .combine(sortmetadata.out)
         .set { cladeMeta }
+    
+    filterSamples.out
+        .collectFile(newLine: true, keepHeader: true, skip: 1)
+        .set { filteredWgsMeta }
 
     cladeMetadata(cladeMeta)
 
@@ -250,33 +255,33 @@ workflow {
     cladematrix(cladesnps.out)
 
     cladesnps.out
-        .combine(maxP200x)
-        .combine(userMP)
-        .set { megainput }
+      .combine(maxP200x)
+      .combine(userMP)
+      .set { megainput }
 
     growtrees(megainput)
 
     growtrees.out
-        .join(cladeInfo)
-        .join(cladesnps.out)
-        .set { treedata }
+      .join(cladeInfo)
+      .join(cladesnps.out)
+      .set { treedata }
 
     refinetrees(treedata)
 
     refinetrees.out
-        .join(cladesnps.out)
-        .set { treesnps }
+      .join(cladesnps.out)
+      .set { treesnps }
     
     ancestor(treesnps)
 
     refinetrees.out
-        .join(ancestor.out)
-        .join(cladeMetadata.out)
-        .combine(locations.out)
-        .combine(auspiceconfig)
-        .set { exportData }
+      .join(ancestor.out)
+      .join(cladeMetadata.out)
+      .combine(locations.out)
+      .combine(auspiceconfig)
+      .set { exportData }
 
     jsonExport(exportData)
 
-    metadata2sqlite(metadata, cphlocs)
+    metadata2sqlite(filteredWgsMeta, metadata, cphlocs)
 }
