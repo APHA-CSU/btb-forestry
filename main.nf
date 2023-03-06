@@ -178,7 +178,7 @@ process metadata2sqlite{
 }
 
 workflow {
-    Concatenate all FinalOut csv files
+    // Concatenate all FinalOut csv files
     Channel
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
@@ -255,31 +255,31 @@ workflow {
     cladematrix(cladesnps.out)
 
     cladesnps.out
-      .combine(maxP200x)
-      .combine(userMP)
-      .set { megainput }
+        .combine(maxP200x)
+        .combine(userMP)
+        .set { megainput }
 
     growtrees(megainput)
 
     growtrees.out
-      .join(cladeInfo)
-      .join(cladesnps.out)
-      .set { treedata }
+        .join(cladeInfo)
+        .join(cladesnps.out)
+        .set { treedata }
 
     refinetrees(treedata)
 
     refinetrees.out
-      .join(cladesnps.out)
-      .set { treesnps }
+        .join(cladesnps.out)
+        .set { treesnps }
     
     ancestor(treesnps)
 
     refinetrees.out
-      .join(ancestor.out)
-      .join(cladeMetadata.out)
-      .combine(locations.out)
-      .combine(auspiceconfig)
-      .set { exportData }
+        .join(ancestor.out)
+        .join(cladeMetadata.out)
+        .combine(locations.out)
+        .combine(auspiceconfig)
+        .set { exportData }
 
     jsonExport(exportData)
 
