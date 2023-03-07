@@ -6,6 +6,7 @@ import subprocess
 
 from bin import filterMetadata
 from bin import cladeMetadata
+from bin import formatLocations
 
 ## Tests ##
 """
@@ -38,7 +39,6 @@ def test_metadata():
     expected_df = pd.read_csv('tests/data/filterMeta_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-
 #clademeta
 def test_clademeta():
     cladeMetadata.combine('tests/data/filterMeta_exp.csv', 'tests/data/samplelist.csv', 'test')
@@ -53,4 +53,9 @@ def test_clademeta():
 def test_filtersamples():
     subprocess.run(["bin/filterSamples.sh", "fulllist", "clade", "today", "maxN", "outlierList"], check=True)
 
+#formatLocations
+def test_formatlocations():
+    formatLocations.locationfix('tests/data/location.csv', 'test/data/counties.tsv')
+
+#
 """
