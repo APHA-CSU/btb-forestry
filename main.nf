@@ -18,13 +18,26 @@ process cleandata {
 }
 
 //Sort metedata csv and retain single line for each submission
-process metadata {
+process sortmetadata {
     input:
         path ('metadata.csv')
     output:
         path ('sortedMetadata_*.csv')
     """
     filterMetadata.py metadata.csv
+    """
+}
+
+//Combines warehouse export of locations with exisiting county locations and 
+//format correctly for Nextstrain
+process locations {
+    input:
+        path ('locations.csv')
+        path ('counties.tsv')
+    output:
+        path ('allLocations_*.tsv')
+    """
+    formatLocations.py locations.csv counties.tsv
     """
 }
 
@@ -66,7 +79,10 @@ process cladeMetadata{
 }
 
 process cladesnps {
-    errorStrategy 'ignore'
+    errorStrategy 'retry'
+    maxRetries 2
+    maxForks 3
+    cpus 2
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
@@ -80,6 +96,7 @@ process cladesnps {
 
 process cladematrix {
     errorStrategy 'ignore'
+    maxForks 2
     tag "$clade"
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
     input:
@@ -93,14 +110,15 @@ process cladematrix {
 
 process growtrees {
     errorStrategy 'ignore'
+    cpus 4
     tag "$clade"
     publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
-        tuple val(clade), path('snp-only.fas')
+        tuple val(clade), path('snp-only.fas'), path('maxP200x.mao'), path('userMP.mao')
     output:
         tuple val(clade), path("*_MP.nwk")
     """
-    megatree.sh snp-only.fas $clade ${params.today} $params.maxP200x $params.userMP
+    megatree.sh snp-only.fas $clade ${params.today} maxP200x.mao userMP.mao
     """
 }
 
@@ -112,7 +130,7 @@ process refinetrees {
         tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
     output:
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
-    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
     """
@@ -126,23 +144,66 @@ process ancestor {
         tuple val(clade), path("MP-rooted.nwk"), path("*_phylo.json"), path("snp-only.fas")
     output:
         tuple val(clade), path("*_nt-muts.json")
-    conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurAncestral.sh $clade ${params.today} snp-only.fas MP-rooted.nwk
     """
 }
 
+process jsonExport {
+    errorStrategy 'ignore'
+    tag "$clade"
+    publishDir "$publishDir/jsonExport/", mode: 'copy'
+    input:
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
+    output:
+        tuple val(clade), path("*.json")
+    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
+    """
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json custom-colours.tsv
+    """
+}
+
+process metadata2sqlite{
+    publishDir "$publishDir/Metadata/", mode: 'copy'
+    input:
+        path('filteredWgsMeta.csv')
+        path('metadata.csv')
+        path('locations.csv')
+    output:
+        path('viewbovis.db')
+    """
+    metadata2sqlite.py filteredWgsMeta.csv metadata.csv locations.csv
+    """
+}
+
 workflow {
-    //Concatenate all FinalOut csv files
+    // Concatenate all FinalOut csv files
     Channel
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
         .set {inputCsv}
 
     Channel
-        .fromPath( params.metadata)
+        .fromPath( params.metadata )
         .set {metadata}
-    
+
+    Channel
+        .fromPath( params.auspiceconfig )
+        .set {auspiceconfig}
+
+    Channel
+        .fromPath( params.locations )
+        .set {cphlocs}
+
+    Channel
+        .fromPath( params.colours )
+        .set {colours}
+
+    Channel
+        .fromPath( params.counties )
+        .set {counties}
+
     Channel
         .fromPath( params.outliers )
         .set {outlierList}
@@ -151,10 +212,20 @@ workflow {
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
         .set {cladeInfo}
+    
+    Channel
+        .fromPath( params.maxP200x )
+        .set {maxP200x}
+
+    Channel
+        .fromPath( params.userMP )
+        .set {userMP}
 
     cleandata(inputCsv)
 
-    metadata(metadata)
+    sortmetadata(metadata)
+
+    locations(cphlocs, counties)
 
     splitclades(cleandata.out)
 
@@ -174,14 +245,25 @@ workflow {
         .set { cladeSamples }
 
     filterSamples.out
-        .combine(metadata.out)
+        .combine(sortmetadata.out)
         .set { cladeMeta }
+    
+    filterSamples.out
+        .collectFile(newLine: true, keepHeader: true, skip: 1)
+        .set { filteredWgsMeta }
 
     cladeMetadata(cladeMeta)
 
     cladesnps(cladeSamples)
+
     cladematrix(cladesnps.out)
-    growtrees(cladesnps.out)
+
+    cladesnps.out
+        .combine(maxP200x)
+        .combine(userMP)
+        .set { megainput }
+
+    growtrees(megainput)
 
     growtrees.out
         .join(cladeInfo)
@@ -195,4 +277,16 @@ workflow {
         .set { treesnps }
     
     ancestor(treesnps)
+
+    refinetrees.out
+        .join(ancestor.out)
+        .join(cladeMetadata.out)
+        .combine(locations.out)
+        .combine(auspiceconfig)
+        .combine(colours)
+        .set { exportData }
+
+    jsonExport(exportData)
+
+    metadata2sqlite(filteredWgsMeta, metadata, cphlocs)
 }
