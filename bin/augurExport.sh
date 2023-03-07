@@ -10,6 +10,7 @@ ntmutsjson=$5
 metadata=$6
 locations=$7
 configjson=$8
+colours=$9
 
 export AUGUR_RECURSION_LIMIT=10000
 
@@ -23,10 +24,10 @@ augur export v2 -t $nwktree \
             --metadata $metadata \
             --node-data $phylojson $ntmutsjson \
             --auspice-config $configjson \
-            --color-by-metadata Identifier Host wsdSlaughterDate CPH CPH_Type CPHH County RiskArea \
+            --color-by-metadata Identifier Submission Host CPH CPH_Type County RiskArea \
             --lat-longs $locations \
             --panels tree map \
-            --output ${clade}_${today}_exv2.json
-#            --colors custom_colours.tsv \
+            --colors custom-colours.tsv \
+            --output ${clade}.json
 
-sed -i 's/"branch_length": 0//g' ${clade}_${today}_exv2.json
+sed -i 's/"#snps": 0//g' ${clade}.json

@@ -81,7 +81,7 @@ process cladeMetadata{
 process cladesnps {
     errorStrategy 'retry'
     maxRetries 2
-    maxForks 5
+    maxForks 3
     cpus 2
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
@@ -96,7 +96,7 @@ process cladesnps {
 
 process cladematrix {
     errorStrategy 'ignore'
-    maxForks 3
+    maxForks 2
     tag "$clade"
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
     input:
@@ -155,12 +155,12 @@ process jsonExport {
     tag "$clade"
     publishDir "$publishDir/jsonExport/", mode: 'copy'
     input:
-        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json')
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
     output:
-        tuple val(clade), path("*_exv2.json")
+        tuple val(clade), path("*.json")
     //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
-    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json custom-colours.tsv
     """
 }
 
@@ -195,6 +195,10 @@ workflow {
     Channel
         .fromPath( params.locations )
         .set {cphlocs}
+
+    Channel
+        .fromPath( params.colours )
+        .set {colours}
 
     Channel
         .fromPath( params.counties )
@@ -279,6 +283,7 @@ workflow {
         .join(cladeMetadata.out)
         .combine(locations.out)
         .combine(auspiceconfig)
+        .combine(colours)
         .set { exportData }
 
     jsonExport(exportData)
