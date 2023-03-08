@@ -15,7 +15,7 @@ def convert_to_sqlite(wgs_metadata_path, metadata_path, latlon_path):
     # write filtered wgs metadata to sqlite db
     df_wgs_metadata = pd.read_csv(wgs_metadata_path, index_col="Submission", 
                                   dtype=str)
-    df_wgs_metadata.to_sql("metadata", con=conn, if_exists="replace")
+    df_wgs_metadata.to_sql("wgs_metadata", con=conn, if_exists="replace")
     # write metadata to sqlite db
     df_metadata = pd.read_csv(metadata_path, index_col="Submission", 
                               dtype=str)
