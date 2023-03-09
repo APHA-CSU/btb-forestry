@@ -260,32 +260,32 @@ workflow {
     cladematrix(cladesnps.out)
 
     cladesnps.out
-      .combine(maxP200x)
-      .combine(userMP)
-      .set { megainput }
+        .combine(maxP200x)
+        .combine(userMP)
+        .set { megainput }
 
     growtrees(megainput)
 
     growtrees.out
-      .join(cladeInfo)
-      .join(cladesnps.out)
-      .set { treedata }
+        .join(cladeInfo)
+        .join(cladesnps.out)
+        .set { treedata }
 
     refinetrees(treedata)
 
     refinetrees.out
-      .join(cladesnps.out)
-      .set { treesnps }
+        .join(cladesnps.out)
+        .set { treesnps }
     
     ancestor(treesnps)
 
     refinetrees.out
-      .join(ancestor.out)
-      .join(cladeMetadata.out)
-      .combine(locations.out)
-      .combine(auspiceconfig)
-      .combine(colours)
-      .set { exportData }
+        .join(ancestor.out)
+        .join(cladeMetadata.out)
+        .combine(locations.out)
+        .combine(auspiceconfig)
+        .combine(colours)
+        .set { exportData }
 
     jsonExport(exportData)
 
