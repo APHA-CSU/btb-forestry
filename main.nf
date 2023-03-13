@@ -249,7 +249,8 @@ workflow {
         .set { cladeMeta }
     
     filterSamples.out
-        .collectFile(newLine: true, keepHeader: true, skip: 1)
+        .map { it[1] }
+        .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
         .set { filteredWgsMeta }
 
     cladeMetadata(cladeMeta)
