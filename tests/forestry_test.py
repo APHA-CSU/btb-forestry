@@ -48,14 +48,20 @@ def test_clademeta():
     expected_df = pd.read_csv('tests/data/cladeMeta_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-"""
 #filtersamples
 def test_filtersamples():
-    subprocess.run(["bin/filterSamples.sh", "fulllist", "clade", "today", "maxN", "outlierList"], check=True)
+    subprocess.run(["bin/filterSamples.sh", 'tests/data/Allclean_exp.csv', 'test', 'today', '52532', 'tests/data/testoutlier.txt'], check=True)
+    withsub_df = pd.read_csv('test_today_samplelist.csv')
+    addsubexp_df = pd.read_csv('tests/data/filterSample_exp.csv')
+    pd.testing.assert_frame_equal(withsub_df, addsubexp_df)
 
+"""
 #formatLocations
 def test_formatlocations():
     formatLocations.locationfix('tests/data/location.csv', 'test/data/counties.tsv')
+    output_df = pd.read_csv(csv_file_path)
+    expected_df = pd.read_csv('tests/data/cladeMeta_exp.csv')
+    pd.testing.assert_frame_equal(output_df, expected_df)
 
 #
 """
