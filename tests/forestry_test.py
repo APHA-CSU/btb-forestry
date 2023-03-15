@@ -19,16 +19,16 @@ Similar approaches can be used for bash and python scripts.
 #addsub
 def test_addsub():
     subprocess.run(["bin/addsub.sh", "tests/data/subtest.csv"], check=True)
-    withsub_df = pd.read_csv('withsub.csv')
-    addsubexp_df = pd.read_csv('tests/data/subtest_exp.csv')
-    pd.testing.assert_frame_equal(withsub_df, addsubexp_df)
+    output_df = pd.read_csv('withsub.csv')
+    expected_df = pd.read_csv('tests/data/subtest_exp.csv')
+    pd.testing.assert_frame_equal(output_df, expected_df)
 
 #cleanNuniq
 def test_cleanNuniq():
     subprocess.run(["bin/cleanNuniq.sh", "tests/data/subtest_exp.csv", "test"], check=True)
-    cleanNuniq_df = pd.read_csv('bTB_Allclean_test.csv')
-    cleanNuniqexp_df = pd.read_csv('tests/data/Allclean_exp.csv')
-    pd.testing.assert_frame_equal(cleanNuniq_df, cleanNuniqexp_df)
+    output_df = pd.read_csv('bTB_Allclean_test.csv')
+    expected_df = pd.read_csv('tests/data/Allclean_exp.csv')
+    pd.testing.assert_frame_equal(output_df, expected_df)
 
 #metadata
 def test_metadata():
@@ -51,17 +51,18 @@ def test_clademeta():
 #filtersamples
 def test_filtersamples():
     subprocess.run(["bin/filterSamples.sh", 'tests/data/Allclean_exp.csv', 'test', 'today', '52532', 'tests/data/testoutlier.txt'], check=True)
-    filtered_df = pd.read_csv('test_today_samplelist.csv')
-    filteredexp_df = pd.read_csv('tests/data/filterSample_exp.csv')
-    pd.testing.assert_frame_equal(filtered_df, filteredexp_df)
+    output_df = pd.read_csv('test_today_samplelist.csv')
+    expected_df = pd.read_csv('tests/data/filterSample_exp.csv')
+    pd.testing.assert_frame_equal(output_df, expected_df)
 
-"""
 #formatLocations
 def test_formatlocations():
-    formatLocations.locationfix('tests/data/location.csv', 'test/data/counties.tsv')
-    output_df = pd.read_csv(csv_file_path)
-    expected_df = pd.read_csv('tests/data/cladeMeta_exp.csv')
+    formatLocations.locationfix('tests/data/location.csv', 'tests/data/counties.tsv')
+    allLocations_tsv = glob.glob('allLocations_*.tsv')
+    allLocations_tsv_path = ''.join(allLocations_tsv)
+    output_df = pd.read_csv(allLocations_tsv_path, sep='\t')
+    expected_df = pd.read_csv('tests/data/allLocations_exp.tsv', sep='\t')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
 #
-"""
+
