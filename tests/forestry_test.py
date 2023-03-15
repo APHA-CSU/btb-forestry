@@ -8,54 +8,61 @@ from bin import filterMetadata
 from bin import cladeMetadata
 from bin import formatLocations
 
-## Tests ##
+# Tests #
 """
-This uses the pytest framework to ensure that the various data filtering parts 
-of this pipeline function as expected.  Generally this is done by processing 
-small dummy data files and asserting that the outcomes match expectations. 
+This uses the pytest framework to ensure that the various data filtering parts
+of this pipeline function as expected.  Generally this is done by processing
+small dummy data files and asserting that the outcomes match expectations.
 Similar approaches can be used for bash and python scripts.
 """
 
-#addsub
+
+# addsub
 def test_addsub():
     subprocess.run(["bin/addsub.sh", "tests/data/subtest.csv"], check=True)
     output_df = pd.read_csv('withsub.csv')
     expected_df = pd.read_csv('tests/data/subtest_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-#cleanNuniq
+
+# cleanNuniq
 def test_cleanNuniq():
     subprocess.run(["bin/cleanNuniq.sh", "tests/data/subtest_exp.csv", "test"], check=True)
     output_df = pd.read_csv('bTB_Allclean_test.csv')
     expected_df = pd.read_csv('tests/data/Allclean_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-#metadata
+
+# metadata
 def test_metadata():
     filterMetadata.filter('tests/data/metaTest.csv')
-    csv_files = glob.glob('sortedMetadata_*.csv') #required as file is generated with date stamp
+    csv_files = glob.glob('sortedMetadata_*.csv')  # required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
     expected_df = pd.read_csv('tests/data/filterMeta_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-#clademeta
+
+# clademeta
 def test_clademeta():
     cladeMetadata.combine('tests/data/filterMeta_exp.csv', 'tests/data/samplelist.csv', 'test')
-    csv_files = glob.glob('test_metadata_*.csv') #required as file is generated with date stamp
+    csv_files = glob.glob('test_metadata_*.csv')  # required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
     expected_df = pd.read_csv('tests/data/cladeMeta_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-#filtersamples
+
+# filtersamples
 def test_filtersamples():
-    subprocess.run(["bin/filterSamples.sh", 'tests/data/Allclean_exp.csv', 'test', 'today', '52532', 'tests/data/testoutlier.txt'], check=True)
+    subprocess.run(["bin/filterSamples.sh", 'tests/data/Allclean_exp.csv',
+                    'test', 'today', '52532', 'tests/data/testoutlier.txt'], check=True)
     output_df = pd.read_csv('test_today_samplelist.csv')
     expected_df = pd.read_csv('tests/data/filterSample_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-#formatLocations
+
+# formatLocations
 def test_formatlocations():
     formatLocations.locationfix('tests/data/location.csv', 'tests/data/counties.tsv')
     allLocations_tsv = glob.glob('allLocations_*.tsv')
@@ -65,4 +72,3 @@ def test_formatlocations():
     pd.testing.assert_frame_equal(output_df, expected_df)
 
 #
-
