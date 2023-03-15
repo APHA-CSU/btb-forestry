@@ -1,0 +1,7 @@
+# python libraries required for testing
+glob
+pandas
+subprocess
+argparse
+datetime
+numpy
