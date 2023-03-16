@@ -2,4 +2,3 @@
 pandas
 argparse
 datetime
-numpy
