@@ -9,7 +9,7 @@ today=$2 # datestamp
 # name and 'Ncount', and where there are duplicate sample names only the entry 
 # with the lowest 'Ncount' is retained
 
-sed '/^#/d' $concat |
-    (head -n 1 && tail -n +2 | # retain the header
-    sort -t ',' -k1,1 -n -k15,15 | # simple sort on colums containing submission and Ncount
-    sort -u -t ',' -k1,1) > bTB_Allclean_${today}.csv # Remove duplicate submisions
+head -n 1 $concat > bTB_Allclean_${today}.csv && tail -n +2 $concat | # retain the header
+    (sort -t ',' -k1,1 -n -k15,15 | # simple sort on colums containing submission and Ncount
+    sort -u -t ',' -k1,1 |
+    sed '/^#/d') >> bTB_Allclean_${today}.csv # Remove duplicate submisions
