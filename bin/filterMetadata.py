@@ -34,7 +34,7 @@ def filter(metadata_csv):
 
     # write revised metadata file
     metadata_df.to_csv('sortedMetadata_{}.csv'.format(date_out))
-    
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
