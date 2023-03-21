@@ -31,7 +31,6 @@ def filter(metadata_csv):
     metadata_df.loc[(metadata_df['Loc0'] == metadata_df['CPH'], 'PreviousMovement')] = 'False'
     metadata_df.loc[(metadata_df['Loc0'] == 'NA', 'PreviousMovement')] = 'False'
     metadata_df['MoveCount'] = move_count
-    print(move_count)
 
     # write revised metadata file
     metadata_df.to_csv('sortedMetadata_{}.csv'.format(date_out))
