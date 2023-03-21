@@ -24,7 +24,7 @@ def filter(metadata_csv):
     metadata_df['CPHH'].replace(' ', '', regex=True, inplace=True)
     metadata_df.replace(r'^\s*$', np.nan, regex=True, inplace=True)
     metadata_df.fillna('NA', inplace=True)
-    
+
     # Indicate if there is a history of cattle movement (True/False)
     metadata_df['PreviousMovement'] = ''
     metadata_df.loc[(metadata_df['Loc0'] != metadata_df['CPH'], 'PreviousMovement')] = 'True'
