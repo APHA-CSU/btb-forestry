@@ -26,10 +26,14 @@ def filter(metadata_csv):
     metadata_df.fillna('NA', inplace=True)
 
     # Indicate if there is a history of cattle movement (True/False)
-    metadata_df['PreviousMovement'] = ''
-    metadata_df.loc[(metadata_df['Loc0'] != metadata_df['CPH'], 'PreviousMovement')] = 'True'
-    metadata_df.loc[(metadata_df['Loc0'] == metadata_df['CPH'], 'PreviousMovement')] = 'False'
-    metadata_df.loc[(metadata_df['Loc0'] == 'NA', 'PreviousMovement')] = 'False'
+    def moveTF(Loc0, CPH):
+        if Loc0 == CPH:
+            return 'False'
+        elif Loc0 == 'NA':
+            return 'False'
+        else:
+            return 'True'
+    metadata_df['PreviousMovement'] = metadata_df.apply(lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
     metadata_df['MoveCount'] = move_count
 
     # write revised metadata file
