@@ -8,6 +8,15 @@ import argparse
 from datetime import date
 
 
+def moveTF(Loc0, CPH):
+    if Loc0 == CPH:
+        return 'False'
+    elif Loc0 == 'NA':
+        return 'False'
+    else:
+        return 'True'
+
+
 def filter(metadata_csv):
 
     date_out = date.today().strftime('%d%b%y')
@@ -26,13 +35,6 @@ def filter(metadata_csv):
     metadata_df.fillna('NA', inplace=True)
 
     # Indicate if there is a history of cattle movement (True/False)
-    def moveTF(Loc0, CPH):
-        if Loc0 == CPH:
-            return 'False'
-        elif Loc0 == 'NA':
-            return 'False'
-        else:
-            return 'True'
     metadata_df['PreviousMovement'] = metadata_df.apply(lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
     metadata_df['MoveCount'] = move_count
 
