@@ -8,6 +8,7 @@ import argparse
 from datetime import date
 
 
+# Determine if sample has movement history (True/False)
 def moveTF(Loc0, CPH):
     if Loc0 == CPH:
         return 'False'
@@ -17,6 +18,7 @@ def moveTF(Loc0, CPH):
         return 'True'
 
 
+# Clean up metadata, and add movement summary
 def filter(metadata_csv):
 
     date_out = date.today().strftime('%d%b%y')
