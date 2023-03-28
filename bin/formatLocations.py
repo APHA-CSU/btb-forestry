@@ -11,6 +11,7 @@ def locationfix(location_csv, counties_csv):
 
     location_df = pd.read_csv(location_csv, dtype='object')
     location_df.insert(0, 'LocationType', 'CPH')
+    location_df = location_df.iloc[:, 0:2]
 
     counties_df = pd.read_csv(counties_csv, dtype='object', sep='\t')
 
