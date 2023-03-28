@@ -19,7 +19,7 @@ def moveTF(Loc0, CPH):
 
 
 # Clean up metadata, and add movement summary
-def filter(metadata_csv, movement_csv):
+def filter(metadata_csv):
 
     date_out = date.today().strftime('%d%b%y')
 
@@ -45,7 +45,6 @@ def filter(metadata_csv, movement_csv):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('metadata_csv', help='path to metadata.csv')
-    parser.add_argument('movement_csv', help='path to movement.csv')
 
     args = parser.parse_args()
 
