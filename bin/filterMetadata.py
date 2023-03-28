@@ -27,9 +27,6 @@ def filter(metadata_csv):
     metadata_df.set_index('Submission', inplace=True)
     move_count = metadata_df.iloc[:, 20::5].notnull().sum(axis=1)
 
-    # remove surplus columns
-    metadata_df = metadata_df.iloc[:, 0:11]
-
     # fix extra spaces and fill empty cells
     metadata_df['CPH'].replace(' ', '', regex=True, inplace=True)
     metadata_df['CPHH'].replace(' ', '', regex=True, inplace=True)
