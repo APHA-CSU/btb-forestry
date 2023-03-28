@@ -29,4 +29,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     merge(**vars(args))
-    #fixPostcodes(**vars(args))
