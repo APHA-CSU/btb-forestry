@@ -11,7 +11,7 @@ def merge(newmeta_csv, origmeta_csv, locations_csv):
     origmeta_df = pd.read_csv(origmeta_csv, dtype='object', index_col='Submission')
     origmeta_df.replace(r'^\s*$', np.nan, regex=True, inplace=True)
     fixedmeta_df = newmeta_df.fillna(origmeta_df)
-    mergedmeta_df = pd.concat([fixedmeta_df, newmeta_df]).drop_duplicates()
+    mergedmeta_df = pd.concat([fixedmeta_df, newmeta_df])
     mergedmeta_df = mergedmeta_df[~mergedmeta_df.index.duplicated(keep='first')]
     mergedmeta_df.to_csv('WarehouseMerged.csv')
 
