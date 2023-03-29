@@ -19,24 +19,28 @@ def moveTF(Loc0, CPH):
 
 
 # Clean up metadata, and add movement summary
-def filter(metadata_csv):
+def filter(metadata_csv, movement_csv):
 
     date_out = date.today().strftime('%d%b%y')
 
-    metadata_df = pd.read_csv(metadata_csv, dtype='object')
-    metadata_df.set_index('Submission', inplace=True)
+    # Extract number of movements from movement.csv
+    movement_df = pd.read_csv(movement_csv, dtype='object', index_col='Submission')
+    movement_df.sort_values(by=['Submission', 'Loc_Num'])
+    movement_df = movement_df[~movement_df.index.duplicated(keep='last')]
+    movement_df = pd.to_numeric(movement_df['Loc_Num'])
+    movement_df = movement_df(['Loc_Num']).sub(1)
+    move_count = movement_df['Loc_Num']
 
-    # fix extra spaces and fill empty cells
+    # Fix extra spaces and fill empty cells in metadata
+    metadata_df = pd.read_csv(metadata_csv, dtype='object', index_col='Submission')
     metadata_df['CPH'].replace(' ', '', regex=True, inplace=True)
     metadata_df['CPHH'].replace(' ', '', regex=True, inplace=True)
     metadata_df.replace(r'^\s*$', np.nan, regex=True, inplace=True)
     metadata_df.fillna('NA', inplace=True)
 
-    # move_count = metadata_df.iloc[:, 20::5].notnull().sum(axis=1)
-
     # Indicate if there is a history of cattle movement (True/False)
     metadata_df['PreviousMovement'] = metadata_df.apply(lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
-    # metadata_df['MoveCount'] = move_count
+    metadata_df['MoveCount'] = move_count
 
     # write revised metadata file
     metadata_df.to_csv('sortedMetadata_{}.csv'.format(date_out))
@@ -45,6 +49,7 @@ def filter(metadata_csv):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('metadata_csv', help='path to metadata.csv')
+    parser.add_argument('movement_csv', help='path to movement.csv')
 
     args = parser.parse_args()
 
