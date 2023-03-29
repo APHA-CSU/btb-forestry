@@ -18,13 +18,13 @@ process cleandata {
 }
 
 //Sort metedata csv and retain single line for each submission
-process sortmetadata {
+process sortsubmissions {
     input:
-        path ('metadata.csv')
+        path ('submissions.csv')
     output:
-        path ('sortedMetadata_*.csv')
+        path ('sortedsubmissions_*.csv')
     """
-    filterMetadata.py metadata.csv
+    filtersubmissions.py submissions.csv
     """
 }
 
@@ -52,8 +52,8 @@ process splitclades {
     """
 }
 
-//Tidy up and filter list of samples for each clade
-process filterSamples{
+//Tidy up and filter list of submissions for each clade
+process filtersubmissions{
     tag "$clade"
     publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
     input:
@@ -61,20 +61,20 @@ process filterSamples{
     output:
         tuple val(clade), path('*.csv')
     """
-    filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
+    filtersubmissions.sh Pass.csv $clade ${params.today} $maxN outliers.txt
     """
 }
 
-//Split metadata into separate files for each clade
-process cladeMetadata{
+//Split submissions into separate files for each clade
+process cladesubmissions{
     tag "$clade"
-    publishDir "$publishDir/Metadata/", mode: 'copy', pattern: '*_metadata_*.csv'
+    publishDir "$publishDir/submissions/", mode: 'copy', pattern: '*_submissions_*.csv'
     input:
-        tuple val(clade), path('cladelist.csv'), path('sortedmetadata.csv')
+        tuple val(clade), path('cladelist.csv'), path('sortedsubmissions.csv')
     output:
-        tuple val(clade), path('*_metadata_*.csv')
+        tuple val(clade), path('*_submissions_*.csv')
     """
-    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade
+    cladesubmissions.py sortedsubmissions.csv cladelist.csv $clade
     """
 }
 
@@ -155,25 +155,26 @@ process jsonExport {
     tag "$clade"
     publishDir "$publishDir/jsonExport/", mode: 'copy'
     input:
-        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('submissions.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
     output:
         tuple val(clade), path("*.json")
     //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
-    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json custom-colours.tsv
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json submissions.csv locations.tsv config.json custom-colours.tsv
     """
 }
 
 process metadata2sqlite{
-    publishDir "$publishDir/Metadata/", mode: 'copy'
+    publishDir "$publishDir/submissions/", mode: 'copy'
     input:
         path('filteredWgsMeta.csv')
-        path('metadata.csv')
+        path('submissions.csv')
+        path('movements.csv')
         path('locations.csv')
     output:
         path('viewbovis.db')
     """
-    metadata2sqlite.py filteredWgsMeta.csv metadata.csv locations.csv
+    metadata2sqlite.py filteredWgsMeta.csv submissions.csv movements.csv locations.csv
     """
 }
 
@@ -185,8 +186,12 @@ workflow {
         .set {inputCsv}
 
     Channel
-        .fromPath( params.metadata )
-        .set {metadata}
+        .fromPath( params.submissions )
+        .set {submissions}
+
+    Channel
+        .fromPath( params.movements )
+        .set {movements}
 
     Channel
         .fromPath( params.auspiceconfig )
@@ -223,7 +228,7 @@ workflow {
 
     cleandata(inputCsv)
 
-    sortmetadata(metadata)
+    sortsubmissions(submissions)
 
     locations(cphlocs, counties)
 
@@ -238,24 +243,24 @@ workflow {
         .combine(outlierList)
         .set{ cladelists }
     
-    filterSamples(cladelists)
+    filtersubmissions(cladelists)
     
-    filterSamples.out
+    filtersubmissions.out
         .join(cladeInfo)
-        .set { cladeSamples }
+        .set { cladesubmissions }
 
-    filterSamples.out
-        .combine(sortmetadata.out)
+    filtersubmissions.out
+        .combine(sortsubmissions.out)
         .set { cladeMeta }
     
-    filterSamples.out
+    filtersubmissions.out
         .map { it[1] }
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
         .set { filteredWgsMeta }
 
-    cladeMetadata(cladeMeta)
+    cladesubmissions(cladeMeta)
 
-    cladesnps(cladeSamples)
+    cladesnps(cladesubmissions)
 
     cladematrix(cladesnps.out)
 
@@ -281,7 +286,7 @@ workflow {
 
     refinetrees.out
         .join(ancestor.out)
-        .join(cladeMetadata.out)
+        .join(cladesubmissions.out)
         .combine(locations.out)
         .combine(auspiceconfig)
         .combine(colours)
@@ -289,5 +294,5 @@ workflow {
 
     jsonExport(exportData)
 
-    metadata2sqlite(filteredWgsMeta, metadata, cphlocs)
+    metadata2sqlite(filteredWgsMeta, submissions, movements, cphlocs)
 }
