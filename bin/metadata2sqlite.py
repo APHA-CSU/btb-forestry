@@ -11,7 +11,7 @@ import pandas as pd
 """
 
 
-def convert_to_sqlite(wgs_metadata_path, submissions_path, movements_path,
+def convert_to_sqlite(wgs_metadata_path, metadata_path, movements_path,
                       latlon_path):
     conn = sqlite3.connect("viewbovis.db")
     # write filtered wgs metadata to sqlite db
@@ -19,9 +19,9 @@ def convert_to_sqlite(wgs_metadata_path, submissions_path, movements_path,
                                   dtype=str)
     df_wgs_metadata.to_sql("wgs_metadata", con=conn, if_exists="replace")
     # write submissions to sqlite db
-    df_submissions = pd.read_csv(submissions_path, index_col="Submission",
-                                 dtype=str)
-    df_submissions.to_sql("submissions", con=conn, if_exists="replace")
+    df_metadata = pd.read_csv(metadata_path, index_col="Submission",
+                              dtype=str)
+    df_metadata.to_sql("metadata", con=conn, if_exists="replace")
     # write movements to sqlite db
     df_movements = pd.read_csv(movements_path, index_col="Submission",
                                dtype=str)
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('wgs_metadata_path',
                         help='path to filteredWgsMetadata.csv')
-    parser.add_argument('submissions_path', help='path to submissions.csv')
+    parser.add_argument('metadata_path', help='path to metadata.csv')
     parser.add_argument('movements_path', help='path to movements.csv')
     parser.add_argument('latlon_path', help='path to latlon.csv')
     args = parser.parse_args()
