@@ -24,12 +24,11 @@ def filter(metadata_csv, movement_csv):
     date_out = date.today().strftime('%d%b%y')
 
     # Extract number of movements from movement.csv
-    movement_df = pd.read_csv(movement_csv, dtype='object', index_col='Submission')
-    movement_df.sort_values(by=['Submission', 'Loc_Num'])
+    movement_df = pd.read_csv(movement_csv, index_col='Submission')
+    movement_df.sort_values(by=['Submission', 'Loc_Num'], inplace=True)
     movement_df = movement_df[~movement_df.index.duplicated(keep='last')]
-    movement_df = pd.to_numeric(movement_df['Loc_Num'])
-    movement_df = movement_df(['Loc_Num']).sub(1)
-    move_count = movement_df['Loc_Num']
+    move_count = (movement_df['Loc_Num'] -1)
+    move_count[move_count < 0] = 0
 
     # Fix extra spaces and fill empty cells in metadata
     metadata_df = pd.read_csv(metadata_csv, dtype='object', index_col='Submission')
@@ -40,7 +39,7 @@ def filter(metadata_csv, movement_csv):
 
     # Indicate if there is a history of cattle movement (True/False)
     metadata_df['PreviousMovement'] = metadata_df.apply(lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
-    metadata_df['MoveCount'] = move_count
+    metadata_df['MoveCount'] = move_count.astype(int).astype(str)
 
     # write revised metadata file
     metadata_df.to_csv('sortedMetadata_{}.csv'.format(date_out))
