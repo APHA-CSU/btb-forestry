@@ -21,10 +21,11 @@ process cleandata {
 process sortmetadata {
     input:
         path ('metadata.csv')
+        path ('movements.csv')
     output:
         path ('sortedMetadata_*.csv')
     """
-    filterMetadata.py metadata.csv
+    filterMetadata.py metadata.csv movements.csv
     """
 }
 
@@ -224,7 +225,7 @@ workflow {
 
     cleandata(inputCsv)
 
-    sortmetadata(metadata)
+    sortmetadata(metadata, movements)
 
     locations(cphlocs, counties)
 
