@@ -112,7 +112,6 @@ process growtrees {
     errorStrategy 'ignore'
     cpus 4
     tag "$clade"
-    publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
         tuple val(clade), path('snp-only.fas'), path('maxP200x.mao'), path('userMP.mao')
     output:
