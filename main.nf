@@ -165,11 +165,12 @@ process metadata2sqlite{
     input:
         path('filteredWgsMeta.csv')
         path('metadata.csv')
+        path('movements.csv')
         path('locations.csv')
     output:
         path('viewbovis.db')
     """
-    metadata2sqlite.py filteredWgsMeta.csv metadata.csv locations.csv
+    metadata2sqlite.py filteredWgsMeta.csv metadata.csv movements.csv locations.csv
     """
 }
 
@@ -183,6 +184,10 @@ workflow {
     Channel
         .fromPath( params.metadata )
         .set {metadata}
+
+    Channel
+        .fromPath( params.movements )
+        .set {movements}
 
     Channel
         .fromPath( params.auspiceconfig )
@@ -285,5 +290,5 @@ workflow {
 
     jsonExport(exportData)
 
-    metadata2sqlite(filteredWgsMeta, metadata, cphlocs)
+    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs)
 }
