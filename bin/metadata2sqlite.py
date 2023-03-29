@@ -18,7 +18,7 @@ def convert_to_sqlite(wgs_metadata_path, metadata_path, movements_path,
     df_wgs_metadata = pd.read_csv(wgs_metadata_path, index_col="Submission",
                                   dtype=str)
     df_wgs_metadata.to_sql("wgs_metadata", con=conn, if_exists="replace")
-    # write submissions to sqlite db
+    # write metadata to sqlite db
     df_metadata = pd.read_csv(metadata_path, index_col="Submission",
                               dtype=str)
     df_metadata.to_sql("metadata", con=conn, if_exists="replace")
