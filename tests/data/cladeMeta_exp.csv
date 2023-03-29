@@ -1,4 +1,4 @@
-Submission,name,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc,Clade,Identifier,Host,wsdSlaughterDate,CPH,CPH_Type,CPHH,County,RiskArea,Loc0,Loc0_Type0,PreviousMovement,MoveCount
-AF-23-01234-56,AFT1-23-01234-56,99.9,100,95,B6-16,52533,s3://bucket/Results/,B6-16,UK001234567890,COW,2018-02-09 00:00:00.000,01/001/0001,FARMED,01001000101,Here,HRA,03/003/0003,Agricultural Holding,True,3
-AF-78-09012-34,AF-78-09012-34-a,99.9,100,95,B6-16,52532,s3://bucket/Results/,B6-16,UK123456789012,COW,2020-08-07 00:00:00.000,02/002/0002,FARMED,02002000202,There,Edge,04/004/0004,Agricultural Holding,True,4
-AF-16-01234-13,AF-16-01234-13-a,99.9,100,95,B6-16,52532,s3://bucket/Results/,B6-16,,BADGER,,,,,GLOUCESTERSHIRE,,,,False,0
+Submission,name,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc,Clade,Identifier,Host,Animal_Type,SlaughterDate,CPH,CPH_Type,CPHH,County,RiskArea,Loc0,OutsideHomeRange,PreviousMovement
+AF-23-01234-56,AFT1-23-01234-56,99.9,100,95,B6-16,52533,s3://bucket/Results/,B6-16,UK001234567890,COW,FARMED,2018-02-09 00:00:00.000,01/001/0001,Agricultural Holding,01001000101,Here,HRA,03/003/0003,Y,True
+AF-78-09012-34,AF-78-09012-34-a,99.9,100,95,B6-16,52532,s3://bucket/Results/,B6-16,UK123456789012,COW,FARMED,2020-08-07 00:00:00.000,02/002/0002,Agricultural Holding,02002000202,There,Edge,04/004/0004,N,True
+AF-16-01234-13,AF-16-01234-13-a,99.9,100,95,B6-16,52532,s3://bucket/Results/,B6-16,,BADGER,,,,,,GLOUCESTERSHIRE,,,N,False

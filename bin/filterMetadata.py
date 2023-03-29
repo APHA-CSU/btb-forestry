@@ -25,10 +25,6 @@ def filter(metadata_csv):
 
     metadata_df = pd.read_csv(metadata_csv, dtype='object')
     metadata_df.set_index('Submission', inplace=True)
-    move_count = metadata_df.iloc[:, 20::5].notnull().sum(axis=1)
-
-    # remove surplus columns
-    metadata_df = metadata_df.iloc[:, 0:11]
 
     # fix extra spaces and fill empty cells
     metadata_df['CPH'].replace(' ', '', regex=True, inplace=True)
@@ -36,9 +32,11 @@ def filter(metadata_csv):
     metadata_df.replace(r'^\s*$', np.nan, regex=True, inplace=True)
     metadata_df.fillna('NA', inplace=True)
 
+    # move_count = metadata_df.iloc[:, 20::5].notnull().sum(axis=1)
+
     # Indicate if there is a history of cattle movement (True/False)
     metadata_df['PreviousMovement'] = metadata_df.apply(lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
-    metadata_df['MoveCount'] = move_count
+    # metadata_df['MoveCount'] = move_count
 
     # write revised metadata file
     metadata_df.to_csv('sortedMetadata_{}.csv'.format(date_out))
