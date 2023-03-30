@@ -39,7 +39,7 @@ def filter(metadata_csv, movement_csv):
 
     # Indicate if there is a history of cattle movement (True/False)
     metadata_df['PreviousMovement'] = metadata_df.apply(lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
-    metadata_df['MoveCount'] = move_count.astype(int).astype(str)
+    metadata_df['MoveCount'] = move_count.astype(str)
 
     # write revised metadata file
     metadata_df.to_csv('sortedMetadata_{}.csv'.format(date_out))
