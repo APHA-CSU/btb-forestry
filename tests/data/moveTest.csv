@@ -1,9 +1,9 @@
-Submission	Loc_Num	Loc	County	CPH_Type	Loc_StartDate	Loc_Duration	Loc_EndDate
-AF-23-01234-56	0	03/003/0003	Somewhere	Agricultural Holding	2404-03-24	897	2406-09-07
-AF-23-01234-56	1	01/001/0001	Here	Agricultural Holding	2404-03-24	897	2406-09-07
-AF-23-01234-56	2	9999	Place	Slaughterhouse	2406-09-07	0	2406-09-07
-AF-78-09012-34	4	0000	Other	Slaughterhouse	2407-10-04	0	2407-10-04
-AF-78-09012-34	0	04/004/0004	Nowhere	Agricultural Holding	2297-12-05	952	2300-07-14
-AF-78-09012-34	3	02/002/0002	There	Agricultural Holding	2303-06-18	1569	2307-10-04
-AF-78-09012-34	2	06/007/0008	County	Agricultural Holding	2300-09-10	1011	2303-06-18
-AF-78-09012-34	1	03/003/0003	State	Agricultural Holding	2300-09-10	1011	2303-06-18
+Submission,Loc_Num,Loc,County,CPH_Type,Loc_StartDate,Loc_Duration,Loc_EndDate
+AF-23-01234-56,0,03/003/0003,Somewhere,Agricultural Holding,2404-03-24,897,2406-09-07
+AF-23-01234-56,1,01/001/0001,Here,Agricultural Holding,2404-03-24,897,2406-09-07
+AF-23-01234-56,2,9999,Place,Slaughterhouse,2406-09-07,0,2406-09-07
+AF-78-09012-34,4,0000,Other,Slaughterhouse,2407-10-04,0,2407-10-04
+AF-78-09012-34,0,04/004/0004,Nowhere,Agricultural Holding,2297-12-05,952,2300-07-14
+AF-78-09012-34,3,02/002/0002,There,Agricultural Holding,2303-06-18,1569,2307-10-04
+AF-78-09012-34,2,06/007/0008,County,Agricultural Holding,2300-09-10,1011,2303-06-18
+AF-78-09012-34,1,03/003/0003,State,Agricultural Holding,2300-09-10,1011,2303-06-18

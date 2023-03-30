@@ -27,7 +27,7 @@ def filter(metadata_csv, movement_csv):
     movement_df = pd.read_csv(movement_csv, index_col='Submission')
     movement_df.sort_values(by=['Submission', 'Loc_Num'], inplace=True)
     movement_df = movement_df[~movement_df.index.duplicated(keep='last')]
-    move_count = (movement_df['Loc_Num'] -1)
+    move_count = (movement_df['Loc_Num'] - 1)
     move_count[move_count < 0] = 0
 
     # Fix extra spaces and fill empty cells in metadata
