@@ -24,7 +24,8 @@ augur export v2 -t $nwktree \
             --metadata $metadata \
             --node-data $phylojson $ntmutsjson \
             --auspice-config $configjson \
-            --color-by-metadata Identifier Submission Host CPH CPH_Type County RiskArea OutsideHomeRange PreviousMovment\
+            --color-by-metadata Identifier Submission Host CPH CPH_Type County \
+            RiskArea OutsideHomeRange PreviousMovement MoveCount\
             --lat-longs $locations \
             --panels tree map \
             --colors custom-colours.tsv \

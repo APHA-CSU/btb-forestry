@@ -21,10 +21,11 @@ process cleandata {
 process sortmetadata {
     input:
         path ('metadata.csv')
+        path ('movements.csv')
     output:
         path ('sortedMetadata_*.csv')
     """
-    filterMetadata.py metadata.csv
+    filterMetadata.py metadata.csv movements.csv
     """
 }
 
@@ -112,7 +113,6 @@ process growtrees {
     errorStrategy 'ignore'
     cpus 4
     tag "$clade"
-    publishDir "$publishDir/trees/", mode: 'copy', pattern: '*_MP.nwk'
     input:
         tuple val(clade), path('snp-only.fas'), path('maxP200x.mao'), path('userMP.mao')
     output:
@@ -130,7 +130,6 @@ process refinetrees {
         tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
     output:
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
-    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
     """
@@ -144,7 +143,6 @@ process ancestor {
         tuple val(clade), path("MP-rooted.nwk"), path("*_phylo.json"), path("snp-only.fas")
     output:
         tuple val(clade), path("*_nt-muts.json")
-    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurAncestral.sh $clade ${params.today} snp-only.fas MP-rooted.nwk
     """
@@ -158,7 +156,6 @@ process jsonExport {
         tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
     output:
         tuple val(clade), path("*.json")
-    //conda "${params.homedir}/miniconda3/envs/nextstrain/"
     """
     augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json custom-colours.tsv
     """
@@ -228,7 +225,7 @@ workflow {
 
     cleandata(inputCsv)
 
-    sortmetadata(metadata)
+    sortmetadata(metadata, movements)
 
     locations(cphlocs, counties)
 

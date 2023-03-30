@@ -35,7 +35,7 @@ def test_cleanNuniq():
 
 # metadata
 def test_metadata():
-    filterMetadata.filter('tests/data/metaTest.csv')
+    filterMetadata.filter('tests/data/metaTest.csv', 'tests/data/moveTest.csv')
     csv_files = glob.glob('sortedMetadata_*.csv')  # required as file is generated with date stamp
     csv_file_path = ''.join(csv_files)
     output_df = pd.read_csv(csv_file_path)
