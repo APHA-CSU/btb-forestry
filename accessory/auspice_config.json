@@ -20,11 +20,6 @@
       "type": "categorical"
     },
     {
-      "key": "Identifier",
-      "title": "Eartag",
-      "type": "categorical"
-    },
-    {
       "key": "RiskArea",
       "title": "RiskArea",
       "type": "categorical"
@@ -38,7 +33,8 @@
     "map_triplicate": true,
     "color_by": "Host",
     "geo_resolution": "CPH",
-    "branch_label": "snps"
+    "branch_label": "#snps",
+    "panels": ["tree", "map"]
   },
   "filters": [
     "County",
