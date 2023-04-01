@@ -31,4 +31,4 @@ augur export v2 -t $nwktree \
             --colors custom-colours.tsv \
             --output ${clade}.json
 
-sed -i 's/"#snps": 0//g' ${clade}.json
+sed -i 's/"snps": 0//g' ${clade}.json
