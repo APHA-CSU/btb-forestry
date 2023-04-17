@@ -110,6 +110,7 @@ process cladematrix {
 
 process growtrees {
     errorStrategy 'ignore'
+    maxForks 2
     cpus 4
     tag "$clade"
     input:
