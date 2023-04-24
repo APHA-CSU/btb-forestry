@@ -21,7 +21,27 @@
     },
     {
       "key": "RiskArea",
-      "title": "RiskArea",
+      "title": "Risk Area",
+      "type": "categorical"
+    },
+    {
+      "key": "CPH_Type",
+      "title": "CPH Type",
+      "type": "categorical"
+    },
+    {
+      "key": "OutsideHomeRange",
+      "title": "Outside Home Range",
+      "type": "categorical"
+    },
+    {
+      "key": "PreviousMovement",
+      "title": "Previous Movement",
+      "type": "boolean"
+    },
+    {
+      "key": "MoveCount",
+      "title": "Move Count",
       "type": "categorical"
     }
   ],
