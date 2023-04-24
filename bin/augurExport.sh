@@ -10,7 +10,7 @@ ntmutsjson=$5
 metadata=$6
 locations=$7
 configjson=$8
-colours=$9
+colors=$9
 
 export AUGUR_RECURSION_LIMIT=10000
 
@@ -26,7 +26,7 @@ augur export v2 -t $nwktree \
             --auspice-config $configjson \
             --lat-longs $locations \
             --panels tree map \
-            --colors custom-colours.tsv \
+            --colors $colors \
             --output ${clade}.json
 
 sed -i 's/"snps": 0//g' ${clade}.json
