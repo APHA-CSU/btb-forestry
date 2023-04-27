@@ -5,6 +5,7 @@ nextflow.enable.dsl=2
 //Define variables
 publishDir = "$params.outdir/btb-forest_${params.today}/"
 
+//Add submission number and ensure single (highest quality) entry for each submission
 process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     input:
@@ -17,7 +18,7 @@ process cleandata {
     """
 }
 
-//Sort metedata csv and retain single line for each submission
+//Sort metadata csv and retain single line for each submission
 process sortmetadata {
     input:
         path ('metadata.csv')
