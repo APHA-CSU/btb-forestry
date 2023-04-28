@@ -71,4 +71,6 @@ def test_formatlocations():
     expected_df = pd.read_csv('tests/data/allLocations_exp.tsv', sep='\t')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-#
+# splitClades
+# listNegatives
+
