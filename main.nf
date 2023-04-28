@@ -61,7 +61,8 @@ process filterSamples{
     input:
         tuple val(clade), path('Pass.csv'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
     output:
-        tuple val(clade), path('*.csv')
+        tuple val(clade), path('*_samplelist.csv'), emit includedSamples
+        path('*_highN.csv'), emit excludedSamples
     """
     filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
     """
@@ -243,15 +244,15 @@ workflow {
     
     filterSamples(cladelists)
     
-    filterSamples.out
+    filterSamples.includedSamples.out
         .join(cladeInfo)
         .set { cladeSamples }
 
-    filterSamples.out
+    filterSamples.includedSamples.out
         .combine(sortmetadata.out)
         .set { cladeMeta }
     
-    filterSamples.out
+    filterSamples.includedSamples.out
         .map { it[1] }
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
         .set { filteredWgsMeta }
