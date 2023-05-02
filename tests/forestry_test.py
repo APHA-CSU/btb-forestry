@@ -73,4 +73,3 @@ def test_formatlocations():
 
 # splitClades
 # listNegatives
-
