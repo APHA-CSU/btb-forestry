@@ -22,8 +22,8 @@ def exclusions(allclean_csv, highN_csv, outliers_list):
     highN_df['Exclusion'] = 'Low quality data'
     highN_df = highN_df[['Submission', 'Exclusion']]
 
-    outliers_df = pd.read_csv(outliers_list, dtype='object')
-    outliers_df.columns.values[0] = "Submission"
+    outliers_df = pd.read_csv(outliers_list, dtype='object', header=None)
+    outliers_df.columns = ['Submission']
     # add column to indicate that sample has been identified as an outlier
     outliers_df['Exclusion'] = 'Identified Outlier'
 
