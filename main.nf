@@ -49,7 +49,6 @@ process splitclades {
         path ('clean.csv')
     output:
         path('B*_Pass.csv'), emit: passSamples
-        path('lowQual.csv'), emit: lowQualSamples
     """
     splitClades.sh clean.csv
     """
@@ -79,8 +78,7 @@ process excluded{
     output:
         path('allExclusions.csv')
     """
-    listNegatives.sh Allclean.csv
-    listExcluded.py Negative.csv lowQual.csv highN.csv outliers.txt
+    listExcluded.py Allclean.csv highN.csv outliers.txt
     """
 }
 
@@ -273,15 +271,11 @@ workflow {
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
         .set { filteredWgsMeta }
 
-    //splitclades.out.lowQualSamples
-    //    .collectFile(name: 'lowQual.csv', keepHeader: true)
-    //    .set { lowQual }
-
     filterSamples.out.excludedSamples
         .collectFile(name: 'highN.csv', keepHeader: true)
         .set { highNcount }
 
-    excluded(cleandata.out, splitclades.out.lowQualSamples, highNcount, outlierList)
+    excluded(cleandata.out, highNcount, outlierList)
 
     cladeMetadata(cladeMeta)
 
