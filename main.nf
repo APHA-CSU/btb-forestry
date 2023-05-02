@@ -72,7 +72,6 @@ process filterSamples{
 process excluded{
     input:
         path('Allclean.csv')
-        path('lowQual.csv')
         path('highN.csv')
         path('outliers.txt')
     output:
