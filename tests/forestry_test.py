@@ -54,9 +54,17 @@ def test_clademeta():
     pd.testing.assert_frame_equal(output_df, expected_df)
 
 
+# splitclades
+def test_splitclades():
+    subprocess.run(["bin/splitClades.sh", 'tests/data/Allclean_exp.csv'], check=True)
+    output_df = pd.read_csv('B6-16_Pass.csv')
+    expected_df = pd.read_csv('tests/data/split_exp.csv')
+    pd.testing.assert_frame_equal(output_df, expected_df)
+
+
 # filtersamples
 def test_filtersamples():
-    subprocess.run(["bin/filterSamples.sh", 'tests/data/Allclean_exp.csv',
+    subprocess.run(["bin/filterSamples.sh", 'tests/data/split_exp.csv',
                     'test', 'today', '52532', 'tests/data/testoutlier.txt'], check=True)
     output1_df = pd.read_csv('test_today_samplelist.csv')
     expected1_df = pd.read_csv('tests/data/filterSample_exp.csv')
