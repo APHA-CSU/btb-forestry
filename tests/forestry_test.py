@@ -7,6 +7,7 @@ import subprocess
 from bin import filterMetadata
 from bin import cladeMetadata
 from bin import formatLocations
+from bin import listExcluded
 
 # Tests #
 """
@@ -65,8 +66,6 @@ def test_filtersamples():
     pd.testing.assert_frame_equal(output2_df, expected2_df)
 
 
-
-
 # formatLocations
 def test_formatlocations():
     formatLocations.locationfix('tests/data/location.csv', 'tests/data/counties.tsv')
@@ -76,5 +75,12 @@ def test_formatlocations():
     expected_df = pd.read_csv('tests/data/allLocations_exp.tsv', sep='\t')
     pd.testing.assert_frame_equal(output_df, expected_df)
 
-# splitClades
+
 # listNegatives
+def test_listExcluded():
+    listExcluded.exclusions('tests/data/Allclean_exp.csv', 'tests/data/highN_exp.csv', 'tests/data/testoutlier.txt')
+    allExcluded_csv = glob.glob('allExcluded_*.csv')
+    allExcluded_csv_path = ''.join(allExcluded_csv)
+    output_df = pd.read_csv(allExcluded_csv_path)
+    expected_df = pd.read_csv('tests/data/exclued_exp.csv')
+    pd.testing.assert_frame_equal(output_df, expected_df)
