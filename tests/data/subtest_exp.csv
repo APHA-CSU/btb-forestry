@@ -2,4 +2,6 @@ Sample,Sample,GenomeCov,MeanDepth,NumRawReads,pcMapped,Outcome,flag,group,CSSTes
 AF-23-01234-56,AFT1-23-01234-56,99.9,100,100000,95,Pass,BritishbTB,B6-16,3018.0,97,1,1,0,52533,s3://bucket/Results/,Mycobacterium bovis,NA,NA
 AF-78-09012-34,AF-78-9012-34,99.9,100,100000,95,Pass,BritishbTB,B6-16,3018.0,97,1,1,0,52533,s3://bucket/Results/,Mycobacterium bovis,NA,NA
 AF-78-09012-34,AF-78-09012-34-a,99.9,100,100000,95,Pass,BritishbTB,B6-16,3018.0,97,1,1,0,52532,s3://bucket/Results/,Mycobacterium bovis,NA,NA
+AF-56-07890-12,AFQ-56-07890-12,1.78,0.08,726122,1.24,Contaminated,LowCoverage,NA,NA,NA,NA,NA,NA,4273447,s3://bucket/Results/,Negative,0,0
+AF-34-05678-90,AFH-34-05678-90,97.78,6.38,214486,99.77,InsufficientData,LowCoverage,NA,NA,NA,NA,NA,NA,121025,s3://bucket/Results/,Mycobacterium bovis,97998.0,95.0
 # comment,# comment
