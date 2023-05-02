@@ -70,6 +70,7 @@ process filterSamples{
 
 //Collect list of excluded samples
 process excluded{
+    publishDir "$publishDir", mode: 'copy', pattern: 'allExcluded_*.csv'
     input:
         path('Allclean.csv')
         path('highN.csv')
