@@ -57,9 +57,14 @@ def test_clademeta():
 def test_filtersamples():
     subprocess.run(["bin/filterSamples.sh", 'tests/data/Allclean_exp.csv',
                     'test', 'today', '52532', 'tests/data/testoutlier.txt'], check=True)
-    output_df = pd.read_csv('test_today_samplelist.csv')
-    expected_df = pd.read_csv('tests/data/filterSample_exp.csv')
-    pd.testing.assert_frame_equal(output_df, expected_df)
+    output1_df = pd.read_csv('test_today_samplelist.csv')
+    expected1_df = pd.read_csv('tests/data/filterSample_exp.csv')
+    pd.testing.assert_frame_equal(output1_df, expected1_df)
+    output2_df = pd.read_csv('test_today_highN.csv')
+    expected2_df = pd.read_csv('tests/data/highN_exp.csv')
+    pd.testing.assert_frame_equal(output2_df, expected2_df)
+
+
 
 
 # formatLocations
