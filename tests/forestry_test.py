@@ -82,5 +82,5 @@ def test_listExcluded():
     allExcluded_csv = glob.glob('allExcluded_*.csv')
     allExcluded_csv_path = ''.join(allExcluded_csv)
     output_df = pd.read_csv(allExcluded_csv_path)
-    expected_df = pd.read_csv('tests/data/exclued_exp.csv')
+    expected_df = pd.read_csv('tests/data/excluded_exp.csv')
     pd.testing.assert_frame_equal(output_df, expected_df)
