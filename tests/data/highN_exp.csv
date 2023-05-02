@@ -1,0 +1,2 @@
+Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc
+AF-23-01234-56,AFT1-23-01234-56,99.9,100,95,B6-16,52533,s3://bucket/Results/
