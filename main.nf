@@ -5,6 +5,7 @@ nextflow.enable.dsl=2
 //Define variables
 publishDir = "$params.outdir/btb-forest_${params.today}/"
 
+//Add submission number and ensure single (highest quality) entry for each submission
 process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     input:
@@ -17,7 +18,7 @@ process cleandata {
     """
 }
 
-//Sort metedata csv and retain single line for each submission
+//Sort metadata csv and retain single line for each submission
 process sortmetadata {
     input:
         path ('metadata.csv')
@@ -47,9 +48,9 @@ process splitclades {
     input:
         path ('clean.csv')
     output:
-        path('B*_Pass.csv')
+        path('B*_Pass.csv'), emit: passSamples
     """
-    awk -F, '{print >> (\$9"_"\$7".csv")}' clean.csv
+    splitClades.sh clean.csv
     """
 }
 
@@ -60,9 +61,24 @@ process filterSamples{
     input:
         tuple val(clade), path('Pass.csv'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
     output:
-        tuple val(clade), path('*.csv')
+        tuple val(clade), path('*_samplelist.csv'), emit: includedSamples
+        path('*_highN.csv'), emit: excludedSamples
     """
     filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
+    """
+}
+
+//Collect list of excluded samples
+process excluded{
+    publishDir "$publishDir", mode: 'copy', pattern: 'allExcluded_*.csv'
+    input:
+        path('Allclean.csv')
+        path('highN.csv')
+        path('outliers.txt')
+    output:
+        path('allExclusions.csv')
+    """
+    listExcluded.py Allclean.csv highN.csv outliers.txt
     """
 }
 
@@ -231,7 +247,7 @@ workflow {
 
     splitclades(cleandata.out)
 
-    splitclades.out
+    splitclades.out.passSamples
         .flatMap()
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
         return tuple (key, file) 
@@ -242,18 +258,24 @@ workflow {
     
     filterSamples(cladelists)
     
-    filterSamples.out
+    filterSamples.out.includedSamples
         .join(cladeInfo)
         .set { cladeSamples }
 
-    filterSamples.out
+    filterSamples.out.includedSamples
         .combine(sortmetadata.out)
         .set { cladeMeta }
     
-    filterSamples.out
+    filterSamples.out.includedSamples
         .map { it[1] }
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
         .set { filteredWgsMeta }
+
+    filterSamples.out.excludedSamples
+        .collectFile(name: 'highN.csv', keepHeader: true)
+        .set { highNcount }
+
+    excluded(cleandata.out, highNcount, outlierList)
 
     cladeMetadata(cladeMeta)
 
