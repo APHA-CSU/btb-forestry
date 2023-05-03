@@ -8,9 +8,9 @@ from datetime import date
 # determine if sample is not Mbovis or is contaminated
 def exclusionBasis(ID, Outcome):
     if ID != 'Mycobacterium bovis':
-        return 'Not M.bovis'
+        return 'notMbovis'
     elif Outcome != 'Pass':
-        return 'Impure culture'
+        return 'impureCulture'
     else:
         return ''
 
@@ -19,13 +19,13 @@ def exclusions(allclean_csv, highN_csv, outliers_list):
 
     highN_df = pd.read_csv(highN_csv, dtype='object')
     # add column to specify low qual data
-    highN_df['Exclusion'] = 'Low quality data'
+    highN_df['Exclusion'] = 'lowQualityData'
     highN_df = highN_df[['Submission', 'Exclusion']]
 
     outliers_df = pd.read_csv(outliers_list, dtype='object', header=None)
     outliers_df.columns = ['Submission']
     # add column to indicate that sample has been identified as an outlier
-    outliers_df['Exclusion'] = 'Identified Outlier'
+    outliers_df['Exclusion'] = 'identifiedOutlier'
 
     allClean_df = pd.read_csv(allclean_csv, dtype='object')
     allClean_df.columns.values[0] = "Submission"
