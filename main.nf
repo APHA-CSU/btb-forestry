@@ -76,7 +76,7 @@ process excluded{
         path('highN.csv')
         path('outliers.txt')
     output:
-        path('allExclusions.csv')
+        path('allExcluded_*.csv')
     """
     listExcluded.py Allclean.csv highN.csv outliers.txt
     """
