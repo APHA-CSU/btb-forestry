@@ -5,8 +5,8 @@
   ],
   "colorings": [
     {
-      "key": "CPH",
-      "title": "CPH",
+      "key": "PreciseLocation",
+      "title": "Precise Location",
       "type": "categorical"
     },
     {
@@ -52,7 +52,7 @@
   "display_defaults": {
     "map_triplicate": true,
     "color_by": "Host",
-    "geo_resolution": "CPH",
+    "geo_resolution": "PreciseLocation",
     "branch_label": "snps",
     "panels": ["tree", "map"]
   },
@@ -60,7 +60,7 @@
     "County",
     "Host",
     "Identifier",
-    "CPH",
+    "PreciseLocation",
     "Submission",
     "RiskArea"
   ]
