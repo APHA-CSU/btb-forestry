@@ -46,7 +46,7 @@
     }
   ],
   "geo_resolutions": [
-    "CPH",
+    "PreciseLocation",
     "County"
   ],
   "display_defaults": {
