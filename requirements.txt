@@ -1,3 +1,4 @@
 # python libraries required for testing
 pandas
 argparse
+scikit-allel
