@@ -104,7 +104,9 @@ process cladesnps {
     input:
         tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc)
     output:
-        tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
+        tuple val(clade), path("${clade}_${params.today}_snp-only.fas"), \
+        path(${clade}_${today}_all-sites.fas), path(${clade}_${today}_snp-only.vcf), \
+        path(${clade}_${today}_all-sites.vcf)
     """
     concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc
     """
