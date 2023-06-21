@@ -13,11 +13,8 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
 
     # import vcf data into dataframe, this is used to select the positions
     # for the N's
-    data = allel.vcf_to_dataframe(noc_vcf)
-    data_c = allel.vcf_to_dataframe(dashc_vcf)
-
-    data = pd.DataFrame(data["POS"])
-    data_c = pd.DataFrame(data_c["POS"])
+    data = allel.vcf_to_dataframe(noc_vcf, fields='POS')
+    data_c = allel.vcf_to_dataframe(dashc_vcf, fields='POS')
 
 # find the sites that have been lost in the -c, these sites contain a
 # sample that has a N
@@ -31,10 +28,12 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
 
     for seq_record in SeqIO.parse(noc_fas, "fasta"):
         fasta_id.append(seq_record.id)
-        fasta_seq.append(seq_record.seq._data)
+        fasta_seq.append(seq_record.seq)
 
     df = {"Sample ID": fasta_id, "Sample Sequence": fasta_seq}
     df = pd.DataFrame(data=df)
+
+    df.to_csv('fasta.csv', index=False)
 
 # create a dataframe which will calculate the % of Ns that are in each SNP
 # site cycle through the entire length of sequence and for each pos, it will
