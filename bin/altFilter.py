@@ -13,12 +13,14 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
 
     # import vcf data into dataframe, this is used to select the positions
     # for the N's
+
     data = allel.vcf_to_dataframe(noc_vcf, fields='POS')
     data_c = allel.vcf_to_dataframe(dashc_vcf, fields='POS')
 
 # find the sites that have been lost in the -c, these sites contain a
 # sample that has a N
-    diff = pd.concat([data, data_c]).drop_duplicates(keep=False)
+    diff = pd.concat([data, data_c]).drop_duplicates(keep=False)\
+        .reset_index(drop=True)
 
 # get data required from the snp.fasta file (not -c) and tranform this
 # into a dataframe
@@ -30,10 +32,8 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
         fasta_id.append(seq_record.id)
         fasta_seq.append(seq_record.seq)
 
-    df = {"Sample ID": fasta_id, "Sample Sequence": fasta_seq}
-    df = pd.DataFrame(data=df)
-
-    df.to_csv('fasta.csv', index=False)
+    seq_df = pd.DataFrame({"Sample ID": fasta_id,
+                           "Sample Sequence": fasta_seq})
 
 # create a dataframe which will calculate the % of Ns that are in each SNP
 # site cycle through the entire length of sequence and for each pos, it will
@@ -47,22 +47,15 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
     for num_of_bases in range(len(seq_record)):
         counter = counter + 1
         num_of_N = 0
-        for sample in df["Sample Sequence"]:
+        for sample in seq_df["Sample Sequence"]:
             x_base = (sample[num_of_bases])
             if x_base == "N":
                 num_of_N = num_of_N + 1
         if (num_of_N/len(fasta_id)) != 0:
             temp = {"Base": [counter], "N %": [(num_of_N/len(fasta_id))]}
             temp = pd.DataFrame(temp)
-            n_count_df = pd.concat([temp, n_count_df])
-
-# reset the index to go from 0 onwards, reverse dataframe and convert the
-# datatype on the Base to a string, this to allow the merging of the
-# dataframes in the next step
-    diff = diff.reset_index(drop=True)
-    n_count_df = n_count_df.iloc[::-1]
-    n_count_df["Base"] = n_count_df["Base"].astype("string")
-    n_count_df = n_count_df.reset_index(drop=True)
+            n_count_df = pd.concat([temp, n_count_df]).sort_values("Base")\
+                .reset_index(drop=True)
 
 # Combine the diff and n_count_df and change the names of the columns in the
 # database, pos is the genome pos, fasta is the fasta pos and %N is the
@@ -79,26 +72,26 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
 
     for base in n_count_df["Fasta Base"]:
         base_N = []
-        for samples in df.itertuples():
+        for samples in seq_df.itertuples():
             if samples._2[(int(base)-1)] == "N":
                 base_N.append(samples._1)
         base_N = ":".join(base_N)
         temp = pd.DataFrame([base_N])
+        print(base_N)
         final = pd.concat([final, temp], axis=0, ignore_index=True)
 
-    n_count_df = pd.concat([n_count_df, final], axis=1, ignore_index=True)
+    n_count_df['3'] = final
 
-# export n_count_df to a csv
+# export n_count_df to a csv ?required
     n_count_df.to_csv("n_count.csv", index=False)
 
-# find a total list of samples that need to be parsed, first open the df from
-# the csv (cannot seem to call the 3rd column[samples] otherwise?), then the
+# find a total list of samples that need to be parsed, then the
 # collated samples will recreate the 3rd column of the dataframe in a
 # parseable format, then all the samples a unlisted and the duplciated
 # removed. Output these samples in a csv and then create a new dataframe which
 # creates the outline for the scoring
-    n_count_df = pd.read_csv("n_count.csv")
-    sample = n_count_df["3"].tolist()
+
+    sample = n_count_df['3'].tolist()
     amples = []
 
     for collated_samples in sample:
@@ -109,12 +102,11 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
     samples = list(set(samples))
 
     df = pd.DataFrame(samples)
-    df.to_csv("samples.csv", index=False)
     df = pd.DataFrame(columns=["Samples", "%", "No of Ns", "Unique Ns",
                                "Non-unique Ns"])
 
-# find non-uniquie N samples (samples that have Ns in sites where others
-# samples so aswell) to do this a list is made for each fasta pos which
+# find non-unique N samples (samples that have Ns in sites where other
+# samples so aswell). To do this a list is made for each fasta pos which
 # contains a N and the number of posistions which have more then one samples
 # (which a N). Then a list is made which contains all these positions which
 # have multiples samples with Ns in them
