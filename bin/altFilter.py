@@ -177,8 +177,6 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
     end = list(reversed(end))
     df["Score"] = end
 
-    df.to_csv("samples.csv", index=False)
-
 # calculate the groups which each sample falls in, these groups correspond to
 # the N pos on the genome e.g. if a 2 samples have a N in the same pos then it
 # is in a single group. First a list is create with a empty lists which amount
