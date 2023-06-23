@@ -68,6 +68,19 @@ process filterSamples{
     """
 }
 
+// Implementaion of Prizams code
+process altfilter {
+    input:
+        tuple val(clade), path('snp-only.fas'), 
+        path('all-sites.fas'), path('snp-only.vcf'), 
+        path('all-sites.vcf')
+    output:
+        tuple val(clade), path('*_filt.csv')
+    """
+    altFilter.py all-sites.vcf snp-only.vcf all-sites.fas ${clade}_filt.csv
+    """
+}
+
 //Collect list of excluded samples
 process excluded{
     publishDir "$publishDir", mode: 'copy', pattern: 'allExcluded_*.csv'
@@ -102,13 +115,13 @@ process cladesnps {
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
-        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc)
+        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), path(outliers)
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas"), 
         path("${clade}_${params.today}_all-sites.fas"), path("${clade}_${params.today}_snp-only.vcf"), 
         path("${clade}_${params.today}_all-sites.vcf")
     """
-    concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc
+    concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc 
     """
 }
 
@@ -258,17 +271,17 @@ workflow {
         .combine(outlierList)
         .set{ cladelists }
     
-    filterSamples(cladelists)
+    //filterSamples(cladelists)
     
-    filterSamples.out.includedSamples
+    /*filterSamples.out.includedSamples
         .join(cladeInfo)
         .set { cladeSamples }
 
-    filterSamples.out.includedSamples
+    /*filterSamples.out.includedSamples
         .combine(sortmetadata.out)
         .set { cladeMeta }
     
-    filterSamples.out.includedSamples
+    /*filterSamples.out.includedSamples
         .map { it[1] }
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
         .set { filteredWgsMeta }
@@ -280,8 +293,10 @@ workflow {
     excluded(cleandata.out, highNcount, outlierList)
 
     cladeMetadata(cladeMeta)
+*/
+    cladesnps(cladelists)
 
-    cladesnps(cladeSamples)
+    altfilter(cladesnps.out)
 
     cladematrix(cladesnps.out)
 
@@ -305,15 +320,15 @@ workflow {
     
     ancestor(treesnps)
 
-    refinetrees.out
+    /*refinetrees.out
         .join(ancestor.out)
         .join(cladeMetadata.out)
         .combine(locations.out)
         .combine(auspiceconfig)
         .combine(colours)
-        .set { exportData }
+        .set { exportData }*/
 
-    jsonExport(exportData)
+    //jsonExport(exportData)
 
-    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs)
+    //metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs)
 }
