@@ -15,7 +15,8 @@ outGroupLoc=$5
 # generate snp-only fasta files.  Intermediary files are removed to save disk
 # space 
 
-while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
+while IFS=, read -r Submission Sample GenomeCov MeanDepth NumReads pcMapped Outcome \
+    Flag group CSSTested matches mismatches noCoverage anomalous Ncount Path ID num pc;
 do
     aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas";
 done < <(tail -n +2 $cladelist)
