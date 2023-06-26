@@ -9,7 +9,7 @@ import argparse
 st = time.time()
 
 
-def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
+def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
 
     # import vcf data into dataframe, this is used to select the positions
     # for the N's
@@ -77,7 +77,6 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
                 base_N.append(samples._1)
         base_N = ":".join(base_N)
         temp = pd.DataFrame([base_N])
-        print(base_N)
         final = pd.concat([final, temp], axis=0, ignore_index=True)
 
     n_count_df['3'] = final
@@ -239,6 +238,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
                 T_counter = T_counter + 1
         bases = [A_counter, C_counter, G_counter, T_counter]
         bases.sort(reverse=False)
+        base = []
         for x in bases:
             if x == 0:
                 smallest = 0
@@ -303,8 +303,12 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, outputFile):
         end.append(score)
 
     final_df["Score"] = end
+    final_df.to_csv('{}_filt.csv'.format(clade), index=False)
 
-    final_df.to_csv(outputFile, index=False)
+# select which samples should be dropped from further anlysis based on score
+# greater than 1
+    droppedSamples_df = final_df[final_df.Score > 1]
+    droppedSamples_df.to_csv('{}_dropped.csv'.format(clade), index=False)
 
 
 elapsed_time = time.time() - st
@@ -316,7 +320,7 @@ if __name__ == '__main__':
     parser.add_argument('dashc_vcf', help='path to vcf generated with -c')
     parser.add_argument('noc_fas', help='path to fasta file generated \
                         without -c')
-    parser.add_argument('outputFile', help='name for output file')
+    parser.add_argument('clade', help='clade information')
 
     args = parser.parse_args()
 
