@@ -75,9 +75,9 @@ process altfilter {
         path('all-sites.fas'), path('snp-only.vcf'), 
         path('all-sites.vcf')
     output:
-        tuple val(clade), path('*_filt.csv')
+        tuple val(clade), path('*_dropped.csv')
     """
-    altFilter.py all-sites.vcf snp-only.vcf all-sites.fas ${clade}_filt.csv
+    altFilter.py all-sites.vcf snp-only.vcf all-sites.fas $clade
     """
 }
 
