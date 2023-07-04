@@ -184,10 +184,11 @@ process metadata2sqlite{
         path('metadata.csv')
         path('movements.csv')
         path('locations.csv')
+        path('all_excluded.csv')
     output:
         path('viewbovis.db')
     """
-    metadata2sqlite.py filteredWgsMeta.csv metadata.csv movements.csv locations.csv
+    metadata2sqlite.py filteredWgsMeta.csv metadata.csv movements.csv locations.csv all_excluded.csv
     """
 }
 
@@ -276,42 +277,42 @@ workflow {
         .set { highNcount }
 
     excluded(cleandata.out, highNcount, outlierList)
-
+    
     cladeMetadata(cladeMeta)
 
-    cladesnps(cladeSamples)
+    //cladesnps(cladeSamples)
 
-    cladematrix(cladesnps.out)
+    //cladematrix(cladesnps.out)
 
-    cladesnps.out
-        .combine(maxP200x)
-        .combine(userMP)
-        .set { megainput }
+    //cladesnps.out
+    //    .combine(maxP200x)
+    //    .combine(userMP)
+    //    .set { megainput }
 
-    growtrees(megainput)
+    //growtrees(megainput)
 
-    growtrees.out
-        .join(cladeInfo)
-        .join(cladesnps.out)
-        .set { treedata }
+    //growtrees.out
+    //    .join(cladeInfo)
+    //    .join(cladesnps.out)
+    //    .set { treedata }
 
-    refinetrees(treedata)
+    //refinetrees(treedata)
 
-    refinetrees.out
-        .join(cladesnps.out)
-        .set { treesnps }
+    //refinetrees.out
+    //    .join(cladesnps.out)
+    //    .set { treesnps }
     
-    ancestor(treesnps)
+    //ancestor(treesnps)
 
-    refinetrees.out
-        .join(ancestor.out)
-        .join(cladeMetadata.out)
-        .combine(locations.out)
-        .combine(auspiceconfig)
-        .combine(colours)
-        .set { exportData }
+    //refinetrees.out
+    //    .join(ancestor.out)
+    //    .join(cladeMetadata.out)
+    //    .combine(locations.out)
+    //    .combine(auspiceconfig)
+    //    .combine(colours)
+    //    .set { exportData }
 
-    jsonExport(exportData)
+    //jsonExport(exportData)
 
-    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs)
+    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
 }
