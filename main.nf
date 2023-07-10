@@ -68,7 +68,7 @@ process filterSamples{
     """
 }
 
-// Implementaion of Prizams code
+// Implementaion of Prizam's code
 process altfilter {
     input:
         tuple val(clade), path('snp-only.fas'), 
@@ -80,6 +80,18 @@ process altfilter {
     altFilter.py all-sites.vcf snp-only.vcf all-sites.fas $clade
     """
 }
+
+// 
+process refineCladeList {
+    input:
+        tuple val(clade), path('*_dropped.csv'), path('*_AllConsensus.fas'), val(outGroup), val(outGroupLoc)
+    output:
+        tuple val(clade), path(${clade}_${today}_refined_snp-only.fas)
+    """
+    refineClade.sh *_AllConsensus.fas *_dropped.csv 
+    """
+}
+
 
 //Collect list of excluded samples
 process excluded{
@@ -119,7 +131,8 @@ process cladesnps {
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas"), 
         path("${clade}_${params.today}_all-sites.fas"), path("${clade}_${params.today}_snp-only.vcf"), 
-        path("${clade}_${params.today}_all-sites.vcf")
+        path("${clade}_${params.today}_all-sites.vcf"), emit: snpsitesOutput
+        tuple val(clade), path("${clade}_AllConsensus.fas"), emit: multiFasta
     """
     concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc 
     """
@@ -296,7 +309,7 @@ workflow {
 */
     cladesnps(cladelists)
 
-    altfilter(cladesnps.out)
+    altfilter(cladesnps.out.snpsitesOutput)
 
     cladematrix(cladesnps.out)
 
