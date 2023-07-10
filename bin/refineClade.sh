@@ -2,10 +2,11 @@
 
 set -eo pipefail
 
-multifasta=$1
-dropList=$2
-outGroup=$3
-outGroupLoc=$4
+clade=$1
+multifasta=$2
+dropList=$3
+outGroup=$4
+outGroupLoc=$5
 
 awk -vRS=">" -vORS="" -vFS="\n" -vOFS="\n" 'NR>1 && $1!~/'$dropped'/ {print ">"$0}' $multifasta > refined.fas
 

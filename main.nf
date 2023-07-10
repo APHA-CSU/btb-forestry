@@ -70,10 +70,10 @@ process filterSamples{
 
 // Implementaion of Prizam's code
 process altfilter {
+    tag "$clade"
     input:
         tuple val(clade), path('snp-only.fas'), 
-        path('all-sites.fas'), path('snp-only.vcf'), 
-        path('all-sites.vcf')
+        path('all-sites.fas'), path('snp-only.vcf'), path('all-sites.vcf')
     output:
         tuple val(clade), path('*_dropped.csv')
     """
@@ -81,14 +81,15 @@ process altfilter {
     """
 }
 
-// 
+// Remove samples dropped by altfilter and add outgroup
 process refineCladeList {
+    tag "$clade"
     input:
-        tuple val(clade), path('*_dropped.csv'), path('*_AllConsensus.fas'), val(outGroup), val(outGroupLoc)
+        tuple val(clade), path('*_dropped.csv'), path('*_AllConsensus.fas'), val(maxN), val(outGroup), val(outGroupLoc)
     output:
         tuple val(clade), path(${clade}_${today}_refined_snp-only.fas)
     """
-    refineClade.sh *_AllConsensus.fas *_dropped.csv 
+    refineClade.sh $clade *_AllConsensus.fas *_dropped.csv $outGroup $outGroupLoc 
     """
 }
 
@@ -310,6 +311,13 @@ workflow {
     cladesnps(cladelists)
 
     altfilter(cladesnps.out.snpsitesOutput)
+
+    altFilter.out
+        .join(cladesnps.out.multiFasta)
+        .join(cladeInfo)
+        .set { cladeRefine }
+    
+    refineCladeList(cladeRefine)
 
     cladematrix(cladesnps.out)
 
