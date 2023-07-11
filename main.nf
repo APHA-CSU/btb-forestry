@@ -82,14 +82,14 @@ process altfilter {
 }
 
 // Remove samples dropped by altfilter and add outgroup
-process refineCladeList {
+process refinesnps {
     tag "$clade"
     input:
-        tuple val(clade), path('*_dropped.csv'), path('*_AllConsensus.fas'), val(maxN), val(outGroup), val(outGroupLoc)
+        tuple val(clade), path('dropped.csv'), path('AllConsensus.fas'), val(maxN), val(outGroup), val(outGroupLoc)
     output:
-        tuple val(clade), path(${clade}_${today}_refined_snp-only.fas)
+        tuple val(clade), path('*_refined_snp-only.fas')
     """
-    refineClade.sh $clade *_AllConsensus.fas *_dropped.csv $outGroup $outGroupLoc 
+    refineClade.sh $clade AllConsensus.fas dropped.csv $outGroup $outGroupLoc
     """
 }
 
@@ -312,16 +312,16 @@ workflow {
 
     altfilter(cladesnps.out.snpsitesOutput)
 
-    altFilter.out
+    altfilter.out
         .join(cladesnps.out.multiFasta)
         .join(cladeInfo)
         .set { cladeRefine }
     
-    refineCladeList(cladeRefine)
+    refinesnps(cladeRefine)
 
-    cladematrix(cladesnps.out)
+    cladematrix(refinesnps.out)
 
-    cladesnps.out
+    refinesnps.out
         .combine(maxP200x)
         .combine(userMP)
         .set { megainput }
@@ -330,13 +330,13 @@ workflow {
 
     growtrees.out
         .join(cladeInfo)
-        .join(cladesnps.out)
+        .join(refinesnps.out)
         .set { treedata }
 
     refinetrees(treedata)
 
     refinetrees.out
-        .join(cladesnps.out)
+        .join(refinesnps.out)
         .set { treesnps }
     
     ancestor(treesnps)
