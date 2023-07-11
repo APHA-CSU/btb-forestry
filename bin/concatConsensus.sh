@@ -19,7 +19,7 @@ while IFS=, read -r Submission Sample GenomeCov MeanDepth NumReads pcMapped Outc
     Flag group CSSTested matches mismatches noCoverage anomalous Ncount Path ID num pc;
 do
     aws s3 cp "${Path}consensus/${Sample}_consensus.fas" "${Sample}_consensus.fas";
-done < <(tail -n +2 $cladelist)
+done < $cladelist
 
 # Add outgroup fasta (outgroup is predetermined for each clade)
 # aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
