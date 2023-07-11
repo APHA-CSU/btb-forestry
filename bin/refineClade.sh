@@ -19,4 +19,4 @@ cat ${clade}_refined.fas "${outGroup}_consensus.fas" > refined_out.fas
 # Run snp-sites on refined data
 snp-sites -c -o ${clade}_refined_snp-only.fas refined_out.fas
 
-rm 
+rm refined_out.fas ${clade}_refined.fas
