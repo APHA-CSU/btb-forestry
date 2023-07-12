@@ -5,6 +5,7 @@ import pandas as pd
 from Bio import SeqIO
 import time
 import argparse
+import sys
 
 st = time.time()
 
@@ -40,6 +41,8 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
 # go through every base in all samples and see if there is an N present.
 # Then, if we divide the num of N by the length of the sequence and if this
 # is not 0, we can add the base and the % of N to a list
+# Lastly, it will check to see if n_count_df is empty, if it is it will create
+# an empty dropped list for the clade and exit the script
     n_count_df = pd.DataFrame(columns=["Base", "N %"])
     counter = 0
     num_of_N = 0
@@ -56,6 +59,11 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
             temp = pd.DataFrame(temp)
             n_count_df = pd.concat([temp, n_count_df]).sort_values("Base")\
                 .reset_index(drop=True)
+    if n_count_df.empty:
+        droppedSamples_df = []
+        droppedSamples_df.to_csv('{}_dropped.csv'.format(clade), index=False)
+        sys.exit()
+
 
 # Combine the diff and n_count_df and change the names of the columns in the
 # database, pos is the genome pos, fasta is the fasta pos and %N is the
