@@ -70,6 +70,7 @@ process filterSamples{
 
 // Implementaion of Prizam's code
 process altfilter {
+    errorStrategy 'ignore' //workaround until #36 is resolved
     tag "$clade"
     input:
         tuple val(clade), path('snp-only.fas'), 
