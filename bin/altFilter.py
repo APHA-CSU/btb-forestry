@@ -60,7 +60,8 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
             n_count_df = pd.concat([temp, n_count_df]).sort_values("Base")\
                 .reset_index(drop=True)
     if n_count_df.empty:
-        droppedSamples_df = []
+        empty = {"Samples": []}
+        droppedSamples_df = pd.DataFrame(empty)
         droppedSamples_df.to_csv('{}_dropped.csv'.format(clade), index=False)
         sys.exit()
 
