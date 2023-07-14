@@ -92,7 +92,7 @@ process refinesnps {
     output:
         tuple val(clade), path('*_refined_snp-only.fas'), emit: seqDiff
         path('*_highN.csv'),  emit: excludedSamples
-        tuple(clade), path('*_samplelist.csv'), emit: includedSamples
+        tuple val(clade), path('*_samplelist.csv'), emit: includedSamples
     """
     refineClade.sh $clade AllConsensus.fas dropped.csv $outGroup $outGroupLoc Pass.csv ${params.today}
     """
