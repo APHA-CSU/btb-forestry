@@ -24,10 +24,10 @@ awk -F, '{print $1","$2","$3","$4","$6","$9","$15","$16}' $fulllist >> ${clade}_
 
 # Capture informtion for dropped samples
 echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${today}_highN.csv
-while IFS= read Dropped
+while IFS=, read Dropped pc numN uniqN nonuN score group uniqS
 do
     awk -v D="$Dropped" '$1==D {print $1","$2","$3","$4","$6","$9","$15","$16}' $fulllist >> ${clade}_${today}_highN.csv
-done < $dropList
+done < $dropList | tail -n +2
 
 # Add outgroup fasta (outgroup is predetermined for each clade)
 aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
