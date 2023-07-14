@@ -14,10 +14,10 @@ today=$7
 refineClade.py ${multifasta} ${dropList} ${clade}
 
 # Get full information for retained samples
-while IFS= read Sample
+while IFS=, read Sample pc numN uniqN nonuN score group uniqS
 do
     sed -i "/^$Sample/d" $fulllist
-done < $dropList
+done < $dropList | tail -n +2
 
 echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${today}_samplelist.csv
 awk -F, '{print $1","$2","$3","$4","$6","$9","$15","$16}' $fulllist >> ${clade}_${today}_samplelist.csv
