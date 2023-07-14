@@ -292,27 +292,6 @@ workflow {
     
     //filterSamples(cladelists)
     
-    /*filterSamples.out.includedSamples
-        .join(cladeInfo)
-        .set { cladeSamples }
-
-    /*filterSamples.out.includedSamples
-        .combine(sortmetadata.out)
-        .set { cladeMeta }
-    
-    /*filterSamples.out.includedSamples
-        .map { it[1] }
-        .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
-        .set { filteredWgsMeta }
-
-    filterSamples.out.excludedSamples
-        .collectFile(name: 'highN.csv', keepHeader: true)
-        .set { highNcount }
-
-    excluded(cleandata.out, highNcount, outlierList)
-
-    cladeMetadata(cladeMeta)
-*/
     cladesnps(cladelists)
 
     altfilter(cladesnps.out.snpsitesOutput)
@@ -328,6 +307,27 @@ workflow {
         .set { cladeRefine }
     
     refinesnps(cladeRefine)
+
+    refinesnps.out.includedSamples
+        .join(cladeInfo)
+        .set { cladeSamples }
+
+    refinesnps.out.includedSamples
+        .combine(sortmetadata.out)
+        .set { cladeMeta }
+    
+    refinesnps.out.includedSamples
+        .map { it[1] }
+        .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
+        .set { filteredWgsMeta }
+
+    refinesnps.out.excludedSamples
+        .collectFile(name: 'highN.csv', keepHeader: true)
+        .set { highNcount }
+
+    excluded(cleandata.out, highNcount, outlierList)
+
+    cladeMetadata(cladeMeta)
 
     cladematrix(refinesnps.out.seqDiff)
 
@@ -351,15 +351,15 @@ workflow {
     
     ancestor(treesnps)
 
-    /*refinetrees.out
+    refinetrees.out
         .join(ancestor.out)
         .join(cladeMetadata.out)
         .combine(locations.out)
         .combine(auspiceconfig)
         .combine(colours)
-        .set { exportData }*/
+        .set { exportData }
 
-    //jsonExport(exportData)
+    jsonExport(exportData)
 
-    //metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs)
+    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs)
 }
