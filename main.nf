@@ -90,7 +90,9 @@ process refinesnps {
         tuple val(clade), path('Pass.csv'), path('dropped.csv'),
         path('AllConsensus.fas'), val(maxN), val(outGroup), val(outGroupLoc)
     output:
-        tuple val(clade), path('*_refined_snp-only.fas'), path('*_highN.csv'), path('*_samplelist.csv')
+        tuple val(clade), path('*_refined_snp-only.fas'), emit: seqDiff
+        path('*_highN.csv'),  emit: excludedSamples
+        path('*_samplelist.csv'), emit: includedSamples
     """
     refineClade.sh $clade AllConsensus.fas dropped.csv $outGroup $outGroupLoc Pass.csv ${params.today}
     """
@@ -279,7 +281,7 @@ workflow {
 
     splitclades(cleandata.out)
 
-    /*splitclades.out.passSamples
+    splitclades.out.passSamples
         .flatMap()
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
         return tuple (key, file) 
@@ -327,9 +329,9 @@ workflow {
     
     refinesnps(cladeRefine)
 
-    cladematrix(refinesnps.out)
+    cladematrix(refinesnps.out.seqDiff)
 
-    refinesnps.out
+    refinesnps.out.seqDiff
         .combine(maxP200x)
         .combine(userMP)
         .set { megainput }
@@ -338,13 +340,13 @@ workflow {
 
     growtrees.out
         .join(cladeInfo)
-        .join(refinesnps.out)
+        .join(refinesnps.out.seqDiff)
         .set { treedata }
 
     refinetrees(treedata)
 
     refinetrees.out
-        .join(refinesnps.out)
+        .join(refinesnps.out.seqDiff)
         .set { treesnps }
     
     ancestor(treesnps)
