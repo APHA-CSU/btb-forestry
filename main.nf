@@ -55,6 +55,7 @@ process splitclades {
 }
 
 //Tidy up and filter list of samples for each clade
+/* Not currently used in altFilter branch
 process filterSamples{
     tag "$clade"
     publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
@@ -66,7 +67,7 @@ process filterSamples{
     """
     filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
     """
-}
+}*/
 
 // Implementaion of Prizam's code
 process altfilter {
@@ -86,11 +87,12 @@ process altfilter {
 process refinesnps {
     tag "$clade"
     input:
-        tuple val(clade), path('dropped.csv'), path('AllConsensus.fas'), val(maxN), val(outGroup), val(outGroupLoc)
+        tuple val(clade), path('Pass.csv'), path('dropped.csv'),
+        path('AllConsensus.fas'), val(maxN), val(outGroup), val(outGroupLoc)
     output:
-        tuple val(clade), path('*_refined_snp-only.fas')
+        tuple val(clade), path('*_refined_snp-only.fas'), path('*_highN.csv'), path('*_samplelist.csv')
     """
-    refineClade.sh $clade AllConsensus.fas dropped.csv $outGroup $outGroupLoc
+    refineClade.sh $clade AllConsensus.fas dropped.csv $outGroup $outGroupLoc Pass.csv ${params.today}
     """
 }
 
@@ -277,7 +279,7 @@ workflow {
 
     splitclades(cleandata.out)
 
-    splitclades.out.passSamples
+    /*splitclades.out.passSamples
         .flatMap()
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
         return tuple (key, file) 
@@ -313,7 +315,12 @@ workflow {
 
     altfilter(cladesnps.out.snpsitesOutput)
 
-    altfilter.out
+    splitclades.out.passSamples
+        .flatMap()
+        .map { file -> def key = file.name.toString().tokenize('_').get(0) 
+        return tuple (key, file) 
+        }
+        .join(altfilter.out)
         .join(cladesnps.out.multiFasta)
         .join(cladeInfo)
         .set { cladeRefine }
