@@ -17,7 +17,7 @@ refineClade.py ${multifasta} ${dropList} ${clade}
 echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${today}_highN.csv
 while IFS=, read Dropped pc numN uniqN nonuN score group uniqS
 do
-    awk -v D="$Dropped" '$2==D {print $1","$2","$3","$4","$6","$9","$15","$16}' $fulllist >> ${clade}_${today}_highN.csv
+    awk -F, -v D="$Dropped" '$2==D {print $1","$2","$3","$4","$6","$9","$15","$16}' $fulllist >> ${clade}_${today}_highN.csv
 done < $dropList | tail -n +2
 
 # Get full information for retained samples
