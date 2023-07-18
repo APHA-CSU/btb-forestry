@@ -46,9 +46,13 @@
     }
   ],
   "geo_resolutions": [
-    "PreciseLocation",
+    {
+      "key": "PreciseLocation",
+      "title": "Precise Location"
+    },
     "County"
   ],
+
   "display_defaults": {
     "map_triplicate": true,
     "color_by": "Host",
