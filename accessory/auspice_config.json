@@ -16,7 +16,7 @@
     },
     {
       "key": "Host",
-      "title": "Host",
+      "title": "Species",
       "type": "categorical"
     },
     {
