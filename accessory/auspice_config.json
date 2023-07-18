@@ -26,7 +26,7 @@
     },
     {
       "key": "CPH_Type",
-      "title": "CPH Type",
+      "title": "Precise Location Type",
       "type": "categorical"
     },
     {
