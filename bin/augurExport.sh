@@ -29,4 +29,4 @@ augur export v2 -t $nwktree \
             --colors $colors \
             --output ${clade}.json
 
-sed -i 's/"snps": 0//g' ${clade}.json
+sed -i 's/"SNP Distance": 0//g' ${clade}.json
