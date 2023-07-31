@@ -31,15 +31,16 @@ def filter(metadata_csv, movement_csv):
     move_count[move_count < 0] = 0
 
     # Fix extra spaces and fill empty cells in metadata
-    metadata_df = pd.read_csv(metadata_csv, dtype='object', index_col='Submission')
+    metadata_df = pd.read_csv(metadata_csv, dtype='object',
+                              index_col='Submission')
     metadata_df['CPH'].replace(' ', '', regex=True, inplace=True)
-    metadata_df['CPHH'].replace(' ', '', regex=True, inplace=True)
     metadata_df['Host'].replace('COW', 'BOVINE', regex=False, inplace=True)
     metadata_df.replace(r'^\s*$', np.nan, regex=True, inplace=True)
     metadata_df.fillna('NA', inplace=True)
 
     # Indicate if there is a history of cattle movement (True/False)
-    metadata_df['PreviousMovement'] = metadata_df.apply(lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
+    metadata_df['PreviousMovement'] = metadata_df.apply(
+        lambda x: moveTF(x['Loc0'], x['CPH']), axis=1)
     metadata_df.rename(columns={'CPH': 'PreciseLocation'}, inplace=True)
     metadata_df['MoveCount'] = move_count.astype(str)
 
