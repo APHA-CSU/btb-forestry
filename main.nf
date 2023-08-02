@@ -216,10 +216,11 @@ process metadata2sqlite{
         path('metadata.csv')
         path('movements.csv')
         path('locations.csv')
+        path('all_excluded.csv')
     output:
         path('viewbovis.db')
     """
-    metadata2sqlite.py filteredWgsMeta.csv metadata.csv movements.csv locations.csv
+    metadata2sqlite.py filteredWgsMeta.csv metadata.csv movements.csv locations.csv all_excluded.csv
     """
 }
 
@@ -324,7 +325,7 @@ workflow {
         .set { highNcount }
 
     excluded(cleandata.out, highNcount, outlierList)
-
+    
     cladeMetadata(cladeMeta)
 
     cladematrix(refinesnps.out.seqDiff)
@@ -359,5 +360,5 @@ workflow {
 
     jsonExport(exportData)
 
-    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs)
+    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
 }

@@ -16,7 +16,7 @@
     },
     {
       "key": "Host",
-      "title": "Host",
+      "title": "Species",
       "type": "categorical"
     },
     {
@@ -26,12 +26,12 @@
     },
     {
       "key": "CPH_Type",
-      "title": "CPH Type",
+      "title": "Precise Location Type",
       "type": "categorical"
     },
     {
       "key": "OutsideHomeRange",
-      "title": "Outside Home Range",
+      "title": "Out of Home Range",
       "type": "categorical"
     },
     {
@@ -46,14 +46,18 @@
     }
   ],
   "geo_resolutions": [
-    "PreciseLocation",
+    {
+      "key": "PreciseLocation",
+      "title": "Precise Location"
+    },
     "County"
   ],
+
   "display_defaults": {
     "map_triplicate": true,
     "color_by": "Host",
     "geo_resolution": "PreciseLocation",
-    "branch_label": "snps",
+    "branch_label": "SNP Distance",
     "panels": ["tree", "map"]
   },
   "filters": [
