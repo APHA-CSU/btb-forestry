@@ -260,12 +260,12 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
             if smallest == 1:
                 if smallest == A_counter:
                     base = "A"
-            if smallest == C_counter:
-                base = "C"
-            if smallest == G_counter:
-                base = "G"
-            if smallest == T_counter:
-                base = "T"
+                if smallest == C_counter:
+                    base = "C"
+                if smallest == G_counter:
+                    base = "G"
+                if smallest == T_counter:
+                    base = "T"
         else:
             base = "X"
         counter_2 = 0
