@@ -257,15 +257,15 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
                 break
             else:
                 smallest = 0
-            if smallest == 1:
-                if smallest == A_counter:
-                    base = "A"
-                if smallest == C_counter:
-                    base = "C"
-                if smallest == G_counter:
-                    base = "G"
-                if smallest == T_counter:
-                    base = "T"
+        if smallest == 1:
+            if smallest == A_counter:
+                base = "A"
+            if smallest == C_counter:
+                base = "C"
+            if smallest == G_counter:
+                base = "G"
+            if smallest == T_counter:
+                base = "T"
         else:
             base = "X"
         counter_2 = 0
@@ -328,7 +328,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
 # combine the unique snps and the samples csv to create a new score, done
 # similarly to above
 
-    final_df = pd.merge(df, SNP_df, how="outer")
+    final_df = pd.merge(df, final_snps_df, how="outer")
     final_df = final_df.fillna(0)
 
     end = []
@@ -346,7 +346,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
         if int(x["Unique SNP"]) <= 5:
             score = (float(x["Unique Ns"])) + float(non_unique_N) + (float(x["Unique SNP"])/15) + (float(x["Non-Unique SNP Score"])/5)
         elif int(x["Unique SNP"]) > 5:
-            score = (float(x["Unique Ns"])) + float(non_unique_N) + (float(x["Unique SNP"])/15) + (float(x["Non-Unique SNP Score"])) - (float(x["Minus"]))
+            score = (float(x["Unique Ns"])) + float(non_unique_N) + (float(x["Unique SNP"])/15) + (float(x["Non-Unique SNP Score"]))
         end.append(score)
 
     final_df["Score"] = end
