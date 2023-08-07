@@ -278,7 +278,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
             counter_2 = counter_2 + 1
 
         m = min(i if i > 1 else len(df_fin) for i in bases)
-        if m < len(df_fin)/2:
+        if bases.count(1) == 0 and sum(bases) == len(df_fin):
             non_unique_score = ((1/m)**2)
             if m == A_counter:
                 nonunique_base = "A"
