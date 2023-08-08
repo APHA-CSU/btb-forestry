@@ -258,7 +258,7 @@ workflow {
         .set {userMP}
 
     if( params.prod_run ){
-        backupProdData
+        backupProdData()
     }
 
     cleandata(inputCsv)
@@ -336,4 +336,5 @@ workflow {
     jsonExport(exportData)
 
     metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
+    
 }

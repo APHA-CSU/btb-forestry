@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+
+set -eo pipefail
 
 S3_PATH=$1
 TODAY=$2
@@ -18,5 +19,7 @@ TODAY=$2
     }
 }
 
+echo $TODAY
+
 # write metadata.json with today's date
-echo '{"today": ${TODAY}}' | jq . > metadata.json
+jq -n --arg jq_date $TODAY '{"today": $jq_date}' > metadata.json
