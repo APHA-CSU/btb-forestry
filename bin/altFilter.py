@@ -229,7 +229,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
     counter = -1
     length = len(df_fin["Sample Sequence"][0]) - 1
     unique_SNP_df = pd.DataFrame(columns=["Base Number", "Base", "Sample"])
-    non_unique_SNP_df = pd.DataFrame(columns=["Score","Base","Sample"])
+    non_unique_SNP_df = pd.DataFrame(columns=["Score", "Base", "Sample"])
 
     for y in range(length):
         counter = counter + 1
@@ -272,9 +272,9 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
         for x in df_fin["Sample Sequence"]:
             if x[counter] == base:
                 sample = counter_2
-                temp = {"Base Number":y+1,"Base":base,"Sample":counter_2}
+                temp = {"Base Number": y+1, "Base": base, "Sample": counter_2}
                 temp = pd.DataFrame([temp])
-                unique_SNP_df = pd.concat([temp,unique_SNP_df])
+                unique_SNP_df = pd.concat([temp, unique_SNP_df])
             counter_2 = counter_2 + 1
 
         m = min(i if i > 1 else len(df_fin) for i in bases)
@@ -294,11 +294,12 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
             for x in df_fin["Sample Sequence"]:
                 if x[counter] == nonunique_base:
                     sample = counter_2
-                    temp = {"Score":non_unique_score,"Base":nonunique_base,"Sample":counter_2}
+                    temp = {"Score": non_unique_score, "Base": nonunique_base,
+                            "Sample": counter_2}
                     temp = pd.DataFrame([temp])
-                    non_unique_SNP_df = pd.concat([temp,non_unique_SNP_df])
+                    non_unique_SNP_df = pd.concat([temp, non_unique_SNP_df])
                 counter_2 = counter_2 + 1
-    
+
     samples = unique_SNP_df["Sample"].tolist()
     samples.sort(reverse=False)
     unique = list(set(samples))
@@ -312,16 +313,16 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
     samples = non_unique_SNP_df["Sample"].tolist()
     samples.sort(reverse=False)
     unique = list(set(samples))
-    non_SNP_df = pd.DataFrame(columns=["Samples","Non-Unique SNP Score"])
+    non_SNP_df = pd.DataFrame(columns=["Samples", "Non-Unique SNP Score"])
     for x in unique:
         filtered_df = non_unique_SNP_df[non_unique_SNP_df['Sample'] == x]
         scores = filtered_df["Score"].tolist()
         freq = sum(scores)
-        temp = {"Samples":fasta_id[x],"Non-Unique SNP Score": freq}
+        temp = {"Samples": fasta_id[x], "Non-Unique SNP Score": freq}
         temp = pd.DataFrame([temp])
-        non_SNP_df = pd.concat([temp,non_SNP_df])
+        non_SNP_df = pd.concat([temp, non_SNP_df])
 
-    final_snps_df = pd.merge(non_SNP_df, SNP_df,how="outer")
+    final_snps_df = pd.merge(non_SNP_df, SNP_df, how="outer")
     final_snps_df = final_snps_df.fillna(0)
     final_snps_df.to_csv("Unique_SNP.csv", index=False)
 
@@ -344,9 +345,13 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
                 score_2 = score_2 + ((1/size)**2)
         non_unique_N = score_2
         if int(x["Unique SNP"]) <= 5:
-            score = (float(x["Unique Ns"])) + float(non_unique_N) + (float(x["Unique SNP"])/15) + (float(x["Non-Unique SNP Score"])/5)
+            score = ((float(x["Unique Ns"])) + float(non_unique_N) +
+                     (float(x["Unique SNP"])/15) +
+                     (float(x["Non-Unique SNP Score"])/5))
         elif int(x["Unique SNP"]) > 5:
-            score = (float(x["Unique Ns"])) + float(non_unique_N) + (float(x["Unique SNP"])/15) + (float(x["Non-Unique SNP Score"]))
+            score = ((float(x["Unique Ns"])) + float(non_unique_N) +
+                     (float(x["Unique SNP"])/15) +
+                     (float(x["Non-Unique SNP Score"])))
         end.append(score)
 
     final_df["Score"] = end
