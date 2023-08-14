@@ -198,16 +198,21 @@ process metadata2sqlite{
     """
 }
 
-//If running in production mode > backup the current production data
-process backupProdData {
+process forestryMetdata{
     publishDir "$publishDir/Metadata/", mode: 'copy'
     output:
         path('metadata.json')
     """
-    s3prod.sh ${params.outdir} ${params.today}       
+    forestMeta.sh ${params.today}
     """
 }
 
+//If running in production mode > backup the current production data
+process backupProdData {
+    """
+    s3prod.sh ${params.outdir}
+    """
+}
 
 workflow {
     // Concatenate all FinalOut csv files
@@ -257,10 +262,12 @@ workflow {
         .fromPath( params.userMP )
         .set {userMP}
 
+    forestryMetdata()
+
     if( params.prod_run ){
         backupProdData()
     }
-
+/*
     cleandata(inputCsv)
 
     sortmetadata(metadata, movements)
@@ -336,5 +343,5 @@ workflow {
     jsonExport(exportData)
 
     metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
-    
+*/    
 }
