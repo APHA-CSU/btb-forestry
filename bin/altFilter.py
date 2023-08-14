@@ -15,14 +15,12 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
     # import vcf data into dataframe, this is used to select the positions
     # for the N's
 
-    data = allel.vcf_to_dataframe(noc_vcf, fields='POS')
-    data_c = allel.vcf_to_dataframe(dashc_vcf, fields='POS')
+    data = pd.DataFrame(allel.vcf_to_dataframe(noc_vcf, fields='POS'))
+    data_c = pd.DataFrame(allel.vcf_to_dataframe(dashc_vcf, fields='POS'))
 
 # find the sites that have been lost in the -c, these sites contain a
 # sample that has a N
-    diff = pd.concat([data, data_c]).drop_duplicates(keep=False)\
-        .reset_index(drop=True)
-
+    diff = pd.concat([data, data_c]).drop_duplicates(keep=False).reset_index(drop=True)
 # get data required from the snp.fasta file (not -c) and tranform this
 # into a dataframe
 # this contains all of the fasta data for the samples set
