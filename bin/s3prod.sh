@@ -19,7 +19,5 @@ TODAY=$2
     }
 }
 
-echo $TODAY
-
 # write metadata.json with today's date
 jq -n --arg jq_date $TODAY '{"today": $jq_date}' > metadata.json
