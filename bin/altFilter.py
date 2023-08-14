@@ -24,6 +24,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
 # get data required from the snp.fasta file (not -c) and tranform this
 # into a dataframe
 # this contains all of the fasta data for the samples set
+    seq_record = []
     fasta_id = []
     fasta_seq = []
 
@@ -246,6 +247,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
                 T_counter = T_counter + 1
         bases = [A_counter, C_counter, G_counter, T_counter]
         bases.sort(reverse=False)
+        smallest = []
         for x in bases:
             if x == 0:
                 smallest = 0
@@ -255,6 +257,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
                 break
             else:
                 smallest = 0
+        base = []
         if smallest == 1:
             if smallest == A_counter:
                 base = "A"
@@ -331,6 +334,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
     final_df = final_df.fillna(0)
 
     end = []
+    score = []
     samples = final_df["Samples"]
     counter = 0
 
