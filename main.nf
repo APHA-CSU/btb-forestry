@@ -267,7 +267,7 @@ workflow {
     if( params.prod_run ){
         backupProdData()
     }
-/*
+
     cleandata(inputCsv)
 
     sortmetadata(metadata, movements)
@@ -343,5 +343,5 @@ workflow {
     jsonExport(exportData)
 
     metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
-*/    
+    
 }
