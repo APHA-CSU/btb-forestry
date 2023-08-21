@@ -200,6 +200,8 @@ process metadata2sqlite{
 
 //If running in production mode > backup the current production data
 process backupProdData {
+    output:
+        stdout 
     """
     s3prod.sh ${params.outdir}
     """
@@ -207,6 +209,8 @@ process backupProdData {
 
 process forestryMetdata{
     publishDir "$publishDir/Metadata/", mode: 'copy'
+    input:
+        val go    
     output:
         path('metadata.json')
     """
@@ -264,9 +268,10 @@ workflow {
 
     if( params.prod_run ){
         backupProdData()
+        forestryMetdata(backupProdData.out)
+    } else {
+        forestryMetdata(0)
     }
-
-    forestryMetdata()
 /*
     cleandata(inputCsv)
 
