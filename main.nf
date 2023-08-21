@@ -10,7 +10,6 @@ else{
     publishDir = "$params.outdir/btb-forest_${params.today}/"
 }
 
-
 //Add submission number and ensure single (highest quality) entry for each submission
 process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
@@ -214,7 +213,7 @@ process forestryMetdata{
     output:
         path('metadata.json')
     """
-    forestMeta.sh ${params.today} ${workflow.commitId}
+    forestMeta.sh ${params.today}
     """
 }
 
@@ -272,7 +271,7 @@ workflow {
     } else {
         forestryMetdata(0)
     }
-/*
+
     cleandata(inputCsv)
 
     sortmetadata(metadata, movements)
@@ -348,5 +347,4 @@ workflow {
     jsonExport(exportData)
 
     metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
-*/    
 }
