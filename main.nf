@@ -198,19 +198,19 @@ process metadata2sqlite{
     """
 }
 
+//If running in production mode > backup the current production data
+process backupProdData {
+    """
+    s3prod.sh ${params.outdir}
+    """
+}
+
 process forestryMetdata{
     publishDir "$publishDir/Metadata/", mode: 'copy'
     output:
         path('metadata.json')
     """
     forestMeta.sh ${params.today} ${workflow.commitId}
-    """
-}
-
-//If running in production mode > backup the current production data
-process backupProdData {
-    """
-    s3prod.sh ${params.outdir}
     """
 }
 
@@ -262,11 +262,11 @@ workflow {
         .fromPath( params.userMP )
         .set {userMP}
 
-    forestryMetdata()
-
     if( params.prod_run ){
         backupProdData()
     }
+
+    forestryMetdata()
 /*
     cleandata(inputCsv)
 
