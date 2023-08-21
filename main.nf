@@ -213,7 +213,7 @@ process forestryMetdata{
     output:
         path('metadata.json')
     """
-    forestMeta.sh ${params.today}
+    forestMeta.sh ${params.today} ${workflow.commitId}
     """
 }
 
@@ -272,6 +272,7 @@ workflow {
         forestryMetdata(0)
     }
 
+/*
     cleandata(inputCsv)
 
     sortmetadata(metadata, movements)
@@ -347,4 +348,5 @@ workflow {
     jsonExport(exportData)
 
     metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
+    */
 }
