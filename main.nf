@@ -3,7 +3,12 @@
 nextflow.enable.dsl=2
 
 //Define variables
-publishDir = "$params.outdir/btb-forest_${params.today}/"
+if( params.prod_run ){ 
+    publishDir = "$params.outdir/btb-forest_prod/"
+}
+else{
+    publishDir = "$params.outdir/btb-forest_${params.today}/"
+}
 
 //Add submission number and ensure single (highest quality) entry for each submission
 process cleandata {
@@ -192,6 +197,26 @@ process metadata2sqlite{
     """
 }
 
+//If running in production mode > backup the current production data
+process backupProdData {
+    output:
+        stdout 
+    """
+    s3prod.sh ${params.outdir}
+    """
+}
+
+process forestryMetdata{
+    publishDir "$publishDir/Metadata/", mode: 'copy'
+    input:
+        val go    
+    output:
+        path('metadata.json')
+    """
+    forestMeta.sh ${params.today} ${workflow.commitId}
+    """
+}
+
 workflow {
     // Concatenate all FinalOut csv files
     Channel
@@ -239,6 +264,13 @@ workflow {
     Channel
         .fromPath( params.userMP )
         .set {userMP}
+
+    if( params.prod_run ){
+        backupProdData()
+        forestryMetdata(backupProdData.out)
+    } else {
+        forestryMetdata(0)
+    }
 
     cleandata(inputCsv)
 

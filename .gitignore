@@ -4,3 +4,4 @@ work/
 bin/__pycache__/
 tests/__pycache__/
 .vscode/
+metadata.json
