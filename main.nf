@@ -203,7 +203,7 @@ process forestryMetdata{
     output:
         path('metadata.json')
     """
-    forestMeta.sh ${params.today}
+    forestMeta.sh ${params.today} ${workflow.commitId}
     """
 }
 
@@ -262,11 +262,11 @@ workflow {
         .fromPath( params.userMP )
         .set {userMP}
 
-    forestryMetdata()
-
     if( params.prod_run ){
         backupProdData()
     }
+
+    forestryMetdata()
 
     cleandata(inputCsv)
 
