@@ -216,17 +216,17 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
     df.to_csv("samples.csv", index=False)
 
 # count the number of unique SNPs that a sample has, done similarly to above
-    fasta_id = []
-    fasta_seq = []
-
-    for seq_record in SeqIO.parse(noc_fas, "fasta"):
-        fasta_id.append(seq_record.id)
-        fasta_seq.append(seq_record.seq._data)
-
-    df_fin = {"Sample ID": fasta_id, "Sample Sequence": fasta_seq}
-    df_fin = pd.DataFrame(data=df_fin)
+#    fasta_id = []
+#    fasta_seq = []
+#
+#    for seq_record in SeqIO.parse(noc_fas, "fasta"):
+#        fasta_id.append(seq_record.id)
+#        fasta_seq.append(seq_record.seq)
+#
+#    df_fin = {"Sample ID": fasta_id, "Sample Sequence": fasta_seq}
+#    df_fin = pd.DataFrame(data=df_fin)
     counter = -1
-    length = len(df_fin["Sample Sequence"][0]) - 1
+    length = len(seq_df["Sample Sequence"][0]) - 1
     unique_SNP_df = pd.DataFrame(columns=["Base Number", "Base", "Sample"])
     non_unique_SNP_df = pd.DataFrame(columns=["Score", "Base", "Sample"])
 
@@ -236,7 +236,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
         C_counter = 0
         G_counter = 0
         T_counter = 0
-        for x in df_fin["Sample Sequence"]:
+        for x in seq_df["Sample Sequence"]:
             if x[counter] == "A":
                 A_counter = A_counter + 1
             if x[counter] == "C":
@@ -270,7 +270,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
         else:
             base = "X"
         counter_2 = 0
-        for x in df_fin["Sample Sequence"]:
+        for x in seq_df["Sample Sequence"]:
             if x[counter] == base:
                 sample = counter_2
                 temp = {"Base Number": y+1, "Base": base, "Sample": counter_2}
@@ -278,8 +278,8 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
                 unique_SNP_df = pd.concat([temp, unique_SNP_df])
             counter_2 = counter_2 + 1
 
-        m = min(i if i > 1 else len(df_fin) for i in bases)
-        if bases.count(1) == 0 and sum(bases) == len(df_fin):
+        m = min(i if i > 1 else len(seq_df) for i in bases)
+        if bases.count(1) == 0 and sum(bases) == len(seq_df):
             non_unique_score = ((1/m)**2)
             if m == A_counter:
                 nonunique_base = "A"
@@ -292,7 +292,7 @@ def altFilter(noc_vcf, dashc_vcf, noc_fas, clade):
             else:
                 nonunique_base = "X"
             counter_2 = 0
-            for x in df_fin["Sample Sequence"]:
+            for x in seq_df["Sample Sequence"]:
                 if x[counter] == nonunique_base:
                     sample = counter_2
                     temp = {"Score": non_unique_score, "Base": nonunique_base,
