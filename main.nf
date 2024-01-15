@@ -181,14 +181,14 @@ process metadata2sqlite{
     publishDir "$publishDir/Metadata/", mode: 'copy'
     input:
         path('filteredWgsMeta.csv')
-        path('metadata.csv')
+        path('sortedMetadata.csv')
         path('movements.csv')
         path('locations.csv')
         path('all_excluded.csv')
     output:
         path('viewbovis.db')
     """
-    metadata2sqlite.py filteredWgsMeta.csv metadata.csv movements.csv locations.csv all_excluded.csv
+    metadata2sqlite.py filteredWgsMeta.csv sortedMetadata.csv movements.csv locations.csv all_excluded.csv
     """
 }
 
@@ -314,5 +314,5 @@ workflow {
 
     jsonExport(exportData)
 
-    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
+    metadata2sqlite(filteredWgsMeta, sortmetadata.out, movements, cphlocs, excluded.out)
 }
