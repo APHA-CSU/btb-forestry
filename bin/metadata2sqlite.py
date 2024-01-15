@@ -35,6 +35,7 @@ def convert_to_sqlite(wgs_metadata_path, metadata_path, movements_path,
                               dtype={"Submission": str, "Exclusion": str})
     df_excluded.to_sql("excluded", con=conn, if_exists="replace")
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('wgs_metadata_path',
