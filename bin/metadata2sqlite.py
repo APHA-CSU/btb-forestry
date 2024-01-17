@@ -21,6 +21,7 @@ def convert_to_sqlite(wgs_metadata_path, metadata_path, movements_path,
     # write metadata to sqlite db
     df_metadata = pd.read_csv(metadata_path, index_col="Submission",
                               dtype=str)
+    df_metadata.replace([' ', 'n/a'], 'NULL', inplace=True)
     df_metadata.to_sql("metadata", con=conn, if_exists="replace")
     # write movements to sqlite db
     df_movements = pd.read_csv(movements_path, index_col="Submission",
