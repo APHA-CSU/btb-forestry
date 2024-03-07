@@ -122,6 +122,7 @@ process cladematrix {
     maxForks 2
     tag "$clade"
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
+    publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'
     input:
         tuple val(clade), path('snp-only.fas')
     output:
