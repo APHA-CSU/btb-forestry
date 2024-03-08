@@ -10,6 +10,8 @@ else{
     publishDir = "$params.outdir/btb-forest_${params.today}/"
 }
 
+matrixCopy = "params.matrixdir/SNP_matrix_${params.today}/"
+
 //Add submission number and ensure single (highest quality) entry for each submission
 process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
@@ -120,6 +122,7 @@ process cladematrix {
     maxForks 2
     tag "$clade"
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
+    publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'
     input:
         tuple val(clade), path('snp-only.fas')
     output:
