@@ -10,7 +10,7 @@ else{
     publishDir = "$params.outdir/btb-forest_${params.today}/"
 }
 
-matrixCopy = "params.matrixdir/SNP_matrix_${params.today}/"
+matrixCopy = "$params.matrixdir/SNP_matrix_${params.today}/"
 
 //Add submission number and ensure single (highest quality) entry for each submission
 process cleandata {
