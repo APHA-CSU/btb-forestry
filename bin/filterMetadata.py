@@ -3,7 +3,6 @@
 # Filter metadata table
 
 import pandas as pd
-import numpy as np
 import argparse
 from datetime import date
 
@@ -33,12 +32,10 @@ def filter(metadata_csv, movement_csv):
     # Fix extra spaces and fill empty cells in metadata
     metadata_df = pd.read_csv(metadata_csv, dtype='object',
                               index_col='Submission')
-    metadata_df['CPH'].replace(' ', '', regex=True, inplace=True)
-    metadata_df['Gender'].replace(' ', '', regex=True, inplace=True)
-    metadata_df['Gender'].replace('N', '', regex=True, inplace=True)
-    metadata_df['Host'].replace('COW', 'BOVINE', regex=False, inplace=True)
-    metadata_df.replace(r'^\s*$', np.nan, regex=True, inplace=True)
-    metadata_df.fillna('NA', inplace=True)
+    metadata_df.replace({'CPH': ' ', 'Gender': ' '}, '', regex=True, inplace=True)
+    metadata_df.replace({'Gender': 'N'}, '', regex=True, inplace=True)
+    metadata_df.replace({'Host': 'COW'}, 'BOVINE', regex=False, inplace=True)
+    metadata_df.replace(r'^\s*$', 'NA', regex=True, inplace=True)
 
     # Indicate if there is a history of cattle movement (True/False)
     metadata_df['PreviousMovement'] = metadata_df.apply(
