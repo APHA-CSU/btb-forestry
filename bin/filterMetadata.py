@@ -35,7 +35,8 @@ def filter(metadata_csv, movement_csv):
     metadata_df.replace({'CPH': ' ', 'Gender': ' '}, '', regex=True, inplace=True)
     metadata_df.replace({'Gender': 'N'}, '', regex=True, inplace=True)
     metadata_df.replace({'Host': 'COW'}, 'BOVINE', regex=False, inplace=True)
-    metadata_df.replace(r'^\s*$', 'NA', regex=True, inplace=True)
+    metadata_df.replace({r'^\s*$', ''}, regex=True, inplace=True)
+    metadata_df.fillna('NA', inplace=True)
 
     # Indicate if there is a history of cattle movement (True/False)
     metadata_df['PreviousMovement'] = metadata_df.apply(
