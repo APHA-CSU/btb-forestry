@@ -17,21 +17,28 @@ def convert_to_sqlite(wgs_metadata_path, metadata_path, movements_path,
     # write filtered wgs metadata to sqlite db
     df_wgs_metadata = pd.read_csv(wgs_metadata_path, index_col="Submission",
                                   dtype=str)
+    df_wgs_metadata = pd.to_datetime(df_wgs_metadata['SlaughterDate', 'wsdBirthDate'])
     df_wgs_metadata.to_sql("wgs_metadata", con=conn, if_exists="replace")
+
     # write metadata to sqlite db
     df_metadata = pd.read_csv(metadata_path, index_col="Submission",
                               dtype=str)
+    df_metadata = pd.to_datetime(df_metadata['SlaughterDate', 'wsdBirthDate'])
     df_metadata.replace([' ', 'n/a'], 'NULL', inplace=True)
     df_metadata.fillna('NULL', inplace=True)
     df_metadata.to_sql("metadata", con=conn, if_exists="replace")
+
     # write movements to sqlite db
     df_movements = pd.read_csv(movements_path, index_col="Submission",
                                dtype=str)
+    df_movements = pd.to_datetime(df_movements['Loc_StartDate', 'Loc_EndDate'])
     df_movements.to_sql("movements", con=conn, if_exists="replace")
+
     # write lat-lon data to sqlite db
     df_locations = pd.read_csv(latlon_path, index_col="CPH",
                                dtype={"CPH": str, "Lat": float, "Long": float})
     df_locations.to_sql("latlon", con=conn, if_exists="replace")
+
     # write excluded samples data to sqlite db
     df_excluded = pd.read_csv(excluded_path, index_col="Submission",
                               dtype={"Submission": str, "Exclusion": str})
