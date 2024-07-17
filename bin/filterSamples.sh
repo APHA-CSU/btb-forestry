@@ -10,7 +10,7 @@ clade=$2
 today=$3
 maxN=$4
 outlierList=$5
-maxvar=3
+maxvar=10
 
 while IFS= read Sample
 do
