@@ -26,4 +26,4 @@ aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_conse
 cat *_consensus.fas > ${clade}_AllConsensus.fas
 rm *_consensus.fas
 snp-sites -c -o ${clade}_${today}_snp-only.fas ${clade}_AllConsensus.fas
-rm *_AllConsensus.fas
+# rm *_AllConsensus.fas
