@@ -257,7 +257,7 @@ workflow {
 
     Channel.fromPath( params.cladeinfo )
         .splitCsv(header:true)
-        .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
+        .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc, row.parsite) }
         .set {cladeInfo}
     
     Channel

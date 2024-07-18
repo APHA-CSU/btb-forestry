@@ -7,6 +7,7 @@ clade=$2
 today=$3
 outGroup=$4
 outGroupLoc=$5
+parsite=$6
 
 
 # Collects and concatenates all consensus fasts files in the given input list
