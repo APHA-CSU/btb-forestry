@@ -109,7 +109,7 @@ process cladesnps {
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
     input:
-        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc)
+        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
     """
