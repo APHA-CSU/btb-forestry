@@ -5,7 +5,7 @@ import numpy as np
 import argparse
 
 
-def calcBranchMean(matrix_csv, Ncount, outgroup):
+def calcMatrixStats(matrix_csv, Ncount, outgroup):
     matrix_df = pd.read_csv(matrix_csv, index_col="snp-dists 0.8.2")
     # get min and max outgroup branch length
     nz_df = matrix_df[matrix_df != 0]
@@ -24,6 +24,7 @@ def calcBranchMean(matrix_csv, Ncount, outgroup):
     # calculate mean of non-zero values
     nz = (np.count_nonzero(noOGmatrix)/2)
     meanNZlength = totalLength/nz
+
     print(ogbranch, maxfromOG, Ncount, meanLength, meanNZlength)
 
 
@@ -35,4 +36,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    calcBranchMean(**vars(args))
+    calcMatrixStats(**vars(args))
