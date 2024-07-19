@@ -7,6 +7,9 @@ import argparse
 
 def calcBranchMean(matrix_csv, Ncount, outgroup):
     matrix_df = pd.read_csv(matrix_csv, index_col="snp-dists 0.8.2")
+    # get outgroup branch length
+    nz_df = matrix_df[matrix_df != 0]
+    ogbranch = nz_df[outgroup].min()
     # remove outgroup row and column
     noOGmatrix = matrix_df.drop(index=[outgroup], columns=[outgroup])
     # sum all non-zero values in each row
@@ -20,7 +23,7 @@ def calcBranchMean(matrix_csv, Ncount, outgroup):
     # calculate mean of non-zero values
     nz = (np.count_nonzero(noOGmatrix)/2)
     meanNZlength = totalLength/nz
-    print(Ncount, meanLength, meanNZlength)
+    print(ogbranch, Ncount, meanLength, meanNZlength)
 
 
 if __name__ == '__main__':
