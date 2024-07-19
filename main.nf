@@ -111,7 +111,7 @@ process cladesnps {
     input:
         tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
-        tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
+        tuple val(clade), path("${clade}_${params.today}_snp-only.fas"), path("${clade}_${params.today}_warnings.txt), optional: true
     """
     concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc $parsite
     """
