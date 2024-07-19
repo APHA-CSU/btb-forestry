@@ -32,3 +32,6 @@ snp-sites -c -o ${clade}_${today}_snp-only.fas ${clade}_AllConsensus.fas
 # Determine number of samples and SNPs in clade
 sam_snp=$(awk '!/^>/ {print length}' ${clade}_${today}_snp-only.fas | uniq -c | sed 's/^ *//')
 IFS=' ' read -r numsam numsnp <<< $sam_snp
+if [$numsnp -lt $parsite]; then
+    echo 'Reduced diversity!' > ${clade}_${today}_warnings.txt
+fi
