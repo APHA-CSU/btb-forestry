@@ -66,7 +66,7 @@ process filterSamples{
     tag "$clade"
     publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
     input:
-        tuple val(clade), path('Pass.csv'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
+        tuple val(clade), path('Pass.csv'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite), path ('outliers.txt')
     output:
         tuple val(clade), path('*_samplelist.csv'), emit: includedSamples
         path('*_highN.csv'), emit: excludedSamples
@@ -107,7 +107,7 @@ process cladesnps {
     maxRetries 2
     maxForks 6
     tag "$clade"
-    publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
+    publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas', pattern: '*_warnings.txt'
     input:
         tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
@@ -151,7 +151,7 @@ process refinetrees {
     tag "$clade"
     publishDir "$publishDir/augurTrees/", mode: 'copy'
     input:
-        tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
+        tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), val(parsite), path("snp-only.fas")
     output:
         tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
     """
