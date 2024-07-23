@@ -36,8 +36,6 @@ def calcMatrixStats(matrix_csv, Ncount, outgroup, clade):
         stats = [ogbranch, maxfromOG, Ncount, meanLength, meanNZlength]
         writer.writerow(header)
         writer.writerow(stats)
-        # print(ogbranch, maxfromOG, Ncount, meanLength, meanNZlength, file=f)
-        # NOT CSV....
 
 
 if __name__ == '__main__':
