@@ -4,9 +4,13 @@ import pandas as pd
 import numpy as np
 import argparse
 import csv
+from datetime import date
 
 
-def calcMatrixStats(matrix_csv, Ncount, outgroup):
+def calcMatrixStats(matrix_csv, Ncount, outgroup, clade):
+
+    date_out = date.today().strftime('%d%b%y')
+
     matrix_df = pd.read_csv(matrix_csv, index_col="snp-dists 0.8.2")
     # get min and max outgroup branch length
     nz_df = matrix_df[matrix_df != 0]
@@ -26,7 +30,7 @@ def calcMatrixStats(matrix_csv, Ncount, outgroup):
     nz = (np.count_nonzero(noOGmatrix)/2)
     meanNZlength = totalLength/nz
 
-    with open('matrixStats.csv', 'w') as statscsv:
+    with open('{}_{}_matrixStats.csv'.format(clade, date_out), 'w') as statscsv:
         writer = csv.writer(statscsv)
         header = ['OutgroupBranchLength', 'MaxBranchLength', 'Ncount', 'MeanBranchLength', 'MeanNonZeroBranchLength']
         stats = [ogbranch, maxfromOG, Ncount, meanLength, meanNZlength]
@@ -41,6 +45,7 @@ if __name__ == '__main__':
     parser.add_argument('matrix_csv', help='path to matrix.csv')
     parser.add_argument('Ncount', help='Ncount threshold for clade')
     parser.add_argument('outgroup', help='outgroup sample for clade')
+    parser.add_argument('clade', help='clade identifier')
 
     args = parser.parse_args()
 
