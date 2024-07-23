@@ -3,6 +3,7 @@
 import pandas as pd
 import numpy as np
 import argparse
+import csv
 
 
 def calcMatrixStats(matrix_csv, Ncount, outgroup):
@@ -25,7 +26,14 @@ def calcMatrixStats(matrix_csv, Ncount, outgroup):
     nz = (np.count_nonzero(noOGmatrix)/2)
     meanNZlength = totalLength/nz
 
-    print(ogbranch, maxfromOG, Ncount, meanLength, meanNZlength)
+    with open('matrixStats.csv', 'w') as statscsv:
+        writer = csv.writer(statscsv)
+        header = ['OutgroupBranchLength', 'MaxBranchLength', 'Ncount', 'MeanBranchLength', 'MeanNonZeroBranchLength']
+        stats = [ogbranch, maxfromOG, Ncount, meanLength, meanNZlength]
+        writer.writerow(header)
+        writer.writerow(stats)
+        # print(ogbranch, maxfromOG, Ncount, meanLength, meanNZlength, file=f)
+        # NOT CSV....
 
 
 if __name__ == '__main__':
