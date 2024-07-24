@@ -124,11 +124,11 @@ process cladematrix {
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
     publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'
     input:
-        tuple val(clade), path('snp-only.fas')
+        tuple val(clade), path('snp-only.fas'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
         tuple val(clade), path("${clade}_${params.today}_matrix.csv")
     """
-    buildmatrix.sh snp-only.fas $clade ${params.today}
+    buildmatrix.sh snp-only.fas $clade ${params.today} $maxN $outGroup
     """
 }
 
@@ -317,7 +317,11 @@ workflow {
 
     cladesnps(cladeSamples)
 
-    cladematrix(cladesnps.out)
+    cladesnps.out
+        .join(cladeInfo)
+        .set {matrixinput}
+
+    cladematrix(matrixinput)
 
     cladesnps.out
         .combine(maxP200x)
