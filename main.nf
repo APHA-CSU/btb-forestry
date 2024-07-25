@@ -112,7 +112,8 @@ process cladesnps {
     input:
         tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
-        tuple val(clade), path("${clade}_${params.today}_snp-only.fas"), path("${clade}_${params.today}_warnings.txt"), optional: true
+        tuple val(clade), path("${clade}_${params.today}_snp-only.fas"), emit: snpfasta
+        path("${clade}_${params.today}_warnings.txt"), optional: true, emit: warnings
     """
     concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc $parsite
     """
@@ -318,13 +319,13 @@ workflow {
 
     cladesnps(cladeSamples)
 
-    cladesnps.out
+    snpfasta
         .join(cladeInfo)
         .set {matrixinput}
 
     cladematrix(matrixinput)
 
-    cladesnps.out
+    snpfasta
         .combine(maxP200x)
         .combine(userMP)
         .set { megainput }
@@ -333,13 +334,13 @@ workflow {
 
     growtrees.out
         .join(cladeInfo)
-        .join(cladesnps.out)
+        .join(snpfasta)
         .set { treedata }
 
     refinetrees(treedata)
 
     refinetrees.out
-        .join(cladesnps.out)
+        .join(snpfasta)
         .set { treesnps }
     
     ancestor(treesnps)
