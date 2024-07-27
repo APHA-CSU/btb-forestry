@@ -113,7 +113,7 @@ process cladesnps {
         tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
         tuple val(clade), path("${clade}_${params.today}_snp-only.fas"), emit: snpfasta
-        path("${clade}_${params.today}_warnings.txt"), optional: true, emit: warnings
+        path("*_warnings.txt"), optional: true, emit: warnings
     """
     concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc $parsite
     """
@@ -124,13 +124,14 @@ process cladematrix {
     maxForks 2
     tag "$clade"
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
-    publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'
+    //publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'
     input:
         tuple val(clade), path('snp-only.fas'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
-        tuple val(clade), path("${clade}_${params.today}_matrix.csv")
+        tuple val(clade), path("${clade}_${params.today}_matrix.csv"), path("${clade}_${params.today}_matrixStats.csv")
     """
     buildmatrix.sh snp-only.fas $clade ${params.today} $maxN $outGroup
+    matrixStats.py *_matrix.csv $maxN $outGroup $clade
     """
 }
 
@@ -319,13 +320,13 @@ workflow {
 
     cladesnps(cladeSamples)
 
-    snpfasta
+    cladesnps.out.snpfasta
         .join(cladeInfo)
         .set {matrixinput}
 
     cladematrix(matrixinput)
 
-    snpfasta
+    cladesnps.out.snpfasta
         .combine(maxP200x)
         .combine(userMP)
         .set { megainput }
@@ -334,13 +335,13 @@ workflow {
 
     growtrees.out
         .join(cladeInfo)
-        .join(snpfasta)
+        .join(cladesnps.out.snpfasta)
         .set { treedata }
 
     refinetrees(treedata)
 
     refinetrees.out
-        .join(snpfasta)
+        .join(cladesnps.out.snpfasta)
         .set { treesnps }
     
     ancestor(treesnps)

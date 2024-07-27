@@ -13,4 +13,4 @@ outGroup=$5
 
 ~/snp-dists/snp-dists -c $snponlyfasta > ${clade}_${today}_matrix.csv
 
-$projectDir/bin/matrixStats.py ${clade}_${today}_matrix.csv ${maxN} ${outGroup} ${clade}
+#$projectDir/bin/matrixStats.py ${clade}_${today}_matrix.csv ${maxN} ${outGroup} ${clade}
