@@ -128,7 +128,7 @@ process cladematrix {
     input:
         tuple val(clade), path('snp-only.fas'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
-        tuple val(clade), path("${clade}_${params.today}_matrix.csv"), path("${clade}_${params.today}_matrixStats.csv")
+        tuple val(clade), path("*_matrix.csv"), path("*_matrixStats.csv")
     """
     buildmatrix.sh snp-only.fas $clade ${params.today} $maxN $outGroup
     matrixStats.py *_matrix.csv $maxN $outGroup $clade
