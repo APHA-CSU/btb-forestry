@@ -33,6 +33,6 @@ rm *_AllConsensus.fas
 sam_snp=$(awk '!/^>/ {print length}' ${clade}_${today}_snp-only.fas | uniq -c | sed 's/^ *//')
 IFS=' ' read -r numsam numsnp <<< $sam_snp
 if (($numsnp < $parsite)); then
-    echo 'Reduced diversity!' > ${clade}_${today}_warnings.txt
+    echo "Reduced diversity!: Expected $parsite, but only $numsnp SNPs for ${clade}" > ${clade}_${today}_warnings.txt
 fi
  
