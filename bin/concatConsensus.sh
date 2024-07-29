@@ -34,5 +34,7 @@ sam_snp=$(awk '!/^>/ {print length}' ${clade}_${today}_snp-only.fas | uniq -c | 
 IFS=' ' read -r numsam numsnp <<< $sam_snp
 if (($numsnp < $parsite)); then
     echo "Reduced diversity!: Expected $parsite, but only $numsnp SNPs for ${clade}" > ${clade}_${today}_warnings.txt
+else
+    echo "$numsnp SNPs for ${clade}" > ${clade}_${today}_snpcount.txt
 fi
  
