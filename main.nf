@@ -108,7 +108,7 @@ process cladesnps {
     maxForks 6
     tag "$clade"
     publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
-    publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_warnings.txt'
+    publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*.txt'
     input:
         tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc), val(parsite)
     output:
