@@ -22,7 +22,7 @@ export AUGUR_RECURSION_LIMIT=10000
 
 augur export v2 -t $nwktree \
             --metadata $metadata \
-            --node-data $phylojson $ntmutsjson \
+            --node-data $phylojson \
             --auspice-config $configjson \
             --lat-longs $locations \
             --panels tree map \
