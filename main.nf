@@ -159,7 +159,7 @@ process refinetrees {
     """
 }
 
-process ancestor {
+/*process ancestor {
     errorStrategy 'ignore'
     tag "$clade"
     publishDir "$publishDir/augurMuts/", mode: 'copy'
@@ -170,18 +170,18 @@ process ancestor {
     """
     augurAncestral.sh $clade ${params.today} snp-only.fas MP-rooted.nwk
     """
-}
+}*/
 
 process jsonExport {
     errorStrategy 'ignore'
     tag "$clade"
     publishDir "$publishDir/jsonExport/", mode: 'copy'
     input:
-        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path("nt-muts.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
+        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
     output:
         tuple val(clade), path("*.json")
     """
-    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json nt-muts.json metadata.csv locations.tsv config.json custom-colours.tsv
+    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json metadata.csv locations.tsv config.json custom-colours.tsv
     """
 }
 
@@ -337,10 +337,10 @@ workflow {
         .join(cladesnps.out)
         .set { treesnps }
     
-    ancestor(treesnps)
+    //ancestor(treesnps)
 
     refinetrees.out
-        .join(ancestor.out)
+        //.join(ancestor.out)
         .join(cladeMetadata.out)
         .combine(locations.out)
         .combine(auspiceconfig)
