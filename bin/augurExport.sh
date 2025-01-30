@@ -6,11 +6,10 @@ clade=$1
 today=$2
 nwktree=$3 
 phylojson=$4
-ntmutsjson=$5
-metadata=$6
-locations=$7
-configjson=$8
-colors=$9
+metadata=$5
+locations=$6
+configjson=$7
+colors=$8
 
 export AUGUR_RECURSION_LIMIT=10000
 
