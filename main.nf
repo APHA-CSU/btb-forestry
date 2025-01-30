@@ -2,16 +2,6 @@
 
 nextflow.enable.dsl=2
 
-//Define variables
-if( params.prod_run ){ 
-    publishDir = "$params.outdir/btb-forest_prod/"
-}
-else{
-    publishDir = "$params.outdir/btb-forest_${params.today}/"
-}
-
-matrixCopy = "$params.matrixdir/SNP_matrix_${params.today}/"
-
 //Add submission number and ensure single (highest quality) entry for each submission
 process cleandata {
     publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
@@ -226,6 +216,17 @@ workflow {
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
         .set {inputCsv}
+
+    //Define variables
+        if( params.prod_run ){ 
+            publishDir = "$params.outdir/btb-forest_prod/"
+        }
+        else{
+            publishDir = "$params.outdir/btb-forest_${params.today}/"
+        }
+
+        matrixCopy = "$params.matrixdir/SNP_matrix_${params.today}/"
+
 
     Channel
         .fromPath( params.metadata )
