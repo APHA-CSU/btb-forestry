@@ -18,5 +18,4 @@ augur refine -t $inputtree \
             --root $outGroup \
             --output-tree ${clade}_${today}_MP-rooted.nwk \
             --output-node-data ${clade}_${today}_phylo.json \
-            --divergence-units mutations \
             --branch-length-inference input
