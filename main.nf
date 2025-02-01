@@ -10,7 +10,7 @@ nextflow.enable.dsl=2
             publishDir = "$params.outdir/btb-forest_${params.today}/"
         }
 
-        //matrixCopy = "$params.matrixdir/SNP_matrix_${params.today}/"
+        matrixCopy = "$params.matrixdir/SNP_matrix_${params.today}/"
     
 
 //Add submission number and ensure single (highest quality) entry for each submission
@@ -131,7 +131,7 @@ process cladematrix {
     maxForks 2
     tag "$clade"
     publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
-    /*publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'*/
+    publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'
     input:
         tuple val(clade), path('snp-only.fas')
     output:
@@ -170,19 +170,6 @@ process refinetrees {
     augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
     """
 }
-
-/*process ancestor {
-    errorStrategy 'ignore'
-    tag "$clade"
-    publishDir "$publishDir/augurMuts/", mode: 'copy'
-    input:
-        tuple val(clade), path("MP-rooted.nwk"), path("*_phylo.json"), path("snp-only.fas")
-    output:
-        tuple val(clade), path("*_nt-muts.json")
-    """
-    augurAncestral.sh $clade ${params.today} snp-only.fas MP-rooted.nwk
-    """
-}*/
 
 process jsonExport {
     errorStrategy 'ignore'
@@ -351,14 +338,7 @@ workflow {
 
     refinetrees(treedata)
 
-    /*refinetrees.out
-        .join(cladesnps.out)
-        .set { treesnps }
-    
-    ancestor(treesnps)*/
-
     refinetrees.out
-        //.join(ancestor.out)
         .join(cladeMetadata.out)
         .combine(locations.out)
         .combine(auspiceconfig)
