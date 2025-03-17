@@ -21,14 +21,15 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     libsqlite3-dev \
     python3-pip \
     snp-sites \
-    jq
+    jq \
+    pipx
 
 ################## INSTALL DEPENDANCIES ###################
 
 # augur
 RUN git clone https://github.com/APHA-CSU/augur.git && \
     cd augur && \
-    python3 -m pip install .
+    pipx install .
 
 # aws-cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
