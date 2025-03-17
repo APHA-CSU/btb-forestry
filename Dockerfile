@@ -1,8 +1,8 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ####################### METADATA ##########################
 LABEL Maintainer="Richard Ellis <richard.ellis@apha.gov.uk>"
-LABEL base.image=ubuntu:22.04
+LABEL base.image=ubuntu:24.04
 LABEL software="bTB-foresty"
 LABEL about.documentation="https://github.com/APHA-CSU/bTB-foresty"
 
