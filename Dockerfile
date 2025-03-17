@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     zlib1g-dev \
     libsqlite3-dev \
     python3-pip \
-    snp-sites
+    snp-sites \
+    jq
 
 ################## INSTALL DEPENDANCIES ###################
 
