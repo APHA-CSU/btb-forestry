@@ -28,9 +28,12 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
 ################## INSTALL DEPENDANCIES ###################
 
 # augur
+### need to add symlink to /root/.local/share/pipx/venvs/nextstrain-augur/bin/augur
 RUN git clone https://github.com/APHA-CSU/augur.git && \
     cd augur && \
-    pipx install .
+    pipx install . && \
+    cd /usr/bin && \
+    ln -s /root/.local/share/pipx/venvs/nextstrain-augur/bin/augur augur 
 
 # aws-cli
 RUN curl -k "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
