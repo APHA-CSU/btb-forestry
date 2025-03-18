@@ -17,9 +17,9 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     git \
     make \
     python3-dev \
+    python3-pandas \
     zlib1g-dev \
     libsqlite3-dev \
-    python3-pip \
     snp-sites \
     jq \
     pipx \
