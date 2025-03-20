@@ -17,12 +17,13 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     git \
     make \
     python3-dev \
+    python3-venv \
     python3-pandas \
     zlib1g-dev \
     libsqlite3-dev \
     snp-sites \
     jq \
-    pipx \
+    pip \
     libdbus-glib-1-2
 
 ################## INSTALL DEPENDANCIES ###################
@@ -31,9 +32,9 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
 ### need to add symlink to /root/.local/share/pipx/venvs/nextstrain-augur/bin/augur
 RUN git clone https://github.com/APHA-CSU/augur.git && \
     cd augur && \
-    pipx install . && \
-    cd /usr/bin && \
-    ln -s /root/.local/share/pipx/venvs/nextstrain-augur/bin/augur augur 
+    python3 -m venv /usr/local/libexec/augur && \
+    /usr/local/libexec/augur/bin/pip install . && \
+    ln -s /usr/local/libexec/augur/bin/augur /usr/local/bin/augur
 
 # aws-cli
 RUN curl -k "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
