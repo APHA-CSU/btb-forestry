@@ -29,7 +29,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
 ################## INSTALL DEPENDANCIES ###################
 
 # augur
-### need to add symlink to /root/.local/share/pipx/venvs/nextstrain-augur/bin/augur
+# install in python venv and generate symlink
 RUN git clone https://github.com/APHA-CSU/augur.git && \
     cd augur && \
     python3 -m venv /usr/local/libexec/augur && \
