@@ -1,2 +1,0 @@
-Submission,name,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc,Clade,Identifier,Host,Animal_Type,SlaughterDate,PreciseLocation,CPH_Type,County,RiskArea,Loc0,OutsideHomeRange,Gender,wsdBirthDate,Disclosing_Test,Import_Country,PreviousMovement,MoveCount
-AF-12-00180-21,AF-12-00180-21,99.94,51.05,99.51,B5-11,51548,s3://s3-csu-003/v3-2/Results_10309_27Jun22/,,,,,,,,,,,,,,,,,
