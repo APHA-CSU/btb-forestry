@@ -1,236 +1,60 @@
 #!/usr/bin/env nextflow
 
 nextflow.enable.dsl=2
-
-    //Define variables
-        if( params.prod_run ){ 
-            publishDir = "$params.outdir/btb-forest_prod/"
-        }
-        else{
-            publishDir = "$params.outdir/btb-forest_${params.today}/"
-        }
-
-        matrixCopy = "$params.matrixdir/SNP_matrix_${params.today}/"
     
+// Default values for required parameters
+params.pathTocsv = "$PWD/**/*FinalOut*.csv"
+params.metadata = "$PWD/metadata.csv"
+params.movements = "$PWD/movements.csv"
+params.locations = "$PWD/locations.csv"
+params.auspiceconfig = "$projectDir/accessory/auspice_config.json"
+params.colours = "$projectDir/accessory/custom-colours.tsv"
+params.counties = "$projectDir/accessory/counties.tsv"
+params.outliers = "$projectDir/accessory/outliers.txt"
+params.cladeinfo = "$projectDir/accessory/CladeInfo.csv"
+params.today = new Date().format('ddMMMYY')
+params.outdir = "$PWD"
+params.homedir = "$HOME"
+params.prod_run = false
+params.matrixdir = "$PWD/matrixcopy"
 
-//Add submission number and ensure single (highest quality) entry for each submission
-process cleandata {
-    publishDir "$publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
-    input:
-        path ('concat.csv')
-    output:
-        path ('bTB_Allclean_*.csv')
-    script:
-    """
-    addsub.sh concat.csv
-    cleanNuniq.sh withsub.csv ${params.today}
-    """
-}
+// Location of megacc analysis options (.mao) files 
+params.maxP200x = "$projectDir/accessory/infer_MP_nucleotide_200x.mao"
+params.userMP = "$projectDir/accessory/analyze_user_tree_MP__nucleotide.mao"
 
-//Sort metadata csv and retain single line for each submission
-process sortmetadata {
-    input:
-        path ('metadata.csv')
-        path ('movements.csv')
-    output:
-        path ('sortedMetadata_*.csv')
-    script:
-    """
-    filterMetadata.py metadata.csv movements.csv
-    """
-}
+// Derived params so modules can read them
+params.publishDir = params.prod_run
+  ? "${params.outdir}/btb-forest_prod/"
+  : "${params.outdir}/btb-forest_${params.today}/"
 
-//Combines warehouse export of locations with exisiting county locations and 
-//format correctly for Nextstrain
-process locations {
-    input:
-        path ('locations.csv')
-        path ('counties.tsv')
-    output:
-        path ('allLocations_*.tsv')
-    script:
-    """
-    formatLocations.py locations.csv counties.tsv
-    """
-}
+params.matrixCopy = "${params.matrixdir}/SNP_matrix_${params.today}/"
 
-//Splits the main csv based on 'group (clade)' and 'outcome' columns
-process splitclades {
-    input:
-        path ('clean.csv')
-    output:
-        path('B*_Pass.csv'), emit: passSamples
-    script:
-    """
-    splitClades.sh clean.csv
-    """
-}
+        
+/* set modules */
 
-//Tidy up and filter list of samples for each clade
-process filterSamples{
-    tag "$clade"
-    publishDir "$publishDir/SampleLists/", mode: 'copy', pattern: '*_samplelist.csv'
-    input:
-        tuple val(clade), path('Pass.csv'), val(maxN), val(outGroup), val(outGroupLoc), path ('outliers.txt')
-    output:
-        tuple val(clade), path('*_samplelist.csv'), emit: includedSamples
-        path('*_highN.csv'), emit: excludedSamples
-    script:
-    """
-    filterSamples.sh Pass.csv $clade ${params.today} $maxN outliers.txt
-    """
-}
-
-//Collect list of excluded samples
-process excluded{
-    publishDir "$publishDir", mode: 'copy', pattern: 'allExcluded_*.csv'
-    input:
-        path('Allclean.csv')
-        path('highN.csv')
-        path('outliers.txt')
-    output:
-        path('allExcluded_*.csv')
-    script:
-    """
-    listExcluded.py Allclean.csv highN.csv outliers.txt
-    """
-}
-
-//Split metadata into separate files for each clade
-process cladeMetadata{
-    tag "$clade"
-    publishDir "$publishDir/Metadata/", mode: 'copy', pattern: '*_metadata_*.csv'
-    input:
-        tuple val(clade), path('cladelist.csv'), path('sortedmetadata.csv')
-    output:
-        tuple val(clade), path('*_metadata_*.csv')
-    script:
-    """
-    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade
-    """
-}
-
-process cladesnps {
-    errorStrategy 'retry'
-    maxRetries 2
-    maxForks 6
-    tag "$clade"
-    publishDir "$publishDir/snp-fasta/", mode: 'copy', pattern: '*_snp-only.fas'
-    input:
-        tuple val(clade), path('clade.lst'), val(maxN), val(outGroup), val(outGroupLoc)
-    output:
-        tuple val(clade), path("${clade}_${params.today}_snp-only.fas")
-    script:
-    """
-    concatConsensus.sh clade.lst $clade ${params.today} $outGroup $outGroupLoc
-    """
-}
-
-process cladematrix {
-    errorStrategy 'ignore'
-    maxForks 2
-    tag "$clade"
-    publishDir "$publishDir/snp-matrix/", mode: 'copy', pattern: '*.csv'
-    publishDir "$matrixCopy/", mode: 'copy', pattern: '*.csv'
-    input:
-        tuple val(clade), path('snp-only.fas')
-    output:
-        tuple val(clade), path("${clade}_${params.today}_matrix.csv")
-    script:
-    """
-    buildmatrix.sh snp-only.fas $clade ${params.today}
-    """
-}
-
-process growtrees {
-    errorStrategy 'ignore'
-    maxForks 2
-    cpus 4
-    tag "$clade"
-    input:
-        tuple val(clade), path('snp-only.fas'), path('maxP200x.mao'), path('userMP.mao')
-    output:
-        tuple val(clade), path("*_MP.nwk")
-    script:
-    """
-    megatree.sh snp-only.fas $clade ${params.today} maxP200x.mao userMP.mao
-    """
-}
-
-process refinetrees {
-    errorStrategy 'ignore'
-    tag "$clade"
-    publishDir "$publishDir/augurTrees/", mode: 'copy'
-    input:
-        tuple val(clade), path("MP.nwk"), val(maxN), val(outGroup), val(outGroupLoc), path("snp-only.fas")
-    output:
-        tuple val(clade), path("*_MP-rooted.nwk"), path("*_phylo.json")
-    script:
-    """
-    augurRefine.sh $clade ${params.today} $outGroup snp-only.fas MP.nwk
-    """
-}
-
-process jsonExport {
-    errorStrategy 'ignore'
-    tag "$clade"
-    publishDir "$publishDir/jsonExport/", mode: 'copy'
-    input:
-        tuple val(clade), path("MP-rooted.nwk"), path("phylo.json"), path('metadata.csv'), path('locations.tsv'), path('config.json'), path('custom-colours.tsv')
-    output:
-        tuple val(clade), path("*.json")
-    script:
-    """
-    augurExport.sh $clade ${params.today} MP-rooted.nwk phylo.json metadata.csv locations.tsv config.json custom-colours.tsv
-    """
-}
-
-process metadata2sqlite{
-    publishDir "$publishDir/Metadata/", mode: 'copy'
-    input:
-        path('filteredWgsMeta.csv')
-        path('metadata.csv')
-        path('movements.csv')
-        path('locations.csv')
-        path('all_excluded.csv')
-    output:
-        path('viewbovis.db')
-    script:
-    """
-    metadata2sqlite.py filteredWgsMeta.csv metadata.csv movements.csv locations.csv all_excluded.csv
-    """
-}
-
-//If running in production mode > backup the current production data
-process backupProdData {
-    output:
-        stdout 
-    script:
-    """
-    s3prod.sh ${params.outdir}
-    """
-}
-
-process forestryMetdata{
-    publishDir "$publishDir/Metadata/", mode: 'copy'
-    input:
-        val go    
-    output:
-        path('metadata.json')
-    script:
-    """
-    forestMeta.sh ${params.today} ${workflow.commitId}
-    """
-}
+include { BACKUP_PROD_DATA } from './modules/backupprod'
+include { CLADE_MATRIX } from './modules/cladematrix'
+include { CLADE_META_DATA } from './modules/clademetadata'
+include { CLADE_SNPS } from './modules/cladesnps'
+include { CLEAN_DATA } from './modules/cleandata'
+include { EXCLUDED } from './modules/excluded'
+include { FILTER_SAMPLES } from './modules/filtersamples'
+include { FORESTRY_META_DATA } from './modules/forestrymetadata'
+include { GROW_TREES } from './modules/growtrees'
+include { JSON_EXPORT } from './modules/jsonexport'
+include { LOCATIONS } from './modules/locations'
+include { METADATA_2_SQLITE } from './modules/metadata2sqlite'
+include { REFINE_TREES } from './modules/refinetrees'
+include { SORT_META_DATA } from './modules/sortmetadata'
+include { SPLIT_CLADES } from './modules/splitclades'
 
 workflow {
     // Concatenate all FinalOut csv files
+    
     Channel
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
         .set {inputCsv}
-
-    
 
     Channel
         .fromPath( params.metadata )
@@ -274,21 +98,19 @@ workflow {
         .set {userMP}
 
     if( params.prod_run ){
-        backupProdData()
-        forestryMetdata(backupProdData.out)
-    } else {
-        forestryMetdata(0)
-    }
+        BACKUP_PROD_DATA()
+        FORESTRY_META_DATA(BACKUP_PROD_DATA.out)
+    } 
 
-    cleandata(inputCsv)
+    CLEAN_DATA(inputCsv)
 
-    sortmetadata(metadata, movements)
+    SORT_META_DATA(metadata, movements)
 
-    locations(cphlocs, counties)
+    LOCATIONS(cphlocs, counties)
 
-    splitclades(cleandata.out)
+    SPLIT_CLADES(CLEAN_DATA.out)
 
-    splitclades.out.passSamples
+    SPLIT_CLADES.out.passSamples
         .flatMap()
         .map { file -> def key = file.name.toString().tokenize('_').get(0) 
         return tuple (key, file) 
@@ -297,55 +119,55 @@ workflow {
         .combine(outlierList)
         .set{ cladelists }
     
-    filterSamples(cladelists)
+    FILTER_SAMPLES(cladelists)
     
-    filterSamples.out.includedSamples
+    FILTER_SAMPLES.out.includedSamples
         .join(cladeInfo)
         .set { cladeSamples }
 
-    filterSamples.out.includedSamples
-        .combine(sortmetadata.out)
+    FILTER_SAMPLES.out.includedSamples
+        .combine(SORT_META_DATA.out)
         .set { cladeMeta }
     
-    filterSamples.out.includedSamples
+    FILTER_SAMPLES.out.includedSamples
         .map { it[1] }
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true)
         .set { filteredWgsMeta }
 
-    filterSamples.out.excludedSamples
+    FILTER_SAMPLES.out.excludedSamples
         .collectFile(name: 'highN.csv', keepHeader: true)
         .set { highNcount }
 
-    excluded(cleandata.out, highNcount, outlierList)
+    EXCLUDED(CLEAN_DATA.out, highNcount, outlierList)
     
-    cladeMetadata(cladeMeta)
+    CLADE_META_DATA(cladeMeta)
 
-    cladesnps(cladeSamples)
+    CLADE_SNPS(cladeSamples)
 
-    cladematrix(cladesnps.out)
+    CLADE_MATRIX(CLADE_SNPS.out)
 
-    cladesnps.out
+    CLADE_SNPS.out
         .combine(maxP200x)
         .combine(userMP)
         .set { megainput }
 
-    growtrees(megainput)
+    GROW_TREES(megainput)
 
-    growtrees.out
+    GROW_TREES.out
         .join(cladeInfo)
-        .join(cladesnps.out)
+        .join(CLADE_SNPS.out)
         .set { treedata }
 
-    refinetrees(treedata)
+    REFINE_TREES(treedata)
 
-    refinetrees.out
-        .join(cladeMetadata.out)
-        .combine(locations.out)
+    REFINE_TREES.out
+        .join(CLADE_META_DATA.out)
+        .combine(LOCATIONS.out)
         .combine(auspiceconfig)
         .combine(colours)
         .set { exportData }
 
-    jsonExport(exportData)
+    JSON_EXPORT(exportData)
 
-    metadata2sqlite(filteredWgsMeta, metadata, movements, cphlocs, excluded.out)
+    METADATA_2_SQLITE(filteredWgsMeta, metadata, movements, cphlocs, EXCLUDED.out)
 }

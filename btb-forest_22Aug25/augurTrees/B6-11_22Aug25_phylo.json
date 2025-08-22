@@ -1,0 +1,193 @@
+{
+  "alignment": null,
+  "generated_by": {
+    "program": "augur",
+    "version": "27.2.0"
+  },
+  "input_tree": "MP.nwk",
+  "nodes": {
+    "AF-12-00206-21": {
+      "branch_length": 0.0
+    },
+    "AF-12-00226-21": {
+      "branch_length": 16.0
+    },
+    "AF-12-00229-21": {
+      "branch_length": 1.0
+    },
+    "AF-12-01295-20": {
+      "branch_length": 5.0
+    },
+    "AF-12-01331-20": {
+      "branch_length": 13.0
+    },
+    "AF-12-01360-20": {
+      "branch_length": 1.0
+    },
+    "AF-12-01362-20": {
+      "branch_length": 6.0
+    },
+    "AF-12-01363-20": {
+      "branch_length": 8.0
+    },
+    "AF-12-01364-20": {
+      "branch_length": 19.0
+    },
+    "AF-12-01371-20": {
+      "branch_length": 0.0
+    },
+    "AF-12-01399-20": {
+      "branch_length": 1.0
+    },
+    "AF-12-01403-20": {
+      "branch_length": 25.0
+    },
+    "AF-12-01410-20": {
+      "branch_length": 0.0
+    },
+    "AF-21-05073-21": {
+      "branch_length": 13.0
+    },
+    "AF-21-05117-21": {
+      "branch_length": 4.0
+    },
+    "AF-21-05122-21": {
+      "branch_length": 6.0
+    },
+    "AF-21-05125-21": {
+      "branch_length": 11.0
+    },
+    "AF-21-05200-21": {
+      "branch_length": 4.0
+    },
+    "AF-21-05797-20": {
+      "branch_length": 18.0
+    },
+    "AF-21-05804-20": {
+      "branch_length": 11.0
+    },
+    "AF-21-05810-20": {
+      "branch_length": 8.0
+    },
+    "AF-61-03263-17": {
+      "branch_length": 0.0
+    },
+    "AF-61-03547-20": {
+      "branch_length": 7.0
+    },
+    "AF-61-03638-20": {
+      "branch_length": 6.0
+    },
+    "AF-61-03703-20": {
+      "branch_length": 3.0
+    },
+    "AF-61-03735-20": {
+      "branch_length": 9.0
+    },
+    "AFH2-21-05599-20": {
+      "branch_length": 78.0
+    },
+    "NODE_0000000": {
+      "branch_length": 0.001
+    },
+    "NODE_0000001": {
+      "branch_length": 87.0,
+      "confidence": 0.31
+    },
+    "NODE_0000002": {
+      "branch_length": 1.0,
+      "confidence": 0.73
+    },
+    "NODE_0000003": {
+      "branch_length": 0.0,
+      "confidence": 0.565
+    },
+    "NODE_0000004": {
+      "branch_length": 0.0,
+      "confidence": 1.0
+    },
+    "NODE_0000005": {
+      "branch_length": 2.0,
+      "confidence": 0.66
+    },
+    "NODE_0000006": {
+      "branch_length": 0.0,
+      "confidence": 0.465
+    },
+    "NODE_0000007": {
+      "branch_length": 2.0,
+      "confidence": 0.88
+    },
+    "NODE_0000008": {
+      "branch_length": 0.0,
+      "confidence": 0.61
+    },
+    "NODE_0000009": {
+      "branch_length": 4.0,
+      "confidence": 1.0
+    },
+    "NODE_0000010": {
+      "branch_length": 11.0,
+      "confidence": 0.725
+    },
+    "NODE_0000011": {
+      "branch_length": 1.0,
+      "confidence": 0.885
+    },
+    "NODE_0000012": {
+      "branch_length": 1.0,
+      "confidence": 0.88
+    },
+    "NODE_0000013": {
+      "branch_length": 1.0,
+      "confidence": 0.63
+    },
+    "NODE_0000014": {
+      "branch_length": 0.0,
+      "confidence": 0.53
+    },
+    "NODE_0000015": {
+      "branch_length": 1.0,
+      "confidence": 0.41
+    },
+    "NODE_0000016": {
+      "branch_length": 0.0
+    },
+    "NODE_0000017": {
+      "branch_length": 0.0,
+      "confidence": 0.295
+    },
+    "NODE_0000018": {
+      "branch_length": 0.0,
+      "confidence": 0.355
+    },
+    "NODE_0000019": {
+      "branch_length": 2.0,
+      "confidence": 0.865
+    },
+    "NODE_0000020": {
+      "branch_length": 1.0,
+      "confidence": 0.635
+    },
+    "NODE_0000021": {
+      "branch_length": 2.0,
+      "confidence": 0.835
+    },
+    "NODE_0000022": {
+      "branch_length": 2.0,
+      "confidence": 0.89
+    },
+    "NODE_0000023": {
+      "branch_length": 0.0,
+      "confidence": 0.44
+    },
+    "NODE_0000024": {
+      "branch_length": 1.0,
+      "confidence": 0.53
+    },
+    "NODE_0000025": {
+      "branch_length": 0.0,
+      "confidence": 0.37
+    }
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "version": "v2",
+  "meta": {
+    "title": "APHA Nextstrain",
+    "updated": "2025-08-21",
+    "maintainers": [
+      {
+        "name": "CUSP Team, Surveillance and Laboratory Services Department"
+      }
+    ],
+    "display_defaults": {
+      "map_triplicate": true,
+      "color_by": "Host",
+      "geo_resolution": "PreciseLocation",
+      "branch_label": "SNP Distance",
+      "panels": [
+        "tree",
+        "map"
+      ]
+    },
+    "colorings": [],
+    "filters": [
+      "County",
+      "Host",
+      "Identifier",
+      "PreciseLocation",
+      "Submission",
+      "RiskArea"
+    ],
+    "panels": [
+      "tree"
+    ]
+  },
+  "tree": {
+    "name": "NODE_0000000",
+    "node_attrs": {
+      "div": 0
+    },
+    "branch_attrs": {
+      "labels": {
+        
+      }
+    },
+    "children": [
+      {
+        "name": "AF-21-05839-18",
+        "node_attrs": {
+          "div": 0.0
+        },
+        "branch_attrs": {
+          "labels": {
+            
+          }
+        }
+      },
+      {
+        "name": "NODE_0000001",
+        "node_attrs": {
+          "div": 121.0
+        },
+        "branch_attrs": {
+          "labels": {
+            "SNP Distance": 121
+          }
+        },
+        "children": [
+          {
+            "name": "AF-21-05065-21",
+            "node_attrs": {
+              "div": 125.0,
+              "Submission": {
+                "value": "AF-21-05065-21"
+              }
+            },
+            "branch_attrs": {
+              "labels": {
+                "SNP Distance": 4
+              }
+            }
+          },
+          {
+            "name": "NODE_0000002",
+            "node_attrs": {
+              "div": 123.0
+            },
+            "branch_attrs": {
+              "labels": {
+                "SNP Distance": 2
+              }
+            },
+            "children": [
+              {
+                "name": "AF-21-01096-20",
+                "node_attrs": {
+                  "div": 126.0,
+                  "Submission": {
+                    "value": "AF-21-01096-20"
+                  }
+                },
+                "branch_attrs": {
+                  "labels": {
+                    "SNP Distance": 3
+                  }
+                }
+              },
+              {
+                "name": "NODE_0000003",
+                "node_attrs": {
+                  "div": 126.0
+                },
+                "branch_attrs": {
+                  "labels": {
+                    "SNP Distance": 3
+                  }
+                },
+                "children": [
+                  {
+                    "name": "AF-21-05778-20",
+                    "node_attrs": {
+                      "div": 130.0,
+                      "Submission": {
+                        "value": "AF-21-05778-20"
+                      }
+                    },
+                    "branch_attrs": {
+                      "labels": {
+                        "SNP Distance": 4
+                      }
+                    }
+                  },
+                  {
+                    "name": "NODE_0000004",
+                    "node_attrs": {
+                      "div": 128.0
+                    },
+                    "branch_attrs": {
+                      "labels": {
+                        "SNP Distance": 2
+                      }
+                    },
+                    "children": [
+                      {
+                        "name": "AF-21-05185-21",
+                        "node_attrs": {
+                          "div": 128.0,
+                          "Submission": {
+                            "value": "AF-21-05185-21"
+                          }
+                        },
+                        "branch_attrs": {
+                          "labels": {
+                            
+                          }
+                        }
+                      },
+                      {
+                        "name": "AF-21-05254-21",
+                        "node_attrs": {
+                          "div": 129.0,
+                          "Submission": {
+                            "value": "AF-21-05254-21"
+                          }
+                        },
+                        "branch_attrs": {
+                          "labels": {
+                            "SNP Distance": 1
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

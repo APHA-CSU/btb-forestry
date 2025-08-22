@@ -1,0 +1,6 @@
+Submission,name,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc,Clade,Identifier,Host,Animal_Type,SlaughterDate,PreciseLocation,CPH_Type,County,RiskArea,Loc0,OutsideHomeRange,Gender,wsdBirthDate,Disclosing_Test,Import_Country,PreviousMovement,MoveCount
+AF-21-06508-20,AF-21-06508-20,99.9,36.16,99.68,B6-14,51655,s3://s3-csu-003/v3-2/Results_10309_27Jun22/,,,,,,,,,,,,,,,,,
+AF-61-00180-18,AF-61-00180-18,99.94,66.84,99.54,B6-14,51121,s3://s3-csu-003/v3-2/Results_10287_27Jun22/,,,,,,,,,,,,,,,,,
+AF-61-03379-20,AF-61-03379-20,99.96,88.82,67.34,B6-14,51111,s3://s3-csu-003/v3-2/Results_10287_27Jun22/,,,,,,,,,,,,,,,,,
+AF-61-03697-20,AF-61-03697-20,99.9,46.52,91.44,B6-14,51384,s3://s3-csu-003/v3-2/Results_10287_27Jun22/,,,,,,,,,,,,,,,,,
+AF-61-03732-20,AF-61-03732-20,99.97,118.53,91.23,B6-14,51105,s3://s3-csu-003/v3-2/Results_10287_27Jun22/,,,,,,,,,,,,,,,,,
