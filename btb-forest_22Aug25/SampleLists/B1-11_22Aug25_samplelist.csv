@@ -1,0 +1,3 @@
+Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc
+AF-12-01271-20,AF-12-01271-20,99.92,139.25,99.55,B1-11,53388,s3://s3-csu-003/v3-2/Results_10287_27Jun22/
+AF-12-01400-20,AF-12-01400-20,99.88,119.56,95.26,B1-11,54411,s3://s3-csu-003/v3-2/Results_10287_27Jun22/
