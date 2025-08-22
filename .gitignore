@@ -6,3 +6,4 @@ tests/__pycache__/
 .vscode/
 metadata.json
 btb-forest_*
+matrixcopy/
