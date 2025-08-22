@@ -1,0 +1,86 @@
+Aug-22 12:25:11.246 [main] DEBUG nextflow.cli.Launcher - $> nextflow -quiet -log /home/guyoldrieve/git/btb-forestry/.nf-test/tests/df5d11267d4f7961e7fcb5e495eeeec1/meta/nextflow.log run /home/guyoldrieve/git/btb-forestry/.nf-test-df5d11267d4f7961e7fcb5e495eeeec1.nf -c /home/guyoldrieve/git/btb-forestry/nextflow.config -c /home/guyoldrieve/git/btb-forestry/tests/nextflow.config -params-file /home/guyoldrieve/git/btb-forestry/.nf-test/tests/df5d11267d4f7961e7fcb5e495eeeec1/meta/params.json -ansi-log false -profile docker -with-trace /home/guyoldrieve/git/btb-forestry/.nf-test/tests/df5d11267d4f7961e7fcb5e495eeeec1/meta/trace.csv -w /home/guyoldrieve/git/btb-forestry/.nf-test/tests/df5d11267d4f7961e7fcb5e495eeeec1/work
+Aug-22 12:25:11.325 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.6
+Aug-22 12:25:11.352 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/guyoldrieve/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.1,nf-k8s@1.0.0,nf-tower@1.11.4,nf-wave@1.12.1
+Aug-22 12:25:11.380 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Aug-22 12:25:11.381 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Aug-22 12:25:11.386 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Aug-22 12:25:11.400 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Aug-22 12:25:11.428 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 12:25:11.434 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 12:25:11.434 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /home/guyoldrieve/git/btb-forestry/tests/nextflow.config
+Aug-22 12:25:11.436 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 12:25:11.437 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 12:25:11.437 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/guyoldrieve/git/btb-forestry/tests/nextflow.config
+Aug-22 12:25:11.478 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/guyoldrieve/.nextflow/secrets/store.json
+Aug-22 12:25:11.485 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@7d151a] - activable => nextflow.secret.LocalSecretsProvider@7d151a
+Aug-22 12:25:11.522 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
+Aug-22 12:25:12.108 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
+Aug-22 12:25:12.130 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
+Aug-22 12:25:12.201 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [docker]
+Aug-22 12:25:12.243 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Aug-22 12:25:12.260 [main] INFO  nextflow.cli.CmdRun - Launching `/home/guyoldrieve/git/btb-forestry/.nf-test-df5d11267d4f7961e7fcb5e495eeeec1.nf` [elated_cuvier] DSL2 - revision: 44ff25c89c
+Aug-22 12:25:12.261 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Aug-22 12:25:12.262 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Aug-22 12:25:12.330 [main] DEBUG nextflow.Session - Session UUID: ee061e2e-500d-46f8-bb00-a75bf7ba1895
+Aug-22 12:25:12.330 [main] DEBUG nextflow.Session - Run name: elated_cuvier
+Aug-22 12:25:12.331 [main] DEBUG nextflow.Session - Executor pool size: 4
+Aug-22 12:25:12.342 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Aug-22 12:25:12.349 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=12; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-22 12:25:12.376 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.04.6 build 5954
+  Created: 01-07-2025 11:27 UTC 
+  System: Linux 6.14.0-1011-aws
+  Runtime: Groovy 4.0.26 on OpenJDK 64-Bit Server VM 17.0.14+1-b1367.22
+  Encoding: UTF-8 (UTF-8)
+  Process: 195653@ranch-1006 [192.168.4.9]
+  CPUs: 4 - Mem: 30.7 GB (14.2 GB) - Swap: 0 (0)
+Aug-22 12:25:12.408 [main] DEBUG nextflow.Session - Work-dir: /home/guyoldrieve/git/btb-forestry/.nf-test/tests/df5d11267d4f7961e7fcb5e495eeeec1/work [ext2/ext3]
+Aug-22 12:25:12.466 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Aug-22 12:25:12.479 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Aug-22 12:25:12.490 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Aug-22 12:25:12.519 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Aug-22 12:25:12.531 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 5; maxThreads: 1000
+Aug-22 12:25:12.625 [main] DEBUG nextflow.Session - Session start
+Aug-22 12:25:12.631 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /home/guyoldrieve/git/btb-forestry/.nf-test/tests/df5d11267d4f7961e7fcb5e495eeeec1/meta/trace.csv
+Aug-22 12:25:13.163 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Aug-22 12:25:14.054 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_7bdf4cba81b0b9e7: /home/guyoldrieve/git/btb-forestry/main.nf
+  Script_3ce355e241f7405c: /home/guyoldrieve/git/btb-forestry/.nf-test-df5d11267d4f7961e7fcb5e495eeeec1.nf
+Aug-22 12:25:14.054 [main] DEBUG nextflow.Session - Session aborted -- Cause: Process `cladesnps` declares 1 input channel but 0 were specified
+Aug-22 12:25:14.063 [main] ERROR nextflow.cli.Launcher - Process `cladesnps` declares 1 input channel but 0 were specified
+nextflow.exception.ScriptRuntimeException: Process `cladesnps` declares 1 input channel but 0 were specified
+	at nextflow.script.ProcessDef.run(ProcessDef.groovy:175)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at nextflow.script.ComponentDef.invoke_o(ComponentDef.groovy:40)
+	at nextflow.script.WorkflowBinding.invokeMethod(WorkflowBinding.groovy:105)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokePogoMethod(InvokerHelper.java:651)
+	at org.codehaus.groovy.runtime.InvokerHelper.invokeMethod(InvokerHelper.java:628)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeOnDelegationObjects(ClosureMetaClass.java:392)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:331)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at Script_3ce355e241f7405c$_runScript_closure4$_closure6.doCall(Script_3ce355e241f7405c:38)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:280)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1007)
+	at groovy.lang.Closure.call(Closure.java:433)
+	at groovy.lang.Closure.call(Closure.java:412)
+	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:205)
+	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:189)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run0(BaseScript.groovy:182)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:321)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:193)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy:246)
+	at nextflow.script.parser.v1.ScriptLoaderV1.runScript(ScriptLoaderV1.groovy)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:246)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:139)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:379)
+	at nextflow.cli.Launcher.run(Launcher.groovy:513)
+	at nextflow.cli.Launcher.main(Launcher.groovy:673)

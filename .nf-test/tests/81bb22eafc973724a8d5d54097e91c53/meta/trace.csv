@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	ae/18531b	210860	cladeMetadata (test)	COMPLETED	0	2025-08-22 14:05:20.534	1.1s	433ms	163.6%	13.3 MB	69.4 MB	9.3 MB	1 KB

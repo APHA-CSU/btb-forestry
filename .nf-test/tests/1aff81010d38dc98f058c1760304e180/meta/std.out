@@ -1,0 +1,3 @@
+Process `cladeMetadata` declares 1 input channel but 0 were specified
+
+ -- Check script '/home/guyoldrieve/git/btb-forestry/.nf-test-1aff81010d38dc98f058c1760304e180.nf' at line: 38 or see '/home/guyoldrieve/git/btb-forestry/.nf-test/tests/1aff81010d38dc98f058c1760304e180/meta/nextflow.log' file for more details

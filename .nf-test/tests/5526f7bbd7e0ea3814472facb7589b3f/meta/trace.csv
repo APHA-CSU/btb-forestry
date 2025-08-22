@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	2b/3b7de6	206130	splitclades	COMPLETED	0	2025-08-22 13:32:01.606	733ms	9ms	100.0%	0	0	129.3 KB	950 B

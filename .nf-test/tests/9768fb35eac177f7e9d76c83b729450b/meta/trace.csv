@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	45/61c339	222012	growtrees (B6-16)	COMPLETED	0	2025-08-22 15:14:01.839	836ms	175ms	54.8%	50.1 MB	394 MB	140.5 KB	17.2 KB

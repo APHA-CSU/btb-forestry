@@ -1,0 +1,3 @@
+Process `cladesnps` declares 1 input channel but 0 were specified
+
+ -- Check script '/home/guyoldrieve/git/btb-forestry/.nf-test-df5d11267d4f7961e7fcb5e495eeeec1.nf' at line: 38 or see '/home/guyoldrieve/git/btb-forestry/.nf-test/tests/df5d11267d4f7961e7fcb5e495eeeec1/meta/nextflow.log' file for more details

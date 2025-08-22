@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	79/a10e41	200300	sortmetadata	COMPLETED	0	2025-08-22 12:58:58.432	1.9s	1.2s	67.9%	61.1 MB	244.8 MB	9.3 MB	843 B

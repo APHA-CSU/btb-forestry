@@ -4,17 +4,21 @@ nextflow_process {
     script "main.nf"
     process "jsonExport"
 
-    test("Should run without failures") {
+    test("Should export json") {
 
         when {
             params {
-                // define parameters here. Example:
-                // outdir = "tests/results"
+
             }
             process {
                 """
-                // define inputs of the process here. Example:
-                // input[0] = file("test-file.txt")
+                input[0] = ['test', 
+                            file("${projectDir}/tests/data/MP-rooted.nwk"),
+                            file("${projectDir}/tests/data/phylo.json"),
+                            file("${projectDir}/tests/data/cladeMeta_exp.csv"),
+                            file("${projectDir}/tests/data/locations.tsv"),
+                            file("${projectDir}/tests/data/config.json"),
+                            file("${projectDir}/accessory/custom-colours.tsv")  ]
                 """
             }
         }

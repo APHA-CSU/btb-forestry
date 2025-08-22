@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	c5/b63d4e	195281	cladematrix (B1)	COMPLETED	0	2025-08-22 12:25:05.144	644ms	7ms	133.3%	0	0	114 KB	395 B

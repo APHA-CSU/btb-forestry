@@ -1,0 +1,74 @@
+Aug-22 15:04:39.314 [main] DEBUG nextflow.cli.Launcher - $> nextflow -quiet -log /home/guyoldrieve/git/btb-forestry/.nf-test/tests/c77f9bddc42b713b131d130789f21e4d/meta/nextflow.log run /home/guyoldrieve/git/btb-forestry/.nf-test-c77f9bddc42b713b131d130789f21e4d.nf -c /home/guyoldrieve/git/btb-forestry/nextflow.config -c /home/guyoldrieve/git/btb-forestry/tests/nextflow.config -params-file /home/guyoldrieve/git/btb-forestry/.nf-test/tests/c77f9bddc42b713b131d130789f21e4d/meta/params.json -ansi-log false -profile docker -with-trace /home/guyoldrieve/git/btb-forestry/.nf-test/tests/c77f9bddc42b713b131d130789f21e4d/meta/trace.csv -w /home/guyoldrieve/git/btb-forestry/.nf-test/tests/c77f9bddc42b713b131d130789f21e4d/work
+Aug-22 15:04:39.395 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 25.04.6
+Aug-22 15:04:39.419 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/home/guyoldrieve/.nextflow/plugins; core-plugins: nf-amazon@2.15.0,nf-azure@1.16.0,nf-cloudcache@0.4.3,nf-codecommit@0.2.3,nf-console@1.2.1,nf-google@1.21.1,nf-k8s@1.0.0,nf-tower@1.11.4,nf-wave@1.12.1
+Aug-22 15:04:39.444 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Aug-22 15:04:39.445 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Aug-22 15:04:39.448 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Aug-22 15:04:39.461 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Aug-22 15:04:39.490 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 15:04:39.496 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 15:04:39.497 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /home/guyoldrieve/git/btb-forestry/tests/nextflow.config
+Aug-22 15:04:39.499 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 15:04:39.500 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/guyoldrieve/git/btb-forestry/nextflow.config
+Aug-22 15:04:39.500 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/guyoldrieve/git/btb-forestry/tests/nextflow.config
+Aug-22 15:04:39.535 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/guyoldrieve/.nextflow/secrets/store.json
+Aug-22 15:04:39.539 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@7d151a] - activable => nextflow.secret.LocalSecretsProvider@7d151a
+Aug-22 15:04:39.567 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
+Aug-22 15:04:40.170 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
+Aug-22 15:04:40.194 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `docker`
+Aug-22 15:04:40.272 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [docker]
+Aug-22 15:04:40.310 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Aug-22 15:04:40.324 [main] INFO  nextflow.cli.CmdRun - Launching `/home/guyoldrieve/git/btb-forestry/.nf-test-c77f9bddc42b713b131d130789f21e4d.nf` [desperate_kay] DSL2 - revision: 86f6a06d49
+Aug-22 15:04:40.326 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Aug-22 15:04:40.327 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Aug-22 15:04:40.380 [main] DEBUG nextflow.Session - Session UUID: 803beb10-64b0-4512-851d-51fd2c25b1e9
+Aug-22 15:04:40.380 [main] DEBUG nextflow.Session - Run name: desperate_kay
+Aug-22 15:04:40.381 [main] DEBUG nextflow.Session - Executor pool size: 4
+Aug-22 15:04:40.389 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Aug-22 15:04:40.395 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=12; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-22 15:04:40.418 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 25.04.6 build 5954
+  Created: 01-07-2025 11:27 UTC 
+  System: Linux 6.14.0-1011-aws
+  Runtime: Groovy 4.0.26 on OpenJDK 64-Bit Server VM 17.0.14+1-b1367.22
+  Encoding: UTF-8 (UTF-8)
+  Process: 219977@ranch-1006 [192.168.4.9]
+  CPUs: 4 - Mem: 30.7 GB (11.3 GB) - Swap: 0 (0)
+Aug-22 15:04:40.452 [main] DEBUG nextflow.Session - Work-dir: /home/guyoldrieve/git/btb-forestry/.nf-test/tests/c77f9bddc42b713b131d130789f21e4d/work [ext2/ext3]
+Aug-22 15:04:40.496 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Aug-22 15:04:40.506 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Aug-22 15:04:40.515 [main] DEBUG nextflow.Session - Observer factory (v2): LinObserverFactory
+Aug-22 15:04:40.541 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Aug-22 15:04:40.551 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 5; maxThreads: 1000
+Aug-22 15:04:40.632 [main] DEBUG nextflow.Session - Session start
+Aug-22 15:04:40.637 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /home/guyoldrieve/git/btb-forestry/.nf-test/tests/c77f9bddc42b713b131d130789f21e4d/meta/trace.csv
+Aug-22 15:04:40.998 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Aug-22 15:04:42.061 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Aug-22 15:04:42.061 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Aug-22 15:04:42.080 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Aug-22 15:04:42.089 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=4; memory=30.7 GB; capacity=4; pollInterval=100ms; dumpInterval=5m
+Aug-22 15:04:42.093 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Aug-22 15:04:42.123 [main] DEBUG nextflow.processor.TaskProcessor - Creating process 'cladematrix': maxForks=2; fair=false; array=0
+Aug-22 15:04:42.209 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: backupProdData, refinetrees, filterSamples, cladematrix, growtrees, cladesnps, splitclades, excluded, cladeMetadata, metadata2sqlite, sortmetadata, jsonExport, forestryMetdata, locations, cleandata
+Aug-22 15:04:42.212 [main] DEBUG nextflow.Session - Igniting dataflow network (1)
+Aug-22 15:04:42.213 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > cladematrix
+Aug-22 15:04:42.214 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_7bdf4cba81b0b9e7: /home/guyoldrieve/git/btb-forestry/main.nf
+  Script_178f88468c66c634: /home/guyoldrieve/git/btb-forestry/.nf-test-c77f9bddc42b713b131d130789f21e4d.nf
+Aug-22 15:04:42.214 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Aug-22 15:04:42.215 [main] DEBUG nextflow.Session - Session await
+Aug-22 15:04:42.435 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Aug-22 15:04:42.440 [Task submitter] INFO  nextflow.Session - [fe/176c21] Submitted process > cladematrix (test)
+Aug-22 15:04:43.027 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: cladematrix (test); status: COMPLETED; exit: 0; error: -; workDir: /home/guyoldrieve/git/btb-forestry/.nf-test/tests/c77f9bddc42b713b131d130789f21e4d/work/fe/176c212cdea0f4a210196c4570e66e]
+Aug-22 15:04:43.028 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=12; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-22 15:04:43.062 [TaskFinalizer-1] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'PublishDir' minSize=10; maxSize=12; workQueue=LinkedBlockingQueue[-1]; allowCoreThreadTimeout=false
+Aug-22 15:04:43.081 [main] DEBUG nextflow.Session - Session await > all processes finished
+Aug-22 15:04:43.125 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Aug-22 15:04:43.128 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Aug-22 15:04:43.131 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+Aug-22 15:04:43.133 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'PublishDir' shutdown completed (hard=false)
+Aug-22 15:04:43.146 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=1; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=7ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=1; peakCpus=1; peakMemory=0; ]
+Aug-22 15:04:43.147 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+Aug-22 15:04:43.158 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Aug-22 15:04:43.197 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Aug-22 15:04:43.197 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

@@ -1,0 +1,20 @@
+{
+    "Should run tree refinment": {
+        "content": [
+            {
+                "0": [
+                    [
+                        "test",
+                        "test_22Aug25_MP-rooted.nwk:md5,746e9af3d26b59232ea35c2e9d837a48",
+                        "test_22Aug25_phylo.json:md5,0914cace1bff9dedc002f063d7128ffe"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-22T15:34:02.449855461"
+    }
+}

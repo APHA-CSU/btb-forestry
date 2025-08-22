@@ -4,17 +4,18 @@ nextflow_process {
     script "main.nf"
     process "metadata2sqlite"
 
-    test("Should run without failures") {
+    test("Should convert metadata to sqlite") {
 
         when {
             params {
-                // define parameters here. Example:
-                // outdir = "tests/results"
             }
             process {
                 """
-                // define inputs of the process here. Example:
-                // input[0] = file("test-file.txt")
+                input[0] =  file("${projectDir}/tests/data/filterMeta_exp.csv")
+                input[1] =  file("${projectDir}/tests/data/metaTest.csv")
+                input[2] =  file("${projectDir}/tests/data/moveTest.csv")
+                input[3] =  file("${projectDir}/tests/data/location.csv")
+                input[4] =  file("${projectDir}/tests/data/excluded_exp.csv")
                 """
             }
         }

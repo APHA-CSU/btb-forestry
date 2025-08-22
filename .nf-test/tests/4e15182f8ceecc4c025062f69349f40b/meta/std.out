@@ -1,0 +1,28 @@
+ERROR ~ Error executing process > 'forestryMetdata'
+
+Caused by:
+  Process `forestryMetdata` terminated with an error exit status (127)
+
+
+Command executed:
+
+  forestMeta.sh 01Aug25 null
+
+Command exit status:
+  127
+
+Command output:
+  (empty)
+
+Command error:
+  /home/guyoldrieve/git/btb-forestry/bin/forestMeta.sh: line 9: jq: command not found
+
+Work dir:
+  /home/guyoldrieve/git/btb-forestry/.nf-test/tests/4e15182f8ceecc4c025062f69349f40b/work/de/f7f5e306ee638684a671131b96e52f
+
+Container:
+  aphacsubot/btb-forestry
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+
+ -- Check '/home/guyoldrieve/git/btb-forestry/.nf-test/tests/4e15182f8ceecc4c025062f69349f40b/meta/nextflow.log' file for details

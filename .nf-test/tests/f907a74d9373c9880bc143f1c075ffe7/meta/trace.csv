@@ -1,0 +1,2 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	e6/1a87f9	224935	refinetrees (test)	COMPLETED	0	2025-08-22 15:34:00.474	1.7s	996ms	153.0%	23.2 MB	194.4 MB	22.7 MB	3.9 KB

@@ -1,0 +1,32 @@
+{
+  "alignment": null,
+  "generated_by": {
+    "program": "augur",
+    "version": "19.2.0"
+  },
+  "input_tree": "MP.nwk",
+  "nodes": {
+    "AF-16-01234-12": {
+      "branch_length": 0.0
+    },
+    "AF-16-01234-13": {
+      "branch_length": 1.0
+    },
+    "AF-23-01234-56": {
+      "branch_length": 0.0
+    },
+    "AF-78-09012-34": {
+      "branch_length": 0.0
+    },
+    "NODE_0000000": {
+      "branch_length": 0.001
+    },
+    "NODE_0000001": {
+      "branch_length": 0.0
+    },
+    "NODE_0000002": {
+      "branch_length": 4.0,
+      "confidence": 1.0
+    }
+  }
+}
