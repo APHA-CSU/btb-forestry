@@ -36,7 +36,7 @@ process sortmetadata {
         path ('sortedMetadata_*.csv')
     script:
     """
-    filterMetadata.py metadata.csv movements.csv
+    filterMetadata.py metadata.csv movements.csv ${params.today}
     """
 }
 
@@ -50,7 +50,7 @@ process locations {
         path ('allLocations_*.tsv')
     script:
     """
-    formatLocations.py locations.csv counties.tsv
+    formatLocations.py locations.csv counties.tsv ${params.today}
     """
 }
 
@@ -92,7 +92,7 @@ process excluded{
         path('allExcluded_*.csv')
     script:
     """
-    listExcluded.py Allclean.csv highN.csv outliers.txt
+    listExcluded.py Allclean.csv highN.csv outliers.txt ${params.today}
     """
 }
 
@@ -106,7 +106,7 @@ process cladeMetadata{
         tuple val(clade), path('*_metadata_*.csv')
     script:
     """
-    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade
+    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade ${params.today}
     """
 }
 

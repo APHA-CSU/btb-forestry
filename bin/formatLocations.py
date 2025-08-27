@@ -5,9 +5,9 @@ import argparse
 from datetime import date
 
 
-def locationfix(location_csv, counties_csv):
+def locationfix(location_csv, counties_csv, today):
 
-    date_out = date.today().strftime('%d%b%y')
+    date_out = today
 
     location_df = pd.read_csv(location_csv, dtype='object')
     location_df = location_df.iloc[:, 0:3]
@@ -26,6 +26,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('location_csv', help='path to locations.csv')
     parser.add_argument('counties_csv', help='path to county locations.csv')
+    parser.add_argument('today', help='date')
 
     args = parser.parse_args()
 

@@ -5,19 +5,19 @@
                 "0": [
                     [
                         "B6-16",
-                        "B6-16_22Aug25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
+                        "B6-16_01Jan25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
                     ]
                 ],
                 "1": [
-                    "B6-16_22Aug25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
+                    "B6-16_01Jan25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
                 ],
                 "excludedSamples": [
-                    "B6-16_22Aug25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
+                    "B6-16_01Jan25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
                 ],
                 "includedSamples": [
                     [
                         "B6-16",
-                        "B6-16_22Aug25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
+                        "B6-16_01Jan25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
                     ]
                 ]
             }

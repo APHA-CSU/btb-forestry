@@ -2,7 +2,6 @@
 
 import pandas as pd
 import argparse
-from datetime import date
 
 """
 This extracts information from the filtered metadata file (sortedMetadata_csv)
@@ -12,9 +11,9 @@ each sample with the additional metadata. The file is then suitable for Augur.
 """
 
 
-def combine(sortedMetadata_csv, cladelist_csv, clade):
+def combine(sortedMetadata_csv, cladelist_csv, clade, today):
 
-    date_out = date.today().strftime('%d%b%y')
+    date_out = today
 
     sortedMetadata_df = pd.read_csv(sortedMetadata_csv, dtype='object')
     cladelist_df = pd.read_csv(cladelist_csv)
@@ -31,6 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('sortedMetadata_csv', help='path to sortedMetadata.csv')
     parser.add_argument('cladelist_csv', help='path to clade list')
     parser.add_argument('clade', help='clade identifier')
+    parser.add_argument('today', help='date')
 
     args = parser.parse_args()
 

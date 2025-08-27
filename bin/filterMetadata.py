@@ -4,8 +4,6 @@
 
 import pandas as pd
 import argparse
-from datetime import date
-
 
 # Determine if sample has movement history (True/False)
 def moveTF(Loc0, CPH):
@@ -18,9 +16,9 @@ def moveTF(Loc0, CPH):
 
 
 # Clean up metadata, and add movement summary
-def filter(metadata_csv, movement_csv):
+def filter(metadata_csv, movement_csv, today):
 
-    date_out = date.today().strftime('%d%b%y')
+    date_out = today
 
     # Extract number of movements from movement.csv
     movement_df = pd.read_csv(movement_csv, index_col='Submission')
@@ -52,6 +50,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('metadata_csv', help='path to metadata.csv')
     parser.add_argument('movement_csv', help='path to movement.csv')
+    parser.add_argument('today', help='date')
 
     args = parser.parse_args()
 

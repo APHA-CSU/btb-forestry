@@ -2,8 +2,6 @@
 
 import pandas as pd
 import argparse
-from datetime import date
-
 
 # determine if sample is not Mbovis or is contaminated
 def exclusionBasis(ID, Outcome):
@@ -15,7 +13,7 @@ def exclusionBasis(ID, Outcome):
         return ''
 
 
-def exclusions(allclean_csv, highN_csv, outliers_list):
+def exclusions(allclean_csv, highN_csv, outliers_list, today):
 
     highN_df = pd.read_csv(highN_csv, dtype='object')
     # add column to specify low qual data
@@ -39,7 +37,7 @@ def exclusions(allclean_csv, highN_csv, outliers_list):
     excluded_df = pd.concat(excludedSamples, ignore_index=True)
     excluded_df.sort_values(by=['Submission'], inplace=True)
 
-    date_out = date.today().strftime('%d%b%y')
+    date_out = today
 
     excluded_df.to_csv('allExcluded_{}.csv'.format(date_out), index=False, header=True)
 
@@ -49,6 +47,7 @@ if __name__ == '__main__':
     parser.add_argument('allclean_csv', help='path to Allclean.csv')
     parser.add_argument('highN_csv', help='path to highN.csv')
     parser.add_argument('outliers_list', help='path to outliers.txt')
+    parser.add_argument('today', help='date')
 
     args = parser.parse_args()
 

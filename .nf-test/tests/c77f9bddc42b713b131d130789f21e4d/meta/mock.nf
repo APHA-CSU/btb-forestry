@@ -29,7 +29,8 @@ workflow {
     // process mapping
     def input = []
     
-                input[0] = [ 'test', file("/home/guyoldrieve/git/btb-forestry/tests/data/snp_only.fas") ]
+                input[0] = [ 'test', 
+                file("/home/guyoldrieve/git/btb-forestry/tests/data/snp_only.fas") ]
                 
     //----
 
