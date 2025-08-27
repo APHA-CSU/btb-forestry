@@ -1,2 +1,0 @@
-task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
-1	96/a9a7cc	231298	jsonExport (test)	FAILED	2	2025-08-22 16:00:58.481	2.4s	2.3s	-	-	-	-	-

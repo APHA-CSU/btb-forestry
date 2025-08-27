@@ -1,2 +1,0 @@
-task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
-1	cb/027c00	189809	cleandata	COMPLETED	0	2025-08-27 14:59:50.742	784ms	104ms	76.6%	6.2 MB	8.5 MB	402.3 KB	5.2 KB
