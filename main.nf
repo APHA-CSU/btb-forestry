@@ -1,5 +1,4 @@
 #!/usr/bin/env nextflow
-
 nextflow.enable.dsl=2
     
 // Default values for required parameters
@@ -95,7 +94,7 @@ workflow btb_forestry {
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
 
     if( params.prod_run ){
-        BACKUP_PROD_DATA()
+        BACKUP_PROD_DATA(params.outdir)
         FORESTRY_META_DATA(BACKUP_PROD_DATA.out)
     } 
 
@@ -135,7 +134,7 @@ workflow btb_forestry {
     
     CLADE_META_DATA(
         FILTER_SAMPLES.out.includedSamples
-        .join(SORT_META_DATA.out)
+        .combine(SORT_META_DATA.out)
         )
 
     CLADE_SNPS(
@@ -144,7 +143,8 @@ workflow btb_forestry {
         )
 
     CLADE_MATRIX(
-        CLADE_SNPS.out
+        CLADE_SNPS.out,
+        params.today
         )
 
     GROW_TREES(
@@ -162,7 +162,7 @@ workflow btb_forestry {
     JSON_EXPORT(
         REFINE_TREES.out
         .join(CLADE_META_DATA.out)
-        .join(LOCATIONS.out),
+        .combine(LOCATIONS.out),
         params.auspiceconfig,
         params.colours
         )
