@@ -16,9 +16,9 @@ nextflow_process {
                 file("${projectDir}/tests/data/MP-rooted.nwk"), 
                 file("${projectDir}/tests/data/phylo.json"), 
                 file("${projectDir}/tests/data/cladeMeta_exp.csv"),
-                file("${projectDir}/tests/data/location.csv"),
-                file("${projectDir}/tests/data/config.json"),
-                file("${projectDir}/accessory/custom-colours.tsv")]
+                file("${projectDir}/tests/data/location.csv")]
+                input[1] = file("${projectDir}/tests/data/config.json")
+                input[2] = file("${projectDir}/accessory/custom-colours.tsv")
                 """
             }
         }

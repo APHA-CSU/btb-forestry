@@ -16,8 +16,8 @@ nextflow_process {
                 file("${projectDir}/tests/data/split_exp.csv"),
                 '52532',
                 'test',
-                'today',
-                file("${projectDir}/tests/data/testoutlier.txt")]
+                'today' ]
+                input[1] = file("${projectDir}/tests/data/testoutlier.txt")
                 """
             }
         }

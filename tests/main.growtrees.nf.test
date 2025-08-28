@@ -13,9 +13,9 @@ nextflow_process {
             process {
                 """
                 input[0] = [ 'B6-16', 
-                file("${projectDir}/tests/data/snp_only.fas"), 
-                file("${projectDir}/accessory/infer_MP_nucleotide_200x.mao"), 
-                file("${projectDir}/accessory/analyze_user_tree_MP__nucleotide.mao")]
+                file("${projectDir}/tests/data/snp_only.fas")]
+                input[1] = file("${projectDir}/accessory/infer_MP_nucleotide_200x.mao") 
+                input[2] = file("${projectDir}/accessory/analyze_user_tree_MP__nucleotide.mao")
                 """
             }
         }
