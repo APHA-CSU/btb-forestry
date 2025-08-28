@@ -6,6 +6,6 @@ process SORT_META_DATA {
         path ('sortedMetadata_*.csv')
     script:
     """
-    filterMetadata.py metadata.csv movements.csv ${params.outdir}
+    filterMetadata.py metadata.csv movements.csv ${params.today}
     """
 }

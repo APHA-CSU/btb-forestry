@@ -4,7 +4,6 @@ process FORESTRY_META_DATA {
         val go    
     output:
         path('metadata.json')
-        val ()
     script:
     """
     forestMeta.sh ${params.today} ${workflow.commitId}

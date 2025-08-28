@@ -8,6 +8,6 @@ process EXCLUDED {
         path('allExcluded_*.csv')
     script:
     """
-    listExcluded.py Allclean.csv highN.csv outliers.txt ${params.outdir}
+    listExcluded.py Allclean.csv highN.csv outliers.txt ${params.today}
     """
 }
