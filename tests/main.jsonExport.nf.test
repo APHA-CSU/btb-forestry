@@ -1,0 +1,35 @@
+nextflow_process {
+
+    name "Test Process jsonExport"
+    script "main.nf"
+    process "jsonExport"
+
+    test("Should generate JSON") {
+
+        when {
+            params {
+                today = "01Jan25"
+            }
+            process {
+                """
+                input[0] = [ "test",
+                file("${projectDir}/tests/data/MP-rooted.nwk"), 
+                file("${projectDir}/tests/data/phylo.json"), 
+                file("${projectDir}/tests/data/cladeMeta_exp.csv"),
+                file("${projectDir}/tests/data/location.csv"),
+                file("${projectDir}/tests/data/config.json"),
+                file("${projectDir}/accessory/custom-colours.tsv")]
+                """
+            }
+        }
+
+        then {
+                assert process.success
+                assert path(process.out[0].get(0).get(1)).readLines().contains('  "version": "v2",') 
+                assert path(process.out[0].get(0).get(1)).readLines().contains('                "name": "AF-78-09012-34",') 
+                assert path(process.out[0].get(0).get(1)).readLines().contains('        "name": "CUSP Team, Surveillance and Laboratory Services Department"')        
+            }
+
+    }
+
+}

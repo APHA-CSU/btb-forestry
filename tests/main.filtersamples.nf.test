@@ -1,0 +1,32 @@
+nextflow_process {
+
+    name "Test Process filterSamples"
+    script "main.nf"
+    process "filterSamples"
+
+    test("Should filter samples") {
+
+        when {
+            params {
+                today = "01Jan25"
+            }
+            process {
+                """
+                input[0] = [ 'B6-16', 
+                file("${projectDir}/tests/data/split_exp.csv"),
+                '52532',
+                'test',
+                'today',
+                file("${projectDir}/tests/data/testoutlier.txt")]
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert snapshot(process.out).match()
+        }
+
+    }
+
+}

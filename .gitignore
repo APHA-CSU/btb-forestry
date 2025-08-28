@@ -7,3 +7,5 @@ tests/__pycache__/
 metadata.json
 btb-forest_*
 matrixcopy/
+.nf-test/
+.nf-test.log
