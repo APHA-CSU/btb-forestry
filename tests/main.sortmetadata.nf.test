@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process sortmetadata"
     script "main.nf"
-    process "sortmetadata"
+    process "SORT_META_DATA"
 
     test("Should sort metadata") {
 

@@ -3,20 +3,20 @@
 nextflow.enable.dsl=2
     
 // Default values for required parameters
-params.pathTocsv = "$PWD/**/*FinalOut*.csv"
-params.metadata = "$PWD/metadata.csv"
-params.movements = "$PWD/movements.csv"
-params.locations = "$PWD/locations.csv"
+params.pathTocsv = "${env('PWD')}/**/*FinalOut*.csv"
+params.metadata = "${env('PWD')}/metadata.csv"
+params.movements = "${env('PWD')}/movements.csv"
+params.locations = "${env('PWD')}/locations.csv"
 params.auspiceconfig = "$projectDir/accessory/auspice_config.json"
 params.colours = "$projectDir/accessory/custom-colours.tsv"
 params.counties = "$projectDir/accessory/counties.tsv"
 params.outliers = "$projectDir/accessory/outliers.txt"
 params.cladeinfo = "$projectDir/accessory/CladeInfo.csv"
 params.today = new Date().format('ddMMMYY')
-params.outdir = "$PWD"
-params.homedir = "$HOME"
+params.outdir = "${env('PWD')}"
+params.homedir = "${env('HOME')}"
 params.prod_run = false
-params.matrixdir = "$PWD/matrixcopy"
+params.matrixdir = "${env('PWD')}/matrixcopy"
 
 // Location of megacc analysis options (.mao) files 
 params.maxP200x = "$projectDir/accessory/infer_MP_nucleotide_200x.mao"

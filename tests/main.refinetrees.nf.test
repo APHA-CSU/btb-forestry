@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process refinetrees"
     script "main.nf"
-    process "refinetrees"
+    process "REFINE_TREES"
 
     test("Should run tree refinment") {
 

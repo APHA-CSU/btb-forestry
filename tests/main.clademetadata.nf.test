@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process cladeMetadata"
     script "main.nf"
-    process "cladeMetadata"
+    process "CLADE_META_DATA"
 
     test("Should process clade metadata") {
 

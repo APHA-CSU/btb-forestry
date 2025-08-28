@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process growtrees"
     script "main.nf"
-    process "growtrees"
+    process "GROW_TREES"
 
     test("Should generate trees") {
 

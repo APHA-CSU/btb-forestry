@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process filterSamples"
     script "main.nf"
-    process "filterSamples"
+    process "FILTER_SAMPLES"
 
     test("Should filter samples") {
 

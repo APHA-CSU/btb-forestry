@@ -6,6 +6,6 @@ process LOCATIONS {
         path ('allLocations_*.tsv')
     script:
     """
-    formatLocations.py locations.csv counties.tsv
+    formatLocations.py locations.csv counties.tsv ${params.outdir}
     """
 }

@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process cleandata"
     script "main.nf"
-    process "cleandata"
+    process "CLEAN_DATA"
 
     test("Should clean up input files") {
 

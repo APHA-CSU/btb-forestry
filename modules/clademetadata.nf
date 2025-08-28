@@ -7,6 +7,6 @@ process CLADE_META_DATA{
         tuple val(clade), path('*_metadata_*.csv')
     script:
     """
-    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade
+    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade ${params.today}
     """
 }

@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process jsonExport"
     script "main.nf"
-    process "jsonExport"
+    process "JSON_EXPORT"
 
     test("Should generate JSON") {
 

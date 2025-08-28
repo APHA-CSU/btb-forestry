@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process cladematrix"
     script "main.nf"
-    process "cladematrix"
+    process "CLADE_MATRIX"
 
     test("Should generate a clade SNP matrix") {
 
