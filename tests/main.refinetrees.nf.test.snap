@@ -6,7 +6,7 @@
                     [
                         "test",
                         "test_01Jan25_MP-rooted.nwk:md5,746e9af3d26b59232ea35c2e9d837a48",
-                        "test_01Jan25_phylo.json:md5,0914cace1bff9dedc002f063d7128ffe"
+                        "test_01Jan25_phylo.json:md5,13126caf9ae82e195f8551763df55343"
                     ]
                 ]
             }
@@ -15,6 +15,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-08-22T15:34:02.449855461"
+        "timestamp": "2025-08-28T07:46:16.882161379"
     }
 }

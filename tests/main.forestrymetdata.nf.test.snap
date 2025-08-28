@@ -1,9 +1,9 @@
 {
-    "Should format location data": {
+    "Should generate metadata": {
         "content": [
             {
                 "0": [
-                    "allLocations_01Jan25.tsv:md5,de85a65c63778ded0ec223810c3223bf"
+                    "metadata.json:md5,be78c607de358fa4bc27e3e8757aba3c"
                 ]
             }
         ],
@@ -11,6 +11,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-08-28T07:46:03.615922807"
+        "timestamp": "2025-08-28T07:45:40.674611848"
     }
 }
