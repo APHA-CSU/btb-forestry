@@ -3,14 +3,14 @@ process CLADE_META_DATA{
     publishDir "$params.publishDir/Metadata/", mode: 'copy', pattern: '*_metadata_*.csv'
     
     input:
-        tuple val (clade), path (cladelist), path (sortedmetadata)
-        val (today)
+        tuple val(clade), path('cladelist.csv'), path('sortedmetadata.csv')
+        val params.today
     
     output:
         tuple val (clade), path ('*_metadata_*.csv')
     
     script:
     """
-    cladeMetadata.py $sortedmetadata $cladelist $clade $today
+    cladeMetadata.py sortedmetadata.csv cladelist.csv $clade $params.today
     """
 }

@@ -5,17 +5,17 @@ process CLADE_MATRIX {
     publishDir "$params.matrixCopy/", mode: 'copy', pattern: '*.csv'
     
     input:
-        tuple val (clade), path ("${clade}_${today}_snp-only.fas")
-        val (today)
+        tuple val (clade), path ("${clade}_${params.today}_snp-only.fas")
+        val params.today
     
     output:
-        tuple val (clade), path ("${clade}_${today}_matrix.csv")
+        tuple val (clade), path ("${clade}_${params.today}_matrix.csv")
     
     script:
     """
     #!/bin/bash
     set -eo pipefail
     
-    /snp-dists/snp-dists -c ${clade}_${today}_snp-only.fas > ${clade}_${today}_matrix.csv
+    /snp-dists/snp-dists -c ${clade}_${params.today}_snp-only.fas > ${clade}_${params.today}_matrix.csv
     """
 }
