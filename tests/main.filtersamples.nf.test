@@ -18,6 +18,7 @@ nextflow_process {
                 'test',
                 'today' ]
                 input[1] = file("${projectDir}/tests/data/testoutlier.txt")
+                input[2] = params.today
                 """
             }
         }

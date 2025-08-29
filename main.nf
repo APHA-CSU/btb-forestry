@@ -95,21 +95,24 @@ workflow btb_forestry {
 
     if( params.prod_run ){
         BACKUP_PROD_DATA(params.outdir)
-        FORESTRY_META_DATA(BACKUP_PROD_DATA.out)
+        FORESTRY_META_DATA(BACKUP_PROD_DATA.out, params.today)
     } 
 
     CLEAN_DATA(
-        ch_csv
+        ch_csv,
+        params.today
         )
 
     SORT_META_DATA(
-        params.metadata, 
-        params.movements
+        params.metadata,
+        params.movements,
+        params.today
         )
 
     LOCATIONS(
         params.locations, 
-        params.counties
+        params.counties,
+        params.today
         )
 
     SPLIT_CLADES(
@@ -123,23 +126,28 @@ workflow btb_forestry {
         return tuple (key, file) 
         }
         .join(ch_info),
-        params.outliers
+        params.outliers,
+        params.today
         )
 
     EXCLUDED(
         CLEAN_DATA.out, 
         FILTER_SAMPLES.out.excludedSamples
         .collectFile(name: 'highN.csv', keepHeader: true), 
-        params.outliers)
+        params.outliers,
+        params.today
+        )
     
     CLADE_META_DATA(
         FILTER_SAMPLES.out.includedSamples
-        .combine(SORT_META_DATA.out)
+        .combine(SORT_META_DATA.out),
+        params.today
         )
 
     CLADE_SNPS(
         FILTER_SAMPLES.out.includedSamples
-        .join(ch_info)
+        .join(ch_info),
+        params.today
         )
 
     CLADE_MATRIX(
@@ -151,12 +159,14 @@ workflow btb_forestry {
         CLADE_SNPS.out,
         params.maxP200x,
         params.userMP,
+        params.today
         )
 
     REFINE_TREES(
         GROW_TREES.out
         .join(ch_info)
-        .join(CLADE_SNPS.out)
+        .join(CLADE_SNPS.out),
+        params.today
         )
 
     JSON_EXPORT(
@@ -164,7 +174,8 @@ workflow btb_forestry {
         .join(CLADE_META_DATA.out)
         .combine(LOCATIONS.out),
         params.auspiceconfig,
-        params.colours
+        params.colours,
+        params.today
         )
 
     METADATA_2_SQLITE(

@@ -15,6 +15,7 @@ nextflow_process {
                 input[0] = file("${projectDir}/tests/data/Allclean_exp.csv")
                 input[1] = file("${projectDir}/tests/data/highN_exp.csv")
                 input[2] = file("${projectDir}/tests/data/testoutlier.txt")
+                input[3] = params.today
                 """
             }
         }

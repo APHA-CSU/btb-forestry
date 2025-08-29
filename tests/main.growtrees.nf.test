@@ -16,6 +16,7 @@ nextflow_process {
                 file("${projectDir}/tests/data/snp_only.fas")]
                 input[1] = file("${projectDir}/accessory/infer_MP_nucleotide_200x.mao") 
                 input[2] = file("${projectDir}/accessory/analyze_user_tree_MP__nucleotide.mao")
+                input[3] = params.today
                 """
             }
         }

@@ -1,13 +1,17 @@
 process EXCLUDED {
     publishDir "$params.publishDir", mode: 'copy', pattern: 'allExcluded_*.csv'
+
     input:
-        path('Allclean.csv')
-        path('highN.csv')
-        path('outliers.txt')
+        path (allclean)
+        path (highn)
+        path (outliers)
+        val (today)
+
     output:
         path('allExcluded_*.csv')
+
     script:
     """
-    listExcluded.py Allclean.csv highN.csv outliers.txt ${params.today}
+    listExcluded.py $allclean $highn $outliers $today
     """
 }

@@ -19,6 +19,7 @@ nextflow_process {
                             'test',
                             file("${projectDir}/tests/data/snp-only.fas") 
                             ]
+                input [1] = params.today
                 """
             }
         }

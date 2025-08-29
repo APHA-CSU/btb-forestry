@@ -15,6 +15,7 @@ nextflow_process {
                 input[0] = [ 'test', 
                 file("${projectDir}/tests/data/samplelist.csv"), 
                 file("${projectDir}/tests/data/filterMeta_exp.csv")]
+                input[1] = params.today
                 """
             }
         }

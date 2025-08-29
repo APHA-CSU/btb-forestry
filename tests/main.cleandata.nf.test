@@ -13,6 +13,7 @@ nextflow_process {
             process {
                 """
                 input[0] = file("${projectDir}/tests/data/subtest.csv")
+                input[1] = params.today
                 """
             }
         }

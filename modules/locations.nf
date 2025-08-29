@@ -1,11 +1,15 @@
 process LOCATIONS {
+
     input:
-        path ('locations.csv')
-        path ('counties.tsv')
+        path (locations)
+        path (counties)
+        val (today)
+
     output:
         path ('allLocations_*.tsv')
+        
     script:
     """
-    formatLocations.py locations.csv counties.tsv ${params.today}
+    formatLocations.py $locations $counties $today
     """
 }

@@ -19,6 +19,7 @@ nextflow_process {
                 file("${projectDir}/tests/data/location.csv")]
                 input[1] = file("${projectDir}/tests/data/config.json")
                 input[2] = file("${projectDir}/accessory/custom-colours.tsv")
+                input[3] = params.today
                 """
             }
         }
