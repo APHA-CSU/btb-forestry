@@ -10,6 +10,9 @@ process FORESTRY_META_DATA {
     
     script:
     """
-    forestMeta.sh $today $workflow.commitId
+    #!/bin/bash
+    set -eo pipefail
+    
+    jq -n --arg jq_date $today --arg jq_commit $workflow.commitId '{"today": \$jq_date, "git_commit": \$jq_commit}' > metadata.json
     """
 }

@@ -13,6 +13,9 @@ process CLADE_MATRIX {
     
     script:
     """
-    buildmatrix.sh ${clade}_${today}_snp-only.fas $clade $today
+    #!/bin/bash
+    set -eo pipefail
+    
+    /snp-dists/snp-dists -c ${clade}_${today}_snp-only.fas > ${clade}_${today}_matrix.csv
     """
 }
