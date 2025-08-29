@@ -218,8 +218,9 @@ process forestryMetdata{
     output:
         path('metadata.json')
     script:
+    def commit = params.commitId ?: workflow.commitId
     """
-    forestMeta.sh ${params.today} ${workflow.commitId}
+    forestMeta.sh ${params.today} ${commit}
     """
 }
 
