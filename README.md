@@ -18,34 +18,27 @@ Or with custom parameters:
 
 **Pipeline overview**
 
-The pipeline processes data through the following key stages:
-
-1)  Data Preparation: Concatenates and cleans output CSV files from btb-seq runs
-2)  Quality Filtering: Removes duplicates, retaining highest quality samples per submission
-3)  Clade Separation: Splits samples by WGS cluster/clade for independent analysis
-4)  SNP Analysis: Extracts polymorphic sites and calculates pairwise SNP distances
-5)  Phylogeny: Generates maximum parsimony trees using MEGA
-6)  Visualisation: Formats output for Nextstrain display
-
 ```mermaid
 flowchart TD
-    %% Input
-    subgraph input1 ["btb-seq output"]
-        AA[btb-seq CSV 1]
-        AB[btb-seq CSV 2] 
-        AC[btb-seq CSV ...]
-    end
-
-    %% CSV
-    subgraph input2 ["Metadata"]
-        C[Metadata]
-        E[Locations]
-        G[Counties]
-        U[Movements]
+    %% Input files
+    subgraph inputs ["Input Files"]
+        direction TB
+        subgraph btb ["btb-seq Output"]
+            AA[CSV 1]
+            AB[CSV 2] 
+            AC[CSV ...]
+        end
+        subgraph meta ["Metadata Files"]
+            C[Metadata]
+            E[Locations]
+            G[Counties]
+            U[Movements]
+        end
     end
     
     %% Data preparation
     subgraph prep ["Data Preparation"]
+        direction TB
         BA[COMBINE_CSV]
         B[CLEAN_DATA]
         D[SORT_META_DATA]
@@ -54,6 +47,7 @@ flowchart TD
     
     %% Core analysis
     subgraph analysis ["Core Analysis"]
+        direction TB
         K[SPLIT_CLADES]
         L[FILTER_SAMPLES]
         M[EXCLUDED]
@@ -63,19 +57,27 @@ flowchart TD
     
     %% Phylogenetic analysis
     subgraph phylo ["Phylogenetic Analysis"]
+        direction TB
         P[CLADE_MATRIX]
         Q[GROW_TREES]
         R[REFINE_TREES]
     end
     
-    %% Output generation
-    subgraph output ["Output Generation"]
+    %% Output
+    subgraph output ["Output"]
+        direction TB
         S[JSON_EXPORT]
         T[METADATA_2_SQLITE]
         V[ViewBovis]
     end
     
-    %% Connections
+    %% Vertical flow connections
+    inputs --> prep
+    prep --> analysis
+    analysis --> phylo
+    phylo --> output
+    
+    %% Specific connections
     AA --> BA
     AB --> BA
     AC --> BA
@@ -149,14 +151,10 @@ The pipeline requires:
 -   [Nextstrain](https://docs.nextstrain.org/en/latest/index.html) - Outputs are formatted for display in Nextstrain
 -   Python 3 with required packages for data processing
 
-**Help**
-
-For detailed parameter information:
-
 **Integration with btb-seq**
 
 This pipeline is designed to work seamlessly with outputs from the btb-seq pipeline. The expected input is the FinalOut.csv summary files that contain sample outcomes, WGS clusters (clades), and quality metrics.
 
 **Validation and testing**
 
-The pipeline includes automated testing via GitHub Actions to ensure reliability and reproducibility of phylogenetic analyses across different bovine TB clades.
+The pipeline includes automated testing with nf-test via GitHub Actions to ensure reliability and reproducibility of phylogenetic analyses across different bovine TB clades.
