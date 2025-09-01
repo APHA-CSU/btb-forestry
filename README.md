@@ -29,17 +29,48 @@ The pipeline processes data through the following key stages:
 
 ```mermaid
 flowchart TD
-    A[btb-seq CSV Files] --> B[CLEAN_DATA]
-    B --> C[SPLIT_CLADES]
-    C --> D[FILTER_SAMPLES]
-    D --> E[CLADE_SNPS]
-    E --> F[CLADE_MATRIX]
-    E --> G[GROW_TREES]
-    G --> H[REFINE_TREES]
-    H --> I[JSON_EXPORT]
-    I --> J[ViewBovis]
-    D --> K[METADATA_2_SQLITE]
-    K --> J[ViewBovis]
+    AA[btb-seq CSV 1] --> BA[COMBINE_CSV_FILES]
+    AB[btb-seq CSV 2] --> BA
+    AC[btb-seq CSV 3] --> BA
+    AD[btb-seq CSV ...] --> BA
+    
+    BA --> B[CLEAN_DATA]
+    C[Metadata] --> D[SORT_META_DATA]
+    E[Locations] --> F[LOCATIONS]
+    G[Counties] --> F
+    
+    H{prod_run?} --> I[BACKUP_PROD_DATA]
+    I --> J[FORESTRY_META_DATA]
+    
+    B --> K[SPLIT_CLADES]
+    K --> L[FILTER_SAMPLES]
+    L --> M[EXCLUDED]
+    B --> M
+    
+    L --> N[CLADE_META_DATA]
+    D --> N
+    
+    L --> O[CLADE_SNPS]
+    O --> P[CLADE_MATRIX]
+    O --> Q[GROW_TREES]
+    Q --> R[REFINE_TREES]
+    
+    R --> S[JSON_EXPORT]
+    N --> S
+    F --> S
+    
+    L --> T[METADATA_2_SQLITE]
+    C --> T
+    U[Movements] --> T
+    E --> T
+    M --> T
+    
+    S --> V[ViewBovis/Nextstrain]
+    T --> V
+    
+    style H fill:#e1f5fe
+    style BA fill:#fff3e0
+    style V fill:#e8f5e8
 ```
 
 **Parameters**
