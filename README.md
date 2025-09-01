@@ -29,48 +29,84 @@ The pipeline processes data through the following key stages:
 
 ```mermaid
 flowchart TD
-    AA[btb-seq CSV 1] --> BA[COMBINE_CSV_FILES]
-    AB[btb-seq CSV 2] --> BA
-    AC[btb-seq CSV 3] --> BA
-    AD[btb-seq CSV ...] --> BA
+    %% Input
+    subgraph input1 ["btb-seq output"]
+        AA[btb-seq CSV 1]
+        AB[btb-seq CSV 2] 
+        AC[btb-seq CSV ...]
+    end
+
+    %% CSV
+    subgraph input2 ["Metadata"]
+        C[Metadata]
+        E[Locations]
+        G[Counties]
+        U[Movements]
+    end
     
-    BA --> B[CLEAN_DATA]
-    C[Metadata] --> D[SORT_META_DATA]
-    E[Locations] --> F[LOCATIONS]
-    G[Counties] --> F
+    %% Data preparation
+    subgraph prep ["Data Preparation"]
+        BA[COMBINE_CSV]
+        B[CLEAN_DATA]
+        D[SORT_META_DATA]
+        F[LOCATIONS]
+    end
     
-    H{prod_run?} --> I[BACKUP_PROD_DATA]
-    I --> J[FORESTRY_META_DATA]
+    %% Core analysis
+    subgraph analysis ["Core Analysis"]
+        K[SPLIT_CLADES]
+        L[FILTER_SAMPLES]
+        M[EXCLUDED]
+        N[CLADE_META_DATA]
+        O[CLADE_SNPS]
+    end
     
-    B --> K[SPLIT_CLADES]
-    K --> L[FILTER_SAMPLES]
-    L --> M[EXCLUDED]
+    %% Phylogenetic analysis
+    subgraph phylo ["Phylogenetic Analysis"]
+        P[CLADE_MATRIX]
+        Q[GROW_TREES]
+        R[REFINE_TREES]
+    end
+    
+    %% Output generation
+    subgraph output ["Output Generation"]
+        S[JSON_EXPORT]
+        T[METADATA_2_SQLITE]
+        V[ViewBovis]
+    end
+    
+    %% Connections
+    AA --> BA
+    AB --> BA
+    AC --> BA
+    BA --> B
+    C --> D
+    E --> F
+    G --> F
+    
+    B --> K
+    K --> L
+    L --> M
     B --> M
-    
-    L --> N[CLADE_META_DATA]
+    L --> N
     D --> N
+    L --> O
     
-    L --> O[CLADE_SNPS]
-    O --> P[CLADE_MATRIX]
-    O --> Q[GROW_TREES]
-    Q --> R[REFINE_TREES]
+    O --> P
+    O --> Q
+    Q --> R
     
-    R --> S[JSON_EXPORT]
+    R --> S
     N --> S
     F --> S
-    
-    L --> T[METADATA_2_SQLITE]
+    L --> T
     C --> T
-    U[Movements] --> T
+    U --> T
     E --> T
     M --> T
     
-    S --> V[ViewBovis/Nextstrain]
+    S --> V
     T --> V
-    
-    style H fill:#e1f5fe
-    style BA fill:#fff3e0
-    style V fill:#e8f5e8
 ```
 
 **Parameters**
