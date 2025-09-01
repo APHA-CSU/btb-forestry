@@ -2,9 +2,7 @@
 
 [![btb-forestry CI](https://github.com/APHA-CSU/btb-forestry/workflows/btb-forestry%20CI/badge.svg)](https://github.com/APHA-CSU/btb-forestry/actions)
 
-`bTB-forestry` is APHA's nextflow pipeline for analysing phylogenies and SNP matrices for bovine TB, on a clade-by-clade basis.  It is inteneded as a follow on process to [btb-seq](https://github.com/APHA-CSU/btb-seq)  and has been specifically designed around the outputs (summary csv and directory structure) from that pipeline.
-
-Finally, the pipeline formats trees correctly and extracts information in 
+`bTB-forestry` is APHA's nextflow pipeline for analysing phylogenies and SNP matrices for bovine TB, on a clade-by-clade basis.  It is inteneded as a follow on process to [btb-seq](https://github.com/APHA-CSU/btb-seq) and has been specifically designed around the outputs (summary csv and directory structure) from that pipeline. The outputs of btb-forestry are intended for use in [ViewBovis](https://github.com/APHA-CSU/ViewBovis).
 
 **Quick start**
 To run the pipeline with default settings:
@@ -39,8 +37,9 @@ flowchart TD
     E --> G[GROW_TREES]
     G --> H[REFINE_TREES]
     H --> I[JSON_EXPORT]
-    I --> J[Nextstrain Visualization]
+    I --> J[ViewBovis]
     D --> K[METADATA_2_SQLITE]
+    K --> J[ViewBovis]
 ```
 
 **Parameters**
