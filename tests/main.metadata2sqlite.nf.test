@@ -1,0 +1,30 @@
+nextflow_process {
+
+    name "Test Process metadata2sqlite"
+    script "main.nf"
+    process "metadata2sqlite"
+
+    test("Should convert metadata to sqlite") {
+
+        when {
+            params {
+            }
+            process {
+                """
+                input[0] =  file("${projectDir}/tests/data/filterMeta_exp.csv")
+                input[1] =  file("${projectDir}/tests/data/metaTest.csv")
+                input[2] =  file("${projectDir}/tests/data/moveTest.csv")
+                input[3] =  file("${projectDir}/tests/data/location.csv")
+                input[4] =  file("${projectDir}/tests/data/excluded_exp.csv")
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert snapshot(process.out).match()
+        }
+
+    }
+
+}

@@ -1,0 +1,26 @@
+nextflow_process {
+
+    name "Test Process splitclades"
+    script "main.nf"
+    process "splitclades"
+
+    test("Should split clades") {
+
+        when {
+            params {
+            }
+            process {
+                """
+                input[0] = file("${projectDir}/tests/data/Allclean_exp.csv")
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert snapshot(process.out).match()
+        }
+
+    }
+
+}

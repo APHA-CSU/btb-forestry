@@ -1,0 +1,71 @@
+{
+  "title": "APHA Nextstrain",
+  "maintainers": [
+    {"name": "CUSP Team, Surveillance and Laboratory Services Department"}
+  ],
+  "colorings": [
+    {
+      "key": "PreciseLocation",
+      "title": "Precise Location",
+      "type": "categorical"
+    },
+    {
+      "key": "County",
+      "title": "County",
+      "type": "categorical"
+    },
+    {
+      "key": "Host",
+      "title": "Species",
+      "type": "categorical"
+    },
+    {
+      "key": "RiskArea",
+      "title": "Risk Area",
+      "type": "categorical"
+    },
+    {
+      "key": "CPH_Type",
+      "title": "Precise Location Type",
+      "type": "categorical"
+    },
+    {
+      "key": "OutsideHomeRange",
+      "title": "Out of Home Range",
+      "type": "categorical"
+    },
+    {
+      "key": "PreviousMovement",
+      "title": "Previous Movement",
+      "type": "boolean"
+    },
+    {
+      "key": "MoveCount",
+      "title": "Move Count",
+      "type": "categorical"
+    }
+  ],
+  "geo_resolutions": [
+    {
+      "key": "PreciseLocation",
+      "title": "Precise Location"
+    },
+    "County"
+  ],
+
+  "display_defaults": {
+    "map_triplicate": true,
+    "color_by": "Host",
+    "geo_resolution": "PreciseLocation",
+    "branch_label": "SNP Distance",
+    "panels": ["tree", "map"]
+  },
+  "filters": [
+    "County",
+    "Host",
+    "Identifier",
+    "PreciseLocation",
+    "Submission",
+    "RiskArea"
+  ]
+}

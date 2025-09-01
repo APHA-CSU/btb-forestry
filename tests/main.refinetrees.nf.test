@@ -1,0 +1,33 @@
+nextflow_process {
+
+    name "Test Process refinetrees"
+    script "main.nf"
+    process "refinetrees"
+
+    test("Should run tree refinment") {
+
+        when {
+            params {
+                today = "01Jan25"
+            }
+            process {
+                """
+               input[0] = [ 'test', 
+                            file("${projectDir}/tests/data/MP.nwk"),
+                            '52532',
+                            'AF-16-01234-12',
+                            'test',
+                            file("${projectDir}/tests/data/snp-only.fas") 
+                            ]
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert snapshot(process.out).match()
+        }
+
+    }
+
+}
