@@ -90,7 +90,8 @@ workflow btb_forestry {
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
 
-    ch_info = Channel.fromPath( params.cladeinfo )
+    ch_info = Channel
+        .fromPath( params.cladeinfo )
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
 
