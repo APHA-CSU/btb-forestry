@@ -12,6 +12,6 @@ process EXCLUDED {
 
     script:
     """
-    listExcluded.py $allclean $highn $outliers $today
+    listExcluded.py ${allclean} ${highn} ${outliers} ${today}
     """
 }

@@ -10,6 +10,6 @@ process LOCATIONS {
         
     script:
     """
-    formatLocations.py $locations $counties $today
+    formatLocations.py ${locations} ${counties} ${today}
     """
 }

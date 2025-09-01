@@ -15,7 +15,7 @@ params.today = new Date().format('ddMMMYY')
 params.outdir = "${env('PWD')}"
 params.homedir = "${env('HOME')}"
 params.prod_run = false
-params.matrixdir = "${env('PWD')}/matrixcopy"
+params.matrixdir = "${env('PWD')}/SNP_matrix_${params.today}/"
 params.help = false
 params.commitId = null
 

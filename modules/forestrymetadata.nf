@@ -2,8 +2,8 @@ process FORESTRY_META_DATA {
     publishDir "$params.publishDir/Metadata/", mode: 'copy'
     
     input:
-        val go
-        val today
+        val (go)
+        val (today)
     
     output:
         path('metadata.json')
@@ -14,6 +14,6 @@ process FORESTRY_META_DATA {
     #!/bin/bash
     set -eo pipefail
     
-    jq -n --arg jq_date $today --arg jq_commit $commit '{"today": \$jq_date, "git_commit": \$jq_commit}' > metadata.json
+    jq -n --arg jq_date ${today} --arg jq_commit ${commit} '{"today": \$jq_date, "git_commit": \$jq_commit}' > metadata.json
     """
 }

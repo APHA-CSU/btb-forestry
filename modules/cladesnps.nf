@@ -10,7 +10,7 @@ process CLADE_SNPS {
         val (today)
 
     output:
-        tuple val (clade), path ("${clade}_${today}_snp-only.fas")
+        tuple val (clade), path ("${clade}_${params.today}_snp-only.fas")
 
     script:
     """
@@ -26,14 +26,14 @@ process CLADE_SNPS {
     while IFS=, read -r Submission Sample GenomeCov MeanDepth pcMapped group Ncount Path;
     do
         aws s3 cp "\${Path}consensus/\${Sample}_consensus.fas" "\${Sample}_consensus.fas";
-    done < <(tail -n +2 $cladelst)
+    done < <(tail -n +2 ${cladelst})
 
     # Add outgroup fasta (outgroup is predetermined for each clade)
     aws s3 cp "${outGroupLoc}consensus/${outGroup}_consensus.fas" "${outGroup}_consensus.fas"
 
     cat *_consensus.fas > ${clade}_AllConsensus.fas
     rm *_consensus.fas
-    snp-sites -c -o ${clade}_${today}_snp-only.fas ${clade}_AllConsensus.fas
+    snp-sites -c -o ${clade}_${params.today}_snp-only.fas ${clade}_AllConsensus.fas
     rm *_AllConsensus.fas
     """
 }

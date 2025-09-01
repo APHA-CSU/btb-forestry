@@ -12,6 +12,6 @@ process SPLIT_CLADES {
     set -eo pipefail
 
     # Separate sample list based on clade and outcome
-    awk -F, '{print >> (\$9"_"\$7".csv")}' $clean
+    awk -F, '{print >> (\$9"_"\$7".csv")}' ${clean}
     """
 }

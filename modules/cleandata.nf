@@ -2,7 +2,7 @@ process CLEAN_DATA {
     publishDir "$params.publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     
     input:
-        path (concat)
+        path (concat_csv)
         val (today)
         
     output:
@@ -32,7 +32,7 @@ process CLEAN_DATA {
             fi
         echo -e "\$subno,\$line" >> withsub.csv
         
-    done < ${concat}
+    done < ${concat_csv}
     
     # Clean and remove duplicates
     head -n 1 withsub.csv > bTB_Allclean_${today}.csv && tail -n +2 withsub.csv | \\

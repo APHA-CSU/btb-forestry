@@ -22,13 +22,13 @@ process GROW_TREES {
     # A two step process is required to add branch lengths
 
     # Builds MP tree using 200 bootstrap iterations
-    megacc -a $maxP200x \
-        -d $snp_only \
+    megacc -a ${maxP200x} \
+        -d ${snp_only} \
         -o baseMP
 
     # Calculates branch lengths for consensus MP tree
-    megacc -a $userMP \
-        -d $snp_only \
+    megacc -a ${userMP} \
+        -d ${snp_only} \
         -t baseMP_consensus.nwk \
         -o ${clade}_${today}_MP
     """

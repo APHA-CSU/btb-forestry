@@ -13,6 +13,6 @@ process METADATA_2_SQLITE {
         
     script:
     """
-    metadata2sqlite.py $filteredWgsMeta $metadata $movements $locations $excluded
+    metadata2sqlite.py ${filteredWgsMeta} ${metadata} ${movements} ${locations} ${excluded}
     """
 }

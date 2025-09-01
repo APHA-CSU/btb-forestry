@@ -10,6 +10,6 @@ process SORT_META_DATA {
 
     script:
     """
-    filterMetadata.py $metadata $movements $today
+    filterMetadata.py ${metadata} ${movements} ${today}
     """
 }
