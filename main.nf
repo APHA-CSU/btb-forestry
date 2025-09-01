@@ -17,6 +17,7 @@ params.homedir = "${env('HOME')}"
 params.prod_run = false
 params.matrixdir = "${env('PWD')}/matrixcopy"
 params.help = false
+params.commitId = null
 
 // Location of megacc analysis options (.mao) files 
 params.maxP200x = "$projectDir/accessory/infer_MP_nucleotide_200x.mao"
