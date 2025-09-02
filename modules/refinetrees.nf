@@ -5,7 +5,7 @@ process REFINE_TREES {
 
     input:
         tuple val (clade), path (MP_nwk), val (maxN), val (outGroup), val (outGroupLoc), path (snp_only)
-        val (today)
+        val today
 
     output:
         tuple val (clade), path ("*_MP-rooted.nwk"), path ("*_phylo.json")

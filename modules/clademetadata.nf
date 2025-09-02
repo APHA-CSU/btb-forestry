@@ -4,7 +4,7 @@ process CLADE_META_DATA{
     
     input:
         tuple val(clade), path(cladelist), path(sortedmetadata)
-        val (today)
+        val today
     
     output:
         tuple val (clade), path ('*_metadata_*.csv')

@@ -6,9 +6,9 @@ process GROW_TREES {
     
     input:
         tuple val (clade), path (snp_only)
-        path (maxP200x)
-        path (userMP)
-        val (today)
+        path maxP200x
+        path userMP
+        val today
     
     output:
         tuple val(clade), path("*_MP.nwk")

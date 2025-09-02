@@ -2,11 +2,11 @@ process METADATA_2_SQLITE {
     publishDir "$params.publishDir/Metadata/", mode: 'copy'
 
     input:
-        path (filteredWgsMeta)
-        path (metadata)
-        path (movements)
-        path (locations)
-        path (excluded)
+        path filteredWgsMeta
+        path metadata
+        path movements
+        path locations
+        path excluded
 
     output:
         path('viewbovis.db')

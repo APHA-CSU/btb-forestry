@@ -4,8 +4,8 @@ process FILTER_SAMPLES{
     
     input:
         tuple val (clade), path (pass), val (maxN), val (outGroup), val (outGroupLoc)
-        path (outliers)
-        val (today)
+        path outliers
+        val today
 
     output:
         tuple val(clade), path('*_samplelist.csv'), emit: includedSamples

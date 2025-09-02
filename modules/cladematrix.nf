@@ -7,7 +7,7 @@ process CLADE_MATRIX {
     
     input:
         tuple val (clade), path ("${clade}_${today}_snp-only.fas")
-        val (today)
+        val today
     
     output:
         tuple val (clade), path ("${clade}_${today}_matrix.csv")

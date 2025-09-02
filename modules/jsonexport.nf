@@ -5,9 +5,9 @@ process JSON_EXPORT {
     
     input:
         tuple val (clade), path (MP_rooted), path (phylo), path (metadata), path (locations)
-        path (config)
-        path (colours)
-        val (today)
+        path config
+        path colours
+        val today
     
     output:
         tuple val (clade), path ("*.json")

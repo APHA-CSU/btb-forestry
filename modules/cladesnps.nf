@@ -7,7 +7,7 @@ process CLADE_SNPS {
 
     input:
         tuple val (clade), path (cladelst), val (maxN), val (outGroup), val (outGroupLoc)
-        val (today)
+        val today
 
     output:
         tuple val (clade), path ("${clade}_${params.today}_snp-only.fas")

@@ -1,7 +1,7 @@
 process SPLIT_CLADES {
 
     input:
-        path (clean)
+        path clean
 
     output:
         path('B*_Pass.csv'), emit: passSamples

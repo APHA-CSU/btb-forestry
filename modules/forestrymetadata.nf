@@ -2,8 +2,8 @@ process FORESTRY_META_DATA {
     publishDir "$params.publishDir/Metadata/", mode: 'copy'
     
     input:
-        val (go)
-        val (today)
+        val go
+        val today
     
     output:
         path('metadata.json')

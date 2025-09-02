@@ -1,10 +1,10 @@
 process BACKUP_PROD_DATA {
     
     input:
-        path (outdir)
+        path outdir
     
     output:
-        (stdout)
+        stdout
         
     script:
     """
