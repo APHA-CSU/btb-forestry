@@ -24,15 +24,13 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     snp-sites \
     jq \
     pip \
-    libdbus-glib-1-2 \
-    ca-certificates && \
-    update-ca-certificates
+    libdbus-glib-1-2
 
 ################## INSTALL DEPENDANCIES ###################
 
 # augur
 # install in python venv and generate symlink
-RUN git -c http.sslVerify=false clone https://github.com/APHA-CSU/augur.git && \
+RUN git clone https://github.com/APHA-CSU/augur.git && \
     cd augur && \
     python3 -m venv /usr/local/libexec/augur && \
     /usr/local/libexec/augur/bin/pip install . && \
@@ -45,7 +43,7 @@ RUN curl -k "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscl
     rm awscliv2.zip
 
 # snp-dists
-RUN git -c http.sslVerify=false clone https://github.com/tseemann/snp-dists.git && \
+RUN git clone https://github.com/tseemann/snp-dists.git && \
     cd snp-dists && \
     make
 
