@@ -1,10 +1,10 @@
 nextflow_process {
 
-    name "Test Process cladematrix"
+    name "Test Process cladeMetadata"
     script "main.nf"
-    process "cladematrix"
+    process "CLADE_META_DATA"
 
-    test("Should generate a clade SNP matrix") {
+    test("Should process clade metadata") {
 
         when {
             params {
@@ -13,7 +13,9 @@ nextflow_process {
             process {
                 """
                 input[0] = [ 'test', 
-                file("${projectDir}/tests/data/snp_only.fas") ]
+                file("${projectDir}/tests/data/samplelist.csv"), 
+                file("${projectDir}/tests/data/filterMeta_exp.csv")]
+                input[1] = params.today
                 """
             }
         }

@@ -1,10 +1,10 @@
 nextflow_process {
 
-    name "Test Process growtrees"
+    name "Test Process filterSamples"
     script "main.nf"
-    process "growtrees"
+    process "FILTER_SAMPLES"
 
-    test("Should generate trees") {
+    test("Should filter samples") {
 
         when {
             params {
@@ -13,9 +13,12 @@ nextflow_process {
             process {
                 """
                 input[0] = [ 'B6-16', 
-                file("${projectDir}/tests/data/snp_only.fas"), 
-                file("${projectDir}/accessory/infer_MP_nucleotide_200x.mao"), 
-                file("${projectDir}/accessory/analyze_user_tree_MP__nucleotide.mao")]
+                file("${projectDir}/tests/data/split_exp.csv"),
+                '52532',
+                'test',
+                'today' ]
+                input[1] = file("${projectDir}/tests/data/testoutlier.txt")
+                input[2] = params.today
                 """
             }
         }

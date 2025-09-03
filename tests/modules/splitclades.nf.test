@@ -1,20 +1,17 @@
 nextflow_process {
 
-    name "Test Process excluded"
+    name "Test Process splitclades"
     script "main.nf"
-    process "excluded"
+    process "SPLIT_CLADES"
 
-    test("Should identify excluded samples") {
+    test("Should split clades") {
 
         when {
             params {
-                today = "01Jan25"
             }
             process {
                 """
                 input[0] = file("${projectDir}/tests/data/Allclean_exp.csv")
-                input[1] = file("${projectDir}/tests/data/highN_exp.csv")
-                input[2] = file("${projectDir}/tests/data/testoutlier.txt")
                 """
             }
         }

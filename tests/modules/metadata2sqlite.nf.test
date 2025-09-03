@@ -2,7 +2,7 @@ nextflow_process {
 
     name "Test Process metadata2sqlite"
     script "main.nf"
-    process "metadata2sqlite"
+    process "METADATA_2_SQLITE"
 
     test("Should convert metadata to sqlite") {
 
