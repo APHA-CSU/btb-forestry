@@ -1,10 +1,10 @@
 nextflow_process {
 
-    name "Test Process locations"
+    name "Test Process sortmetadata"
     script "main.nf"
-    process "locations"
+    process "SORT_META_DATA"
 
-    test("Should format location data") {
+    test("Should sort metadata") {
 
         when {
             params {
@@ -12,8 +12,9 @@ nextflow_process {
             }
             process {
                 """
-                input[0] = file("${projectDir}/tests/data/location.csv")
-                input[1] = file("${projectDir}/tests/data/counties.tsv")
+                input[0] = file("${projectDir}/tests/data/metaTest.csv")
+                input[1] = file("${projectDir}/tests/data/moveTest.csv")
+                input[2] = params.today
                 """
             }
         }

@@ -1,10 +1,10 @@
 nextflow_process {
 
-    name "Test Process cladeMetadata"
+    name "Test Process cleandata"
     script "main.nf"
-    process "cladeMetadata"
+    process "CLEAN_DATA"
 
-    test("Should process clade metadata") {
+    test("Should clean up input files") {
 
         when {
             params {
@@ -12,9 +12,8 @@ nextflow_process {
             }
             process {
                 """
-                input[0] = [ 'test', 
-                file("${projectDir}/tests/data/samplelist.csv"), 
-                file("${projectDir}/tests/data/filterMeta_exp.csv")]
+                input[0] = file("${projectDir}/tests/data/subtest.csv")
+                input[1] = params.today
                 """
             }
         }

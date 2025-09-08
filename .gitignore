@@ -6,6 +6,6 @@ tests/__pycache__/
 .vscode/
 metadata.json
 btb-forest_*
-matrixcopy/
+SNP_matrix*
 .nf-test/
 .nf-test.log

@@ -1,17 +1,20 @@
 nextflow_process {
 
-    name "Test Process splitclades"
+    name "Test Process cladematrix"
     script "main.nf"
-    process "splitclades"
+    process "CLADE_MATRIX"
 
-    test("Should split clades") {
+    test("Should generate a clade SNP matrix") {
 
         when {
             params {
+                today = "01Jan25"
             }
             process {
                 """
-                input[0] = file("${projectDir}/tests/data/Allclean_exp.csv")
+                input[0] = [ 'test', 
+                file("${projectDir}/tests/data/snp_only.fas") ]
+                input[1] = params.today
                 """
             }
         }

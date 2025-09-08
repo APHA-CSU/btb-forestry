@@ -1,4 +1,4 @@
-name: CI tests using nf-test
+name: btb-forestry CI
 
 on: [push, pull_request]
 
