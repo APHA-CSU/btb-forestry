@@ -1,0 +1,30 @@
+nextflow_process {
+
+    name "Test Process excluded"
+    script "main.nf"
+    process "EXCLUDED"
+
+    test("Should identify excluded samples") {
+
+        when {
+            params {
+                today = "01Jan25"
+            }
+            process {
+                """
+                input[0] = file("${projectDir}/tests/data/Allclean_exp.csv")
+                input[1] = file("${projectDir}/tests/data/highN_exp.csv")
+                input[2] = file("${projectDir}/tests/data/testoutlier.txt")
+                input[3] = params.today
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert snapshot(process.out).match()
+        }
+
+    }
+
+}

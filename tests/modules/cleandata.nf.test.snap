@@ -1,0 +1,16 @@
+{
+    "Should clean up input files": {
+        "content": [
+            {
+                "0": [
+                    "bTB_Allclean_01Jan25.csv:md5,f22ea625845a3403b4f191fdfd90bd67"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-28T07:45:25.279110649"
+    }
+}

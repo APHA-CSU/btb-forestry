@@ -1,0 +1,31 @@
+{
+    "Should filter samples": {
+        "content": [
+            {
+                "0": [
+                    [
+                        "B6-16",
+                        "B6-16_01Jan25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
+                    ]
+                ],
+                "1": [
+                    "B6-16_01Jan25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
+                ],
+                "excludedSamples": [
+                    "B6-16_01Jan25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
+                ],
+                "includedSamples": [
+                    [
+                        "B6-16",
+                        "B6-16_01Jan25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-28T07:45:35.828013622"
+    }
+}

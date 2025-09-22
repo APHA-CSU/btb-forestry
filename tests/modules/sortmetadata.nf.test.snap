@@ -1,0 +1,16 @@
+{
+    "Should sort metadata": {
+        "content": [
+            {
+                "0": [
+                    "sortedMetadata_01Jan25.csv:md5,5ce00c3cfdc4c285665a8d2929f3ba13"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.6"
+        },
+        "timestamp": "2025-08-28T07:46:22.150614257"
+    }
+}
