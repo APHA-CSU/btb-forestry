@@ -36,7 +36,7 @@ process CLEAN_DATA {
     
     # Clean and remove duplicates
     head -n 1 withsub.csv > bTB_Allclean_${today}.csv && tail -n +2 withsub.csv | \\
-        (sort -t ',' -k1,1 -rk7,7 -nk15,15 | \\
+        (sort -t ',' -k1,1 -k7r,7 -k15n,15 | \\
         sort -u -t ',' -k1,1 | \\
         sed '/^#/d') >> bTB_Allclean_${today}.csv
     """
