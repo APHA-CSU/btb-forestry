@@ -22,9 +22,9 @@ process FILTER_SAMPLES{
     done < ${outliers}
     
     echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${today}_samplelist.csv
-    awk -F, '\$15 <= '${maxN}' {print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' ${pass} >> ${clade}_${today}_samplelist.csv
+    awk -F, '\$15 <= '${maxN}' {print \$1","\$2","\$3","\$4","\$6","\$9","\$16","\$17}' ${pass} >> ${clade}_${today}_samplelist.csv
     
     echo -e "Submission,Sample,GenomeCov,MeanDepth,pcMapped,group,Ncount,ResultLoc" > ${clade}_${today}_highN.csv
-    awk -F, '\$15 > '${maxN}' {print \$1","\$2","\$3","\$4","\$6","\$9","\$15","\$16}' ${pass} >> ${clade}_${today}_highN.csv
+    awk -F, '\$15 > '${maxN}' {print \$1","\$2","\$3","\$4","\$6","\$9","\$16","\$17}' ${pass} >> ${clade}_${today}_highN.csv
     """
 }
