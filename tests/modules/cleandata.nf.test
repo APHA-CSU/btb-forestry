@@ -12,8 +12,9 @@ nextflow_process {
             }
             process {
                 """
-                input[0] = file("${projectDir}/tests/data/subtest.csv")
-                input[1] = params.today
+                input[0] = go
+                input[1] = file("${projectDir}/tests/data/subtest.csv")
+                input[2] = params.today
                 """
             }
         }
