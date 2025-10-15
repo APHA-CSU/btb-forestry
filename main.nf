@@ -15,7 +15,7 @@ params.today = new Date().format('ddMMMYY')
 params.outdir = "${env('PWD')}"
 params.homedir = "${env('HOME')}"
 params.prod_run = false
-params.matrixdir = "${env('PWD')}/SNP_matrix_${params.today}/"
+params.matrixdir = "${env('PWD')}"
 params.help = false
 params.commitId = null
 
@@ -95,12 +95,15 @@ workflow btb_forestry {
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
 
-    if( params.prod_run ){
+    if ( params.prod_run ){
         BACKUP_PROD_DATA(params.outdir)
         FORESTRY_META_DATA(BACKUP_PROD_DATA.out, params.today)
-    } 
+    } else {
+        FORESTRY_META_DATA(0, params.today)
+    }
 
     CLEAN_DATA(
+        FORESTRY_META_DATA.out,
         ch_csv,
         params.today
         )

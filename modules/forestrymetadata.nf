@@ -7,6 +7,7 @@ process FORESTRY_META_DATA {
     
     output:
         path('metadata.json')
+        stdout
     
     script:
     def commit = params.commitId ?: workflow.commitId

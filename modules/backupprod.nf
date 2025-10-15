@@ -1,13 +1,13 @@
 process BACKUP_PROD_DATA {
     
     input:
-        path outdir
+        val outdir
     
     output:
         stdout
-        
+    
     script:
     """
-    s3prod.sh ${outdir}
+    s3prod.sh ${params.outdir}
     """
 }
