@@ -103,7 +103,7 @@ workflow btb_forestry {
     }
 
     CLEAN_DATA(
-        FORESTRY_META_DATA.out,
+        FORESTRY_META_DATA.out.go,
         ch_csv,
         params.today
         )
