@@ -19,7 +19,7 @@ jobs:
       - name: Setup Nextflow latest
         uses: nf-core/setup-nextflow@v1
         with:
-          version: 'latest'
+          version: '25.04.8'
 
       - name: Install nf-test
         run: |
