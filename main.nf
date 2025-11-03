@@ -86,11 +86,11 @@ include { SPLIT_CLADES } from './modules/splitclades'
 workflow btb_forestry {
     main:
     
-    ch_csv = Channel
+    ch_csv = channel
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
 
-    ch_info = Channel
+    ch_info = channel
         .fromPath( params.cladeinfo )
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
@@ -103,7 +103,7 @@ workflow btb_forestry {
     }
 
     CLEAN_DATA(
-        FORESTRY_META_DATA.out,
+        FORESTRY_META_DATA.out.go,
         ch_csv,
         params.today
         )
@@ -185,7 +185,7 @@ workflow btb_forestry {
 
     METADATA_2_SQLITE(
         FILTER_SAMPLES.out.includedSamples
-        .map { it[1] }
+        .map { it -> it[1] }
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true), 
         params.metadata, 
         params.movements, 
