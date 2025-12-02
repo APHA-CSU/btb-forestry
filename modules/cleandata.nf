@@ -3,8 +3,8 @@ process CLEAN_DATA {
     
     input:
         val go
-        path concat_csv
         val today
+        path concat_csv
         
     output:
         path ('bTB_Allclean_*.csv')
