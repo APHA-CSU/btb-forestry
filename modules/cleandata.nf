@@ -2,6 +2,7 @@ process CLEAN_DATA {
     publishDir "$params.publishDir", mode: 'copy', pattern: 'bTB_Allclean_*.csv'
     
     input:
+        val go
         path concat_csv
         val today
         

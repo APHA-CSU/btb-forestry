@@ -15,7 +15,7 @@ params.today = new Date().format('ddMMMYY')
 params.outdir = "${env('PWD')}"
 params.homedir = "${env('HOME')}"
 params.prod_run = false
-params.matrixdir = "${env('PWD')}/SNP_matrix_${params.today}/"
+params.matrixdir = "${env('PWD')}"
 params.help = false
 params.commitId = null
 
@@ -86,21 +86,24 @@ include { SPLIT_CLADES } from './modules/splitclades'
 workflow btb_forestry {
     main:
     
-    ch_csv = Channel
+    ch_csv = channel
         .fromPath( params.pathTocsv )
         .collectFile(name: 'All_FinalOut.csv', keepHeader: true, newLine: true)
 
-    ch_info = Channel
+    ch_info = channel
         .fromPath( params.cladeinfo )
         .splitCsv(header:true)
         .map { row-> tuple(row.clade, row.maxN, row.outgroup, row.outgroupLoc) }
 
-    if( params.prod_run ){
+    if ( params.prod_run ){
         BACKUP_PROD_DATA(params.outdir)
         FORESTRY_META_DATA(BACKUP_PROD_DATA.out, params.today)
-    } 
+    } else {
+        FORESTRY_META_DATA(0, params.today)
+    }
 
     CLEAN_DATA(
+        FORESTRY_META_DATA.out.go,
         ch_csv,
         params.today
         )
@@ -182,7 +185,7 @@ workflow btb_forestry {
 
     METADATA_2_SQLITE(
         FILTER_SAMPLES.out.includedSamples
-        .map { it[1] }
+        .map { it -> it[1] }
         .collectFile(name: 'filteredWgsMeta.csv', keepHeader: true), 
         params.metadata, 
         params.movements, 

@@ -6,7 +6,8 @@ process FORESTRY_META_DATA {
         val today
     
     output:
-        path('metadata.json')
+        path('metadata.json'), emit: json
+        stdout emit: go
     
     script:
     def commit = params.commitId ?: workflow.commitId
