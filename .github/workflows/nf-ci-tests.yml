@@ -1,10 +1,20 @@
-name: btb-forestry CI
+name: btb-forestry CI test
 
-on: [push, pull_request]
+on: 
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**'
+      - '!Dockerfile'
+
+env:
+  NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/ca-certificates.crt"
+  SSL_CERT_DIR: "/etc/ssl/certs"
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  CI-testing:
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
