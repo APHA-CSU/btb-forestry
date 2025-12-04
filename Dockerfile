@@ -43,7 +43,7 @@ RUN curl -k "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscl
     rm awscliv2.zip
 
 # snp-dists
-RUN git clone https://github.com/tseemann/snp-dists.git --no-check-certificate && \
+RUN git -c http.sslVerify=false clone https://github.com/tseemann/snp-dists.git && \
     cd snp-dists && \
     make
 
