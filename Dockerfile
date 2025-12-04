@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
 RUN git -c http.sslVerify=false clone https://github.com/aphascience/augur.git && \
     cd augur && \
     python3 -m venv /usr/local/libexec/augur && \
-    /usr/local/libexec/augur/bin/pip install . && \
+    /usr/local/libexec/augur/bin/pip --trusted-host pypi.org install . && \
     ln -s /usr/local/libexec/augur/bin/augur /usr/local/bin/augur
 
 # aws-cli
