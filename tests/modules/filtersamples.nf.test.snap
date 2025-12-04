@@ -5,27 +5,27 @@
                 "0": [
                     [
                         "B6-16",
-                        "B6-16_01Jan25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
+                        "B6-16_01Jan25_samplelist.csv:md5,a120ddf21941dacf53ebee5cbbb1f069"
                     ]
                 ],
                 "1": [
-                    "B6-16_01Jan25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
+                    "B6-16_01Jan25_highN.csv:md5,d0a1e8ed4db38012ef747da64d57f1df"
                 ],
                 "excludedSamples": [
-                    "B6-16_01Jan25_highN.csv:md5,99a9ae0bc31f0e742d90ae44dff04410"
+                    "B6-16_01Jan25_highN.csv:md5,d0a1e8ed4db38012ef747da64d57f1df"
                 ],
                 "includedSamples": [
                     [
                         "B6-16",
-                        "B6-16_01Jan25_samplelist.csv:md5,ca6c8ef4fdf182eacd2746c5fb52b347"
+                        "B6-16_01Jan25_samplelist.csv:md5,a120ddf21941dacf53ebee5cbbb1f069"
                     ]
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.9.2",
-            "nextflow": "25.04.6"
+            "nextflow": "25.04.8"
         },
-        "timestamp": "2025-08-28T07:45:35.828013622"
+        "timestamp": "2025-12-04T10:24:57.349130627"
     }
 }
