@@ -17,8 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
       - name: Docker cleanup
-        run: sudo docker system prune -af
-        run: sudo docker builder prune -af
+        run: | 
+          sudo docker system prune -af
+          sudo docker builder prune -af
       - name: Docker build
         run: sudo docker build -t ${{ secrets.CSU_ACCOUNT_NUMBER }}.dkr.ecr.eu-west-1.amazonaws.com/btb-forestry:${{ github.head_ref }} .
       - name: ECR Login
