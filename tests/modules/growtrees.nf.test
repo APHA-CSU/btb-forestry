@@ -9,7 +9,7 @@ nextflow_process {
         when {
             params {
                 today = "01Jan25"
-                threads = 1
+                cpus = 1
             }
             process {
                 """
