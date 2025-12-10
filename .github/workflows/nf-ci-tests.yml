@@ -1,10 +1,20 @@
-name: btb-forestry CI
+name: btb-forestry CI test
 
-on: [push, pull_request]
+on: 
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**'
+      - '!Dockerfile'
+
+env:
+  NODE_EXTRA_CA_CERTS: "/etc/ssl/certs/ca-certificates.crt"
+  SSL_CERT_DIR: "/etc/ssl/certs"
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  CI-testing:
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
@@ -17,9 +27,25 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup Nextflow latest
-        uses: nf-core/setup-nextflow@v2
+        uses: nf-core/setup-nextflow@6c2e22b4d901f0c42ca66c5069f8026df026d165
         with:
           version: '25.04.8'
+
+      - name: Docker cleanup
+        run: sudo docker system prune -af
+ 
+      - name: ECR Login
+        run: |
+          sudo aws ecr get-login-password --region eu-west-1 | sudo docker login --username AWS --password-stdin ${{ secrets.CSU_ACCOUNT_NUMBER }}.dkr.ecr.eu-west-1.amazonaws.com
+
+      - name: ECR Pull
+        run: |
+          sudo docker pull ${{ secrets.CSU_ACCOUNT_NUMBER }}.dkr.ecr.eu-west-1.amazonaws.com/btb-forestry:latest
+
+      - name: Set secrets
+        run: |
+          nextflow secrets set ECR_ACCOUNT ${{ secrets.CSU_ACCOUNT_NUMBER }}
+          nextflow secrets set BRANCH "latest"
 
       - name: Install nf-test
         run: |
