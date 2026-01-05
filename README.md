@@ -2,20 +2,20 @@
 
 [![btb-forestry CI test](https://github.com/aphascience/btb-forestry/actions/workflows/nf-ci-tests.yml/badge.svg)](https://github.com/aphascience/btb-forestry/actions/workflows/nf-ci-tests.yml)
 
-`bTB-forestry` is APHA's nextflow pipeline for analysing phylogenies and SNP matrices for bovine TB, on a clade-by-clade basis.  It is inteneded as a follow on process to [btb-seq](https://github.com/APHA-CSU/btb-seq) and has been specifically designed around the outputs (summary csv and directory structure) from that pipeline. The outputs of btb-forestry are intended for use in [ViewBovis](https://github.com/APHA-CSU/ViewBovis).
+`bTB-forestry` is APHA's nextflow pipeline for analysing phylogenies and SNP matrices for bovine TB, on a clade-by-clade basis.  It is inteneded as a follow on process to [btb-seq](https://github.com/aphascience/btb-seq) and has been specifically designed around the outputs (summary csv and directory structure) from that pipeline. The outputs of btb-forestry are intended for use in [ViewBovis](https://github.com/aphascience/ViewBovis).
 
 **Quick start**
 
 To run the pipeline with default settings:
 
 ```
-nextflow run APHA-CSU/btb-forestry -with-docker aphacsubot/btb-forestry
+nextflow run aphascience/btb-forestry -with-docker <container-repository>/btb-forestry
 ```
 
 Or with custom parameters:
 
 ```
-nextflow run APHA-CSU/btb-forestry -with-docker aphacsubot/btb-forestry \
+nextflow run aphascience/btb-forestry -with-docker <container-repository>/btb-forestry \
     --pathTocsv "/path/to/btb-seq/results/**/*FinalOut*.csv" \
     --metadata "/path/to/metadata.csv" \
     --movements='/path/to/movements.csv' \
