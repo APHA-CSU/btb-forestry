@@ -59,7 +59,6 @@ County	Nairn	57.530874	-3.862594
 County	Norfolk	52.663712	0.92202
 County	North Yorkshire	54.207746	-1.506732
 County	Northamptonshire	52.326899	-0.849359
-County	Northern Ireland	54.634701	-6.667639
 County	Northumberland	55.275399	-2.055905
 County	Nottinghamshire	53.152195	-0.980731
 County	Oxfordshire	51.77029	-1.3676
@@ -84,15 +83,23 @@ County	West Yorkshire	53.752488	-1.688826
 County	Wigtown	54.955433	-4.758831
 County	Wiltshire	51.323733	-1.917446
 County	Worcestershire	52.247608	-2.191106
-County	Republic of Ireland	53.043445	-7.777033
+County	Algeria	29.093456	3.276814
 County	Agentina	-40.002409	-64.928754
 County	Bulgaria	42.712191	25.366467
+County	Cameroon	6.050963	12.354124
+County	Canada	56.407031	-100.453447
 County	Chile	-36.640465	-71.949910
 County	DominicanRepublic	19.034073	-70.469363
 County	Eritrea	15.884166	37.993537
 County	Ethiopia	8.636051	40.561334
+County	Germany	50.843927	9.775149
+County	Mexico	22.848018	-103.892159
+County	Morocco	30.468169	-8.401117
 County	Nigeria	9.934025	7.639867
+County	Northern Ireland	54.634701	-6.667639
 County	Poland	52.109672	18.991765
+County	Portugal	40.001655	-7.896333
+County	Republic of Ireland	53.043445	-7.777033
 County	SouthAfrica	-29.400115	24.538706
 County	Spain	40.229028	-3.075043
 County	Uganda	1.311113	32.547238
